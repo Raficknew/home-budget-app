@@ -14,5 +14,5 @@ export const UserTable = pgTable("users", {
 });
 
 export const UserRelationships = relations(UserTable, ({ many }) => ({
-  executor: many(ExecutorTable), // ?? nie wiem czy tak pomyśle potem
+  executor: many(ExecutorTable),
 }));

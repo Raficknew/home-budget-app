@@ -3,6 +3,7 @@ import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { HouseHoldTable } from "./houseHold";
 import { UserTable } from "./user";
+import { TransactionTable } from "./transactions";
 
 export const executorRole = ["admin", "moderator", "member"] as const;
 export type ExecutorRole = (typeof executorRole)[number];
@@ -35,6 +36,6 @@ export const ExecutorRelationships = relations(
       fields: [ExecutorTable.houseHoldId],
       references: [HouseHoldTable.id],
     }),
-    transaction: many(TransactionTable),
+    transactions: many(TransactionTable),
   })
 );
