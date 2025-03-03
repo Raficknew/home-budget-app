@@ -30,6 +30,6 @@ export const CategoryRelationships = relations(
       fields: [CategoryTable.houseHoldId],
       references: [HouseHoldTable.id],
     }),
-    tranzactions: many(TransactionTable),
+    transactions: many(TransactionTable),
   })
 );

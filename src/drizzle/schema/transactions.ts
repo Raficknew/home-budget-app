@@ -1,8 +1,8 @@
-import { date, integer, pgEnum, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, text } from "drizzle-orm/pg-core";
 import { createdAt, id, statusEnum, updatedAt } from "../schemaHelpers";
-import { ExecutorTable } from "./executors";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
+import { TranscationExecutorsTable } from "./transactionExecutors";
 
 export const transactionType = ["income", "expense"] as const;
 export type TransactionType = (typeof transactionType)[number];
@@ -18,25 +18,18 @@ export const TransactionTable = pgTable("transactions", {
     onDelete: "cascade",
   }),
   price: integer().notNull(),
-  executorIds: text()
-    .array()
-    .notNull()
-    .references(() => ExecutorTable.id, { onDelete: "cascade" }),
-  date: date().notNull(),
+  date: text().notNull(),
   createdAt,
   updatedAt,
 });
 
 export const TransactionRelationshoips = relations(
   TransactionTable,
-  ({ one }) => ({
+  ({ one, many }) => ({
     category: one(CategoryTable, {
       fields: [TransactionTable.categoryId],
       references: [CategoryTable.id],
     }),
-    executors: one(ExecutorTable, {
-      fields: [TransactionTable.executorIds],
-      references: [ExecutorTable.id],
-    }),
+    executors: many(TranscationExecutorsTable),
   })
 );
