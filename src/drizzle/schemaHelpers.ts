@@ -1,4 +1,4 @@
-import { pgEnum, timestamp, uuid } from "drizzle-orm/pg-core";
+import { timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const id = uuid().primaryKey().defaultRandom();
 export const createdAt = timestamp({ withTimezone: true })
@@ -8,7 +8,3 @@ export const updatedAt = timestamp({ withTimezone: true })
   .notNull()
   .defaultNow()
   .$onUpdate(() => new Date());
-
-export const statuses = ["public", "hidden", "private"] as const;
-export type StatusesType = (typeof statuses)[number];
-export const statusEnum = pgEnum("status", statuses);

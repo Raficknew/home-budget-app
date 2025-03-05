@@ -1,5 +1,12 @@
-import { integer, pgEnum, pgTable, text } from "drizzle-orm/pg-core";
-import { createdAt, id, statusEnum, updatedAt } from "../schemaHelpers";
+import {
+  integer,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+  uuid,
+} from "drizzle-orm/pg-core";
+import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
 import { TranscationExecutorsTable } from "./transactionExecutors";
@@ -13,12 +20,11 @@ export const TransactionTable = pgTable("transactions", {
   name: text().notNull(),
   description: text(),
   type: transactionTypeEnum().notNull(),
-  status: statusEnum().notNull().default("public"),
-  categoryId: text().references(() => CategoryTable.id, {
-    onDelete: "cascade",
-  }),
+  categoryId: uuid()
+    .notNull()
+    .references(() => CategoryTable.id, { onDelete: "cascade" }),
   price: integer().notNull(),
-  date: text().notNull(),
+  date: timestamp().notNull(),
   createdAt,
   updatedAt,
 });
