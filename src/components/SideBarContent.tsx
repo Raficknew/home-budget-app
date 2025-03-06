@@ -15,7 +15,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "./sidebar";
+} from "./ui/sidebar";
 import { UserButton } from "@clerk/nextjs";
 
 const routes = [
@@ -44,7 +44,7 @@ const routes = [
 export function SideBarContent() {
   return (
     <>
-      <SidebarHeader>kid</SidebarHeader>
+      <SidebarHeader>home</SidebarHeader>
       <Content>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -69,9 +69,7 @@ export function SideBarContent() {
             </Link>
           </SidebarMenuButton>
           <SidebarMenuButton asChild>
-            <Link href={`/houseHoldId/admin`}>
-              <UserButton />
-            </Link>
+            <UserButton />
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarFooter>

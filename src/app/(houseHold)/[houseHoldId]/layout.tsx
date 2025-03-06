@@ -3,7 +3,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { SideBarContent } from "@/components/ui/SideBarContent";
+import { SideBarContent } from "@/components/SideBarContent";
 import { ReactNode } from "react";
 
 export default function HouseHoldLayout({
@@ -12,7 +12,7 @@ export default function HouseHoldLayout({
   return (
     <SidebarProvider>
       <SideBar />
-      <main>
+      <main className=" w-full">
         <SidebarTrigger />
         {children}
       </main>
