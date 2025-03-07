@@ -44,7 +44,7 @@ const routes = [
 export function SideBarContent() {
   return (
     <>
-      <SidebarHeader>home</SidebarHeader>
+      <SidebarHeader className="text-foreground">Home</SidebarHeader>
       <Content>
         <SidebarGroupContent>
           <SidebarMenu>
@@ -65,7 +65,8 @@ export function SideBarContent() {
         <SidebarMenuItem>
           <SidebarMenuButton asChild>
             <Link href={`/houseHoldId/admin`}>
-              <SettingsIcon className="" />
+              <SettingsIcon />
+              Ustawienia
             </Link>
           </SidebarMenuButton>
           <SidebarMenuButton asChild>
