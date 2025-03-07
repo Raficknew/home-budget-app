@@ -6,9 +6,11 @@ import {
 import { SideBarContent } from "@/components/SideBarContent";
 import { ReactNode } from "react";
 
-export default function HouseHoldLayout({
+export default async function HouseHoldLayout({
   children,
-}: Readonly<{ children: ReactNode }>) {
+}: Readonly<{
+  children: ReactNode;
+}>) {
   return (
     <SidebarProvider>
       <SideBar />

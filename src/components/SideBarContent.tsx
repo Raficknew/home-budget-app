@@ -1,3 +1,4 @@
+"use client";
 import {
   LayoutDashboardIcon,
   ArrowLeftRightIcon,
@@ -17,43 +18,48 @@ import {
   SidebarMenuItem,
 } from "./ui/sidebar";
 import { UserButton } from "@clerk/nextjs";
-
-const routes = [
-  {
-    title: "Dashboard",
-    url: "/",
-    icon: LayoutDashboardIcon,
-  },
-  {
-    title: "Tranzakcje",
-    url: `/houseHoldId/transactions`,
-    icon: ArrowLeftRightIcon,
-  },
-  {
-    title: "Cele",
-    url: `/houseHoldId/goals`,
-    icon: CrosshairIcon,
-  },
-  {
-    title: "Wykresy",
-    url: `/houseHoldId/charts`,
-    icon: ChartLineIcon,
-  },
-];
+import { useParams } from "next/navigation";
 
 export function SideBarContent() {
+  const { houseHoldId } = useParams();
+
+  const routes = [
+    {
+      title: "Dashboard",
+      url: `/${houseHoldId}`,
+      icon: LayoutDashboardIcon,
+    },
+    {
+      title: "Kategorie",
+      url: `/${houseHoldId}/categories`,
+      icon: ArrowLeftRightIcon,
+    },
+    {
+      title: "Cele",
+      url: `/${houseHoldId}/goals`,
+      icon: CrosshairIcon,
+    },
+    {
+      title: "Wykresy",
+      url: `/${houseHoldId}/charts`,
+      icon: ChartLineIcon,
+    },
+  ];
+
   return (
     <>
-      <SidebarHeader className="text-foreground">Home</SidebarHeader>
+      <SidebarHeader className="text-foreground">Home Budget</SidebarHeader>
       <Content>
         <SidebarGroupContent>
-          <SidebarMenu>
+          <SidebarMenu className="group-data-[collapsible=icon]:items-center">
             {routes.map((route) => (
               <SidebarMenuItem key={route.title}>
                 <SidebarMenuButton asChild>
                   <Link href={route.url}>
                     <route.icon />
-                    {route.title}
+                    <span className="group-data-[collapsible=icon]:hidden">
+                      {route.title}
+                    </span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -62,17 +68,15 @@ export function SideBarContent() {
         </SidebarGroupContent>
       </Content>
       <SidebarFooter>
-        <SidebarMenuItem>
-          <SidebarMenuButton asChild>
-            <Link href={`/houseHoldId/admin`}>
-              <SettingsIcon />
-              Ustawienia
-            </Link>
-          </SidebarMenuButton>
-          <SidebarMenuButton asChild>
-            <UserButton />
-          </SidebarMenuButton>
-        </SidebarMenuItem>
+        <SidebarMenuButton asChild>
+          <Link href={`/houseHoldId/admin`}>
+            <SettingsIcon />
+            Ustawienia
+          </Link>
+        </SidebarMenuButton>
+        <SidebarMenuButton asChild>
+          <UserButton />
+        </SidebarMenuButton>
       </SidebarFooter>
     </>
   );
