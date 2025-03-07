@@ -2,8 +2,8 @@ import { env } from "@/data/env/server";
 import { deleteUser, insertUser, updateUser } from "@/features/users/db/users";
 import { syncClerkUserMetadata } from "@/services/clerk";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { Webhook } from "svix";
 import { headers } from "next/headers";
+import { Webhook } from "svix";
 
 export async function POST(req: Request) {
   const headerPayload = await headers();
