@@ -1,28 +1,23 @@
 import { db } from "@/drizzle/db";
 import { UserTable } from "@/drizzle/schema";
-import { getUserIdTag } from "@/features/users/db/cache";
-import { auth, clerkClient } from "@clerk/nextjs/server";
+import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
-import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 import { redirect } from "next/navigation";
 
 const client = await clerkClient();
 
 export async function getCurrentUser({ allData = false } = {}) {
-  const { userId, sessionClaims, redirectToSignIn } = await auth();
+  const user = await currentUser();
 
-  if (userId != null && sessionClaims.dbId == null) {
-    redirect("/api/clerk/syncUsers");
-  }
+  if (!user) redirect("/sign-in");
 
   return {
-    clerkUserId: userId,
-    userId: sessionClaims?.dbId,
+    clerkUserId: user.id,
+    userId: user.publicMetadata.dbId,
     user:
-      allData && sessionClaims?.dbId != null
-        ? await getUser(sessionClaims.dbId)
+      allData && user.publicMetadata.dbId != null
+        ? await getUser(user.publicMetadata.dbId)
         : undefined,
-    redirectToSignIn,
   };
 }
 
@@ -37,10 +32,7 @@ export function syncClerkUserMetadata(user: {
   });
 }
 
-async function getUser(id: string) {
-  "use cache";
-  cacheTag(getUserIdTag(id));
-
+function getUser(id: string) {
   return db.query.UserTable.findFirst({
     where: eq(UserTable.id, id),
   });

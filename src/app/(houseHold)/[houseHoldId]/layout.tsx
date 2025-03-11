@@ -1,9 +1,10 @@
+import { SideBarContent } from "@/components/SideBarContent";
 import {
   Sidebar,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
-import { SideBarContent } from "@/components/SideBarContent";
+
 import { ReactNode } from "react";
 
 export default async function HouseHoldLayout({

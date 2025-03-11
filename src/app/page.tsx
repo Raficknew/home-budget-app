@@ -12,10 +12,7 @@ export default async function HomePage() {
 }
 
 async function UserHouseHolds() {
-  const { userId, redirectToSignIn, user } = await getCurrentUser({
-    allData: true,
-  });
-  if (userId == null) redirectToSignIn();
+  const { user } = await getCurrentUser({ allData: true });
 
   return <div>Gospodarstwa domowe {user?.name}</div>;
 }
