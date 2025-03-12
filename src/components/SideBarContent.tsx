@@ -19,29 +19,31 @@ import {
 } from "./ui/sidebar";
 import { UserButton } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export function SideBarContent() {
-  const { houseHoldId } = useParams();
+  const { locale, houseHoldId } = useParams();
+  const t = useTranslations("Sidebar");
 
   const routes = [
     {
-      title: "Dashboard",
-      url: `/${houseHoldId}`,
+      title: t("dashboard"),
+      url: `/${locale}/${houseHoldId}`,
       icon: LayoutDashboardIcon,
     },
     {
-      title: "Kategorie",
-      url: `/${houseHoldId}/categories`,
+      title: t("categories"),
+      url: `/${locale}/${houseHoldId}/categories`,
       icon: ArrowLeftRightIcon,
     },
     {
-      title: "Cele",
-      url: `/${houseHoldId}/goals`,
+      title: t("goals"),
+      url: `/${locale}/${houseHoldId}/goals`,
       icon: CrosshairIcon,
     },
     {
-      title: "Wykresy",
-      url: `/${houseHoldId}/charts`,
+      title: t("charts"),
+      url: `/${locale}/${houseHoldId}/charts`,
       icon: ChartLineIcon,
     },
   ];
@@ -71,7 +73,7 @@ export function SideBarContent() {
         <SidebarMenuButton asChild>
           <Link href={`/houseHoldId/admin`}>
             <SettingsIcon />
-            Ustawienia
+            <p>{t("settings")}</p>
           </Link>
         </SidebarMenuButton>
         <SidebarMenuButton asChild>
