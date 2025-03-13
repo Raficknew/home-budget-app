@@ -1,0 +1,12 @@
+{
+  "HomePage": {
+    "welcome": "Hello!"
+  },
+   "Sidebar": {
+    "dashboard": "Dashboard",
+    "categories": "Categories",
+    "goals": "Goals",
+    "charts": "Charts",
+    "settings": "Settings"
+  }
+}

@@ -9,7 +9,7 @@ const client = await clerkClient();
 export async function getCurrentUser({ allData = false } = {}) {
   const user = await currentUser();
 
-  if (!user) redirect("/sign-in");
+  if (!user) redirect("/en/sign-in");
 
   return {
     clerkUserId: user.id,

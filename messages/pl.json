@@ -1,0 +1,12 @@
+{
+  "HomePage": {
+    "welcome": "Witaj!"
+  },
+  "Sidebar": {
+    "dashboard": "Dashboard",
+    "categories": "Kategorie",
+    "goals": "Cele",
+    "charts": "Wykresy",
+    "settings": "Ustawienia"
+  }
+}

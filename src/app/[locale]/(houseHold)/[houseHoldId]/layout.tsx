@@ -15,7 +15,7 @@ export default async function HouseHoldLayout({
   return (
     <SidebarProvider>
       <SideBar />
-      <main className=" w-full">
+      <main className="w-full">
         <SidebarTrigger />
         {children}
       </main>
