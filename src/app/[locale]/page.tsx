@@ -1,6 +1,5 @@
 import { getCurrentUser } from "@/services/clerk";
 import { useTranslations } from "next-intl";
-import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default function HomePage() {
@@ -16,9 +15,7 @@ export default function HomePage() {
 }
 
 async function UserHouseHolds() {
-  const { user, userId } = await getCurrentUser({ allData: true });
-
-  if (userId == null) redirect("/sign-in");
+  const { user } = await getCurrentUser({ allData: true });
 
   return <div>{user?.name}</div>;
 }
