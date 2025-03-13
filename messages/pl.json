@@ -1,6 +1,6 @@
 {
   "HomePage": {
-    "title": "Witaj!"
+    "welcome": "Witaj!"
   },
   "Sidebar": {
     "dashboard": "Dashboard",
