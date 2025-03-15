@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { LanguageSelect } from "@/components/LanguageSelect";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,10 @@ export default async function RootLayout({
     <ClerkProvider>
       <html lang={locale}>
         <body className={`${geistSans.variable} antialiased bg-background`}>
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <NextIntlClientProvider>
+            {children}
+            <LanguageSelect currentLocale={locale} />
+          </NextIntlClientProvider>
         </body>
       </html>
     </ClerkProvider>

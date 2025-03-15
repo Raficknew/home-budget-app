@@ -1,4 +1,3 @@
-import { LanguageSelect } from "@/components/LanguageSelect";
 import { getCurrentUser } from "@/services/clerk";
 import { useTranslations } from "next-intl";
 import { Suspense } from "react";
@@ -11,7 +10,6 @@ export default function HomePage() {
       <Suspense>
         <UserHouseHolds />
       </Suspense>
-      <LanguageSelect />
     </div>
   );
 }
@@ -19,5 +17,5 @@ export default function HomePage() {
 async function UserHouseHolds() {
   const { user } = await getCurrentUser({ allData: true });
 
-  return <div>{user?.name.split(" ")[0]}</div>;
+  return <div>{user?.name}</div>;
 }
