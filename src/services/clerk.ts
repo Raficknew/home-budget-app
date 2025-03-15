@@ -14,6 +14,7 @@ export async function getCurrentUser({ allData = false } = {}) {
   return {
     clerkUserId: user.id,
     userId: user.publicMetadata.dbId,
+    firstName: allData && user.firstName,
     user:
       allData && user.publicMetadata.dbId != null
         ? await getUser(user.publicMetadata.dbId)
