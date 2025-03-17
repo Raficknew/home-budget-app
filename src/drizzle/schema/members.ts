@@ -1,32 +1,28 @@
-import { pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { HouseHoldTable } from "./houseHold";
 import { UserTable } from "./user";
 
-export const executorRole = ["admin", "moderator", "member"] as const;
-export type ExecutorRole = (typeof executorRole)[number];
-export const executorRoleEnum = pgEnum("executor_role", executorRole);
-
-export const ExecutorTable = pgTable("executors", {
+export const MembersTable = pgTable("members", {
   id,
   name: text(),
   userId: uuid().references(() => UserTable.id, { onDelete: "cascade" }),
   houseHoldId: uuid()
     .notNull()
     .references(() => HouseHoldTable.id, { onDelete: "cascade" }),
-  role: executorRoleEnum().notNull().default("member"),
+  color: text().notNull(),
   createdAt,
   updatedAt,
 });
 
-export const ExecutorRelationships = relations(ExecutorTable, ({ one }) => ({
+export const MembersRelationships = relations(MembersTable, ({ one }) => ({
   user: one(UserTable, {
-    fields: [ExecutorTable.userId],
+    fields: [MembersTable.userId],
     references: [UserTable.id],
   }),
   houseHold: one(HouseHoldTable, {
-    fields: [ExecutorTable.houseHoldId],
+    fields: [MembersTable.houseHoldId],
     references: [HouseHoldTable.id],
   }),
 }));

@@ -1,6 +1,9 @@
 {
   "HomePage": {
-    "welcome": "Hello!"
+    "welcome": "Hello!",
+    "or": "OR",
+    "createHouseHold": "Create new household",
+    "chooseHouseHold": "Choose your household"
   },
    "Sidebar": {
     "dashboard": "Dashboard",

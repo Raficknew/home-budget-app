@@ -1,7 +1,7 @@
 import { pgTable, text } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
-import { ExecutorTable } from "./executors";
+import { MembersTable } from "./members";
 
 export const UserTable = pgTable("users", {
   id,
@@ -14,5 +14,5 @@ export const UserTable = pgTable("users", {
 });
 
 export const UserRelationships = relations(UserTable, ({ many }) => ({
-  executor: many(ExecutorTable),
+  member: many(MembersTable),
 }));

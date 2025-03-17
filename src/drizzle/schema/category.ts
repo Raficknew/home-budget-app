@@ -7,7 +7,7 @@ import { TransactionTable } from "./transactions";
 export const categoriesOfExpanse = ["fixed", "fun", "future you"] as const;
 export type CategoriesOfExpanse = (typeof categoriesOfExpanse)[number];
 export const categoryOfExpanseEnum = pgEnum(
-  "category_of_expanse",
+  "categories_of_expanse",
   categoriesOfExpanse
 );
 

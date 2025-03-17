@@ -1,6 +1,9 @@
 {
   "HomePage": {
-    "welcome": "Witaj!"
+    "welcome": "Witaj!",
+    "or": "LUB",
+    "createHouseHold": "Utwórz nowe gospodarstwo",
+    "chooseHouseHold": "Wybierz gospodarstwo"
   },
   "Sidebar": {
     "dashboard": "Dashboard",
