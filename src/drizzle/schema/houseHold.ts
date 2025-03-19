@@ -10,8 +10,12 @@ export const HouseHoldTable = pgTable("houseHolds", {
   id,
   name: text().notNull(),
   description: text().notNull(),
-  ownerId: uuid().references(() => UserTable.id, { onDelete: "cascade" }),
-  currencyId: uuid().references(() => CurrencyTable.id),
+  ownerId: uuid()
+    .references(() => UserTable.id, { onDelete: "cascade" })
+    .notNull(),
+  currencyId: uuid()
+    .references(() => CurrencyTable.id)
+    .notNull(),
   createdAt,
   updatedAt,
 });
