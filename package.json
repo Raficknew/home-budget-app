@@ -9,7 +9,8 @@
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "drizzle:seed": "node --loader esbuild-register/loader -r esbuild-register ./src/drizzle/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.12.4",
@@ -41,6 +42,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "drizzle-kit": "^0.30.5",
+    "esbuild-register": "^3.6.0",
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
     "tailwindcss": "^4",
