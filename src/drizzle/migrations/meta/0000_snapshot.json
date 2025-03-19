@@ -1,5 +1,5 @@
 {
-  "id": "2767a055-ccdd-4560-9b70-1ef96a7b3018",
+  "id": "dcaa1959-b714-4784-afbe-2d8df82e6ccf",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -23,7 +23,7 @@
         },
         "categoryType": {
           "name": "categoryType",
-          "type": "category_of_expanse",
+          "type": "categories_of_expanse",
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
@@ -51,10 +51,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "categories_houseHoldId_house_holds_id_fk": {
-          "name": "categories_houseHoldId_house_holds_id_fk",
+        "categories_houseHoldId_houseHolds_id_fk": {
+          "name": "categories_houseHoldId_houseHolds_id_fk",
           "tableFrom": "categories",
-          "tableTo": "house_holds",
+          "tableTo": "houseHolds",
           "columnsFrom": [
             "houseHoldId"
           ],
@@ -71,8 +71,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.executors": {
-      "name": "executors",
+    "public.members": {
+      "name": "members",
       "schema": "",
       "columns": {
         "id": {
@@ -100,13 +100,11 @@
           "primaryKey": false,
           "notNull": true
         },
-        "role": {
-          "name": "role",
-          "type": "executor_role",
-          "typeSchema": "public",
+        "color": {
+          "name": "color",
+          "type": "text",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'member'"
+          "notNull": true
         },
         "createdAt": {
           "name": "createdAt",
@@ -125,9 +123,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "executors_userId_users_id_fk": {
-          "name": "executors_userId_users_id_fk",
-          "tableFrom": "executors",
+        "members_userId_users_id_fk": {
+          "name": "members_userId_users_id_fk",
+          "tableFrom": "members",
           "tableTo": "users",
           "columnsFrom": [
             "userId"
@@ -138,10 +136,10 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "executors_houseHoldId_house_holds_id_fk": {
-          "name": "executors_houseHoldId_house_holds_id_fk",
-          "tableFrom": "executors",
-          "tableTo": "house_holds",
+        "members_houseHoldId_houseHolds_id_fk": {
+          "name": "members_houseHoldId_houseHolds_id_fk",
+          "tableFrom": "members",
+          "tableTo": "houseHolds",
           "columnsFrom": [
             "houseHoldId"
           ],
@@ -158,8 +156,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.house_holds": {
-      "name": "house_holds",
+    "public.houseHolds": {
+      "name": "houseHolds",
       "schema": "",
       "columns": {
         "id": {
@@ -181,6 +179,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "ownerId": {
+          "name": "ownerId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp with time zone",
@@ -197,15 +201,29 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "houseHolds_ownerId_users_id_fk": {
+          "name": "houseHolds_ownerId_users_id_fk",
+          "tableFrom": "houseHolds",
+          "tableTo": "users",
+          "columnsFrom": [
+            "ownerId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.transaction_executors": {
-      "name": "transaction_executors",
+    "public.transaction_members": {
+      "name": "transaction_members",
       "schema": "",
       "columns": {
         "transactionId": {
@@ -214,8 +232,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "executorId": {
-          "name": "executorId",
+        "memberId": {
+          "name": "memberId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -237,9 +255,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "transaction_executors_transactionId_transactions_id_fk": {
-          "name": "transaction_executors_transactionId_transactions_id_fk",
-          "tableFrom": "transaction_executors",
+        "transaction_members_transactionId_transactions_id_fk": {
+          "name": "transaction_members_transactionId_transactions_id_fk",
+          "tableFrom": "transaction_members",
           "tableTo": "transactions",
           "columnsFrom": [
             "transactionId"
@@ -250,12 +268,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "transaction_executors_executorId_executors_id_fk": {
-          "name": "transaction_executors_executorId_executors_id_fk",
-          "tableFrom": "transaction_executors",
-          "tableTo": "executors",
+        "transaction_members_memberId_members_id_fk": {
+          "name": "transaction_members_memberId_members_id_fk",
+          "tableFrom": "transaction_members",
+          "tableTo": "members",
           "columnsFrom": [
-            "executorId"
+            "memberId"
           ],
           "columnsTo": [
             "id"
@@ -265,11 +283,11 @@
         }
       },
       "compositePrimaryKeys": {
-        "transaction_executors_transactionId_executorId_pk": {
-          "name": "transaction_executors_transactionId_executorId_pk",
+        "transaction_members_transactionId_memberId_pk": {
+          "name": "transaction_members_transactionId_memberId_pk",
           "columns": [
             "transactionId",
-            "executorId"
+            "memberId"
           ]
         }
       },
@@ -431,22 +449,13 @@
     }
   },
   "enums": {
-    "public.category_of_expanse": {
-      "name": "category_of_expanse",
+    "public.categories_of_expanse": {
+      "name": "categories_of_expanse",
       "schema": "public",
       "values": [
         "fixed",
         "fun",
         "future you"
-      ]
-    },
-    "public.executor_role": {
-      "name": "executor_role",
-      "schema": "public",
-      "values": [
-        "admin",
-        "moderator",
-        "member"
       ]
     },
     "public.transaction_type": {

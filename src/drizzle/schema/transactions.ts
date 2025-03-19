@@ -9,7 +9,7 @@ import {
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
-import { TranscationExecutorsTable } from "./transactionExecutors";
+import { TransactionMembersTable } from "./transactionMembers";
 
 export const transactionType = ["income", "expense"] as const;
 export type TransactionType = (typeof transactionType)[number];
@@ -36,6 +36,6 @@ export const TransactionRelationshoips = relations(
       fields: [TransactionTable.categoryId],
       references: [CategoryTable.id],
     }),
-    executors: many(TranscationExecutorsTable),
+    members: many(TransactionMembersTable),
   })
 );

@@ -1,39 +1,39 @@
-CREATE TYPE "public"."category_of_expanse" AS ENUM('fixed', 'fun', 'future you');--> statement-breakpoint
-CREATE TYPE "public"."executor_role" AS ENUM('admin', 'moderator', 'member');--> statement-breakpoint
+CREATE TYPE "public"."categories_of_expanse" AS ENUM('fixed', 'fun', 'future you');--> statement-breakpoint
 CREATE TYPE "public"."transaction_type" AS ENUM('income', 'expense');--> statement-breakpoint
 CREATE TABLE "categories" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
-	"categoryType" "category_of_expanse" NOT NULL,
+	"categoryType" "categories_of_expanse" NOT NULL,
 	"houseHoldId" uuid NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "executors" (
+CREATE TABLE "members" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text,
 	"userId" uuid,
 	"houseHoldId" uuid NOT NULL,
-	"role" "executor_role" DEFAULT 'member' NOT NULL,
+	"color" text NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "house_holds" (
+CREATE TABLE "houseHolds" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" text NOT NULL,
 	"description" text NOT NULL,
+	"ownerId" uuid,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE "transaction_executors" (
+CREATE TABLE "transaction_members" (
 	"transactionId" uuid NOT NULL,
-	"executorId" uuid NOT NULL,
+	"memberId" uuid NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-	CONSTRAINT "transaction_executors_transactionId_executorId_pk" PRIMARY KEY("transactionId","executorId")
+	CONSTRAINT "transaction_members_transactionId_memberId_pk" PRIMARY KEY("transactionId","memberId")
 );
 --> statement-breakpoint
 CREATE TABLE "transactions" (
@@ -59,9 +59,10 @@ CREATE TABLE "users" (
 	CONSTRAINT "users_clerkUserId_unique" UNIQUE("clerkUserId")
 );
 --> statement-breakpoint
-ALTER TABLE "categories" ADD CONSTRAINT "categories_houseHoldId_house_holds_id_fk" FOREIGN KEY ("houseHoldId") REFERENCES "public"."house_holds"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "executors" ADD CONSTRAINT "executors_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "executors" ADD CONSTRAINT "executors_houseHoldId_house_holds_id_fk" FOREIGN KEY ("houseHoldId") REFERENCES "public"."house_holds"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "transaction_executors" ADD CONSTRAINT "transaction_executors_transactionId_transactions_id_fk" FOREIGN KEY ("transactionId") REFERENCES "public"."transactions"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "transaction_executors" ADD CONSTRAINT "transaction_executors_executorId_executors_id_fk" FOREIGN KEY ("executorId") REFERENCES "public"."executors"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "categories" ADD CONSTRAINT "categories_houseHoldId_houseHolds_id_fk" FOREIGN KEY ("houseHoldId") REFERENCES "public"."houseHolds"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "members" ADD CONSTRAINT "members_userId_users_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "members" ADD CONSTRAINT "members_houseHoldId_houseHolds_id_fk" FOREIGN KEY ("houseHoldId") REFERENCES "public"."houseHolds"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "houseHolds" ADD CONSTRAINT "houseHolds_ownerId_users_id_fk" FOREIGN KEY ("ownerId") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "transaction_members" ADD CONSTRAINT "transaction_members_transactionId_transactions_id_fk" FOREIGN KEY ("transactionId") REFERENCES "public"."transactions"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "transaction_members" ADD CONSTRAINT "transaction_members_memberId_members_id_fk" FOREIGN KEY ("memberId") REFERENCES "public"."members"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "transactions" ADD CONSTRAINT "transactions_categoryId_categories_id_fk" FOREIGN KEY ("categoryId") REFERENCES "public"."categories"("id") ON DELETE cascade ON UPDATE no action;
