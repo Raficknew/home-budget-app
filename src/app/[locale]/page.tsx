@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { db } from "@/drizzle/db";
+import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
 import { capitalize } from "@/lib/formatters";
 import { getCurrentUser } from "@/services/clerk";

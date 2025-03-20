@@ -71,7 +71,7 @@ export function SideBarContent() {
       </Content>
       <SidebarFooter>
         <SidebarMenuButton asChild>
-          <Link href={`/houseHoldId/admin`}>
+          <Link href={`/${locale}/${houseHoldId}/admin`}>
             <SettingsIcon />
             <p>{t("settings")}</p>
           </Link>

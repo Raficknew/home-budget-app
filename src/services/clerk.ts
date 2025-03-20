@@ -1,4 +1,4 @@
-import { db } from "@/drizzle/db";
+import { db } from "@/drizzle";
 import { UserTable } from "@/drizzle/schema";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { eq } from "drizzle-orm";
