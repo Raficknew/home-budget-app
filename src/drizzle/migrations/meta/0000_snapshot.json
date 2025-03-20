@@ -1,5 +1,5 @@
 {
-  "id": "dcaa1959-b714-4784-afbe-2d8df82e6ccf",
+  "id": "1eb6abbc-1b75-43ad-9ca6-3518e62ee394",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -183,7 +183,13 @@
           "name": "ownerId",
           "type": "uuid",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "currencyId": {
+          "name": "currencyId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
         },
         "createdAt": {
           "name": "createdAt",
@@ -213,6 +219,19 @@
             "id"
           ],
           "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "houseHolds_currencyId_currency_code_fk": {
+          "name": "houseHolds_currencyId_currency_code_fk",
+          "tableFrom": "houseHolds",
+          "tableTo": "currency",
+          "columnsFrom": [
+            "currencyId"
+          ],
+          "columnsTo": [
+            "code"
+          ],
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
@@ -443,6 +462,25 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.currency": {
+      "name": "currency",
+      "schema": "",
+      "columns": {
+        "code": {
+          "name": "code",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

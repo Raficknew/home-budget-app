@@ -13,14 +13,14 @@ const main = async () => {
 
   const data: (typeof CurrencyTable.$inferInsert)[] = [
     {
-      name: "PLN",
+      code: "PLN",
     },
     {
-      name: "EUR",
+      code: "EUR",
     },
-    { name: "USD" },
+    { code: "USD" },
     {
-      name: "CHF",
+      code: "CHF",
     },
   ];
 

@@ -13,8 +13,8 @@ export const HouseHoldTable = pgTable("houseHolds", {
   ownerId: uuid()
     .references(() => UserTable.id, { onDelete: "cascade" })
     .notNull(),
-  currencyId: uuid()
-    .references(() => CurrencyTable.id)
+  currencyId: text()
+    .references(() => CurrencyTable.code)
     .notNull(),
   createdAt,
   updatedAt,
@@ -31,7 +31,7 @@ export const HouseHoldRelationships = relations(
     }),
     currency: one(CurrencyTable, {
       fields: [HouseHoldTable.currencyId],
-      references: [CurrencyTable.id],
+      references: [CurrencyTable.code],
     }),
   })
 );
