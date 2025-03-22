@@ -48,7 +48,10 @@ async function UserHouseHoldList({
           <div className="flex flex-col gap-2 text-left">
             <h4 className="pl-1">{t("chooseHouseHold")}</h4>
             {houseHolds.map(({ houseHold }) => (
-              <Link href={`/${locale}/${houseHold.id}`} key={houseHold.id}>
+              <Link
+                href={`/${locale}/${houseHold.id}/dashboard`}
+                key={houseHold.id}
+              >
                 <div className="flex justify-between items-center bg-background py-2 px-3 rounded-lg self-stretch hover:shadow hover:shadow-accent">
                   <div className="flex items-center gap-2">
                     <HomeIcon size={20} strokeWidth={1.15} color="#0EF6CC" />
