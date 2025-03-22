@@ -54,6 +54,8 @@ export async function POST(req: Request) {
 
       await syncClerkUserMetadata(user);
 
+      new Promise(res => setTimeout(res,200))
+
       break;
     }
     case "user.updated": {

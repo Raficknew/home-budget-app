@@ -1,5 +1,5 @@
 {
-  "id": "1eb6abbc-1b75-43ad-9ca6-3518e62ee394",
+  "id": "8bcd8a62-4ca0-4d66-913e-5a84cab54d07",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -61,7 +61,7 @@
           "columnsTo": [
             "id"
           ],
-          "onDelete": "no action",
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
@@ -185,8 +185,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "currencyId": {
-          "name": "currencyId",
+        "currencyCode": {
+          "name": "currencyCode",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -221,12 +221,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "houseHolds_currencyId_currency_code_fk": {
-          "name": "houseHolds_currencyId_currency_code_fk",
+        "houseHolds_currencyCode_currency_code_fk": {
+          "name": "houseHolds_currencyCode_currency_code_fk",
           "tableFrom": "houseHolds",
           "tableTo": "currency",
           "columnsFrom": [
-            "currencyId"
+            "currencyCode"
           ],
           "columnsTo": [
             "code"
@@ -493,7 +493,8 @@
       "values": [
         "fixed",
         "fun",
-        "future you"
+        "future you",
+        "incomes"
       ]
     },
     "public.transaction_type": {
