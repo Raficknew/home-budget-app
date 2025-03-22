@@ -17,9 +17,6 @@ export const HouseHoldTable = pgTable("houseHolds", {
   currencyCode: text()
     .references(() => CurrencyTable.code, { onDelete: "no action" })
     .notNull(),
-  inviteLink: uuid().references(() => InviteTable.link, {
-    onDelete: "no action",
-  }),
   createdAt,
   updatedAt,
 });
@@ -37,9 +34,6 @@ export const HouseHoldRelationships = relations(
       fields: [HouseHoldTable.currencyCode],
       references: [CurrencyTable.code],
     }),
-    invite: one(InviteTable, {
-      fields: [HouseHoldTable.currencyCode],
-      references: [InviteTable.link],
-    }),
+    invite: one(InviteTable),
   })
 );
