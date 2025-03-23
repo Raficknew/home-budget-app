@@ -21,12 +21,16 @@ import {
 } from "@/components/ui/select";
 import { houseHoldSchema } from "../schema/houseHolds";
 import { insertHouseHold } from "../actions/houseHolds";
+import { useTranslations } from "next-intl";
 
 export function HouseHoldForm({
   currencies,
+  locale,
 }: {
   currencies: { code: string }[];
+  locale: string;
 }) {
+  const t = useTranslations("CreateHouseHold");
   const form = useForm<z.infer<typeof houseHoldSchema>>({
     resolver: zodResolver(houseHoldSchema),
     defaultValues: {
@@ -37,75 +41,75 @@ export function HouseHoldForm({
   });
 
   async function onSubmit(data: z.infer<typeof houseHoldSchema>) {
-    await insertHouseHold(data);
+    await insertHouseHold(data, locale);
   }
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="grow w-full space-y-8 text-left"
-      >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Nazwa</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Wpisz nazwę dla nowego gospodarstwa"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Opis</FormLabel>
-              <FormControl>
-                <Input placeholder="Wpisz opis dla gospodarstwa" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="currencyCode"
-          render={({ field }) => (
-            <FormItem className="flex">
-              <FormLabel>Waluta</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="Wybierz walutę" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currencies.map((currency) => (
-                      <SelectItem key={currency.code} value={currency.code}>
-                        {currency.code}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button variant="submit" type="submit">
-          Submit
-        </Button>
-      </form>
-    </Form>
+    <>
+      <h1 className="text-2xl">{t("title")}</h1>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="grow w-full space-y-8 text-left"
+        >
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("name")}</FormLabel>
+                <FormControl>
+                  <Input placeholder={t("namePlaceholder")} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("description")}</FormLabel>
+                <FormControl>
+                  <Input placeholder={t("descriptionPlaceholder")} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="currencyCode"
+            render={({ field }) => (
+              <FormItem className="flex">
+                <FormLabel>{t("currency")}</FormLabel>
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder={t("currencyPlaceholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {currencies.map((currency) => (
+                        <SelectItem key={currency.code} value={currency.code}>
+                          {currency.code}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button variant="submit" type="submit">
+            {t("submit")}
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }

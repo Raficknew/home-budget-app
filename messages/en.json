@@ -11,5 +11,15 @@
     "goals": "Goals",
     "charts": "Charts",
     "settings": "Settings"
+  },
+  "CreateHouseHold": {
+    "title": "Create new Household",
+    "name": "Name",
+    "namePlaceholder": "Name",
+    "description": "Description",
+    "descriptionPlaceholder": "description",
+    "currency": "Currency",
+    "currencyPlaceholder": "Choose currency",
+    "submit": "Create"
   }
 }

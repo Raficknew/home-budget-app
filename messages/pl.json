@@ -11,5 +11,14 @@
     "goals": "Cele",
     "charts": "Wykresy",
     "settings": "Ustawienia"
+  },"CreateHouseHold": {
+    "title": "Utwórz nowe gospodarstwo",
+    "name": "Nazwa",
+    "namePlaceholder": "Wpisz nazwę",
+    "description": "Opis",
+    "descriptionPlaceholder": "Wpisz Opis",
+    "currency": "Waluta",
+    "currencyPlaceholder": "Wybierz walutę",
+    "submit": "Utwórz"
   }
 }

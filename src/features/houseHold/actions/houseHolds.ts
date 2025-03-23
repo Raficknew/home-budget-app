@@ -6,7 +6,8 @@ import { insertHouseHold as insertHouseHoldDB } from "../db/houseHolds";
 import { getCurrentUser } from "@/services/clerk";
 
 export async function insertHouseHold(
-  unsafeData: z.infer<typeof houseHoldSchema>
+  unsafeData: z.infer<typeof houseHoldSchema>,
+  locale: string
 ) {
   const { success, data } = houseHoldSchema.safeParse(unsafeData);
 
@@ -22,5 +23,5 @@ export async function insertHouseHold(
     ownerId: userId,
   });
 
-  redirect(`/en/${houseHold.id}`);
+  redirect(`/${locale}/${houseHold.id}`);
 }
