@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
-import { capitalize } from "@/lib/formatters";
 import { getCurrentUser } from "@/services/clerk";
 import { eq } from "drizzle-orm";
 import { HomeIcon, PlusIcon } from "lucide-react";
@@ -40,7 +39,7 @@ async function UserHouseHoldList({
       <div className="flex gap-2 pb-18">
         <h1 className="font-light text-2xl">{t("welcome")}</h1>
         <p className="font-semibold text-2xl ">
-          {firstName ? capitalize(firstName) : "User"}
+          {firstName ? firstName : "User"}
         </p>
       </div>
       {houseHolds.length > 0 && (

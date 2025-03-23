@@ -18,6 +18,7 @@ export async function insertHouseHold(
 
   const houseHold = await insertHouseHoldDB({
     ...data,
+    name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
     ownerId: userId,
   });
 

@@ -44,7 +44,7 @@ export function HouseHoldForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grow w-full space-y-8"
+        className="grow w-full space-y-8 text-left"
       >
         <FormField
           control={form.control}
