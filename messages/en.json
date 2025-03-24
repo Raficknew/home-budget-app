@@ -3,7 +3,8 @@
     "welcome": "Hello!",
     "or": "OR",
     "createHouseHold": "Create new household",
-    "chooseHouseHold": "Choose your household"
+    "chooseHouseHold": "Choose your household",
+    "user": "User"
   },
    "Sidebar": {
     "dashboard": "Dashboard",
@@ -11,5 +12,24 @@
     "goals": "Goals",
     "charts": "Charts",
     "settings": "Settings"
+  },
+  "CreateHouseHold": {
+    "title": "Create new Household",
+    "name": {
+      "label": "Name",
+      "placeholder": "Smith's House"
+    },
+    "description": {
+      "label": "Description",
+      "placeholder": "We are trying to save more"
+    },
+    "currency": {
+      "label": "Currency",
+      "placeholder": "Choose Currency"
+    },
+    "submit": "Create"
+  },
+  "JoinPage": {
+    "title": "Join"
   }
 }

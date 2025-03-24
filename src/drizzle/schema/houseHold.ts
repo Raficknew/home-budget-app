@@ -5,6 +5,7 @@ import { CategoryTable } from "./category";
 import { MembersTable } from "./members";
 import { UserTable } from "./user";
 import { CurrencyTable } from "./currency";
+import { InviteTable } from "./invites";
 
 export const HouseHoldTable = pgTable("houseHolds", {
   id,
@@ -13,8 +14,8 @@ export const HouseHoldTable = pgTable("houseHolds", {
   ownerId: uuid()
     .references(() => UserTable.id, { onDelete: "cascade" })
     .notNull(),
-  currencyId: text()
-    .references(() => CurrencyTable.code)
+  currencyCode: text()
+    .references(() => CurrencyTable.code, { onDelete: "no action" })
     .notNull(),
   createdAt,
   updatedAt,
@@ -30,8 +31,9 @@ export const HouseHoldRelationships = relations(
       references: [UserTable.id],
     }),
     currency: one(CurrencyTable, {
-      fields: [HouseHoldTable.currencyId],
+      fields: [HouseHoldTable.currencyCode],
       references: [CurrencyTable.code],
     }),
+    invite: one(InviteTable),
   })
 );

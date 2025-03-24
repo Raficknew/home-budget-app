@@ -3,7 +3,8 @@
     "welcome": "Witaj!",
     "or": "LUB",
     "createHouseHold": "Utwórz nowe gospodarstwo",
-    "chooseHouseHold": "Wybierz gospodarstwo"
+    "chooseHouseHold": "Wybierz gospodarstwo",
+    "user": "Użytkownik"
   },
   "Sidebar": {
     "dashboard": "Dashboard",
@@ -11,5 +12,24 @@
     "goals": "Cele",
     "charts": "Wykresy",
     "settings": "Ustawienia"
+  },
+  "CreateHouseHold": {
+    "title": "Utwórz nowe gospodarstwo",
+    "name": {
+      "label": "Nazwa",
+      "placeholder": "Dom Kowalskich"
+    },
+    "description": {
+      "label": "Opis",
+      "placeholder": "Próbojemy osczędzić na lepsze życie"
+    }, 
+    "currency": {
+      "label": "Waluta",
+      "placeholder": "Wybierz walutę"
+    },
+    "submit": "Utwórz"
+  },
+  "JoinPage": {
+    "title": "Dołącz"
   }
 }

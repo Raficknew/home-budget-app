@@ -4,7 +4,12 @@ import { HouseHoldTable } from "./houseHold";
 import { relations } from "drizzle-orm";
 import { TransactionTable } from "./transactions";
 
-export const categoriesOfExpanse = ["fixed", "fun", "future you"] as const;
+export const categoriesOfExpanse = [
+  "fixed",
+  "fun",
+  "future you",
+  "incomes",
+] as const;
 export type CategoriesOfExpanse = (typeof categoriesOfExpanse)[number];
 export const categoryOfExpanseEnum = pgEnum(
   "categories_of_expanse",
@@ -17,7 +22,7 @@ export const CategoryTable = pgTable("categories", {
   categoryType: categoryOfExpanseEnum().notNull(),
   houseHoldId: uuid()
     .notNull()
-    .references(() => HouseHoldTable.id),
+    .references(() => HouseHoldTable.id, { onDelete: "cascade" }),
   createdAt,
   updatedAt,
 });

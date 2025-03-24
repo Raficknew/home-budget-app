@@ -1,6 +1,6 @@
 {
-  "id": "8bcd8a62-4ca0-4d66-913e-5a84cab54d07",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "bf4d60f7-b803-4c66-951e-fb674dcee81e",
+  "prevId": "8bcd8a62-4ca0-4d66-913e-5a84cab54d07",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -479,6 +479,46 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.invite_table": {
+      "name": "invite_table",
+      "schema": "",
+      "columns": {
+        "link": {
+          "name": "link",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "houseHoldId": {
+          "name": "houseHoldId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "invite_table_houseHoldId_houseHolds_id_fk": {
+          "name": "invite_table_houseHoldId_houseHolds_id_fk",
+          "tableFrom": "invite_table",
+          "tableTo": "houseHolds",
+          "columnsFrom": [
+            "houseHoldId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},

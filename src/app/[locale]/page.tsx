@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
-import { capitalize } from "@/lib/formatters";
 import { getCurrentUser } from "@/services/clerk";
 import { eq } from "drizzle-orm";
 import { HomeIcon, PlusIcon } from "lucide-react";
@@ -39,9 +38,7 @@ async function UserHouseHoldList({
     <div className="flex flex-col justify-center grow items-center max-w-[400px] bg-card p-6 text-center rounded-sm gap-y-5 max-h-[480px] border-foreground border ">
       <div className="flex gap-2 pb-18">
         <h1 className="font-light text-2xl">{t("welcome")}</h1>
-        <p className="font-semibold text-2xl ">
-          {firstName ? capitalize(firstName) : "User"}
-        </p>
+        <p className="font-semibold text-2xl ">{firstName ?? t("user")}</p>
       </div>
       {houseHolds.length > 0 && (
         <div className="self-stretch">
@@ -83,7 +80,7 @@ async function UserHouseHoldList({
   );
 }
 
-function getUserHouseHolds(userId: string) {
+const getUserHouseHolds = (userId: string) => {
   return db.query.MembersTable.findMany({
     where: eq(MembersTable.userId, userId),
     with: {
@@ -92,4 +89,4 @@ function getUserHouseHolds(userId: string) {
       },
     },
   });
-}
+};
