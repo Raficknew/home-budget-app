@@ -21,15 +21,14 @@ import {
 } from "@/components/ui/select";
 import { houseHoldSchema } from "../schema/houseHolds";
 import { insertHouseHold } from "../actions/houseHolds";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export function HouseHoldForm({
   currencies,
-  locale,
 }: {
   currencies: { code: string }[];
-  locale: string;
 }) {
+  const locale = useLocale();
   const t = useTranslations("CreateHouseHold");
   const form = useForm<z.infer<typeof houseHoldSchema>>({
     resolver: zodResolver(houseHoldSchema),
@@ -57,9 +56,9 @@ export function HouseHoldForm({
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("name")}</FormLabel>
+                <FormLabel>{t("name.label")}</FormLabel>
                 <FormControl>
-                  <Input placeholder={t("namePlaceholder")} {...field} />
+                  <Input placeholder={t("name.placeholder")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -70,9 +69,12 @@ export function HouseHoldForm({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{t("description")}</FormLabel>
+                <FormLabel>{t("description.label")}</FormLabel>
                 <FormControl>
-                  <Input placeholder={t("descriptionPlaceholder")} {...field} />
+                  <Input
+                    placeholder={t("description.placeholder")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -83,14 +85,14 @@ export function HouseHoldForm({
             name="currencyCode"
             render={({ field }) => (
               <FormItem className="flex">
-                <FormLabel>{t("currency")}</FormLabel>
+                <FormLabel>{t("currency.label")}</FormLabel>
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder={t("currencyPlaceholder")} />
+                      <SelectValue placeholder={t("currency.placeholder")} />
                     </SelectTrigger>
                     <SelectContent>
                       {currencies.map((currency) => (

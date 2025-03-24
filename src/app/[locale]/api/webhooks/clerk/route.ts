@@ -4,6 +4,7 @@ import { WebhookEvent } from "@clerk/nextjs/server";
 import { env } from "@/data/env/server";
 import { deleteUser, insertUser, updateUser } from "@/features/users/db/users";
 import { syncClerkUserMetadata } from "@/services/clerk";
+import { capitalize } from "@/lib/formatters";
 
 export async function POST(req: Request) {
   const headerPayload = await headers();
@@ -41,11 +42,9 @@ export async function POST(req: Request) {
       const email = evt.data.email_addresses.find(
         (email) => email.id === evt.data.primary_email_address_id
       )?.email_address;
-      const name = `${
-        evt.data.first_name &&
-        evt.data.first_name?.charAt(0).toUpperCase() +
-          evt.data.first_name?.slice(1)
-      } ${evt.data.last_name}`.trim();
+      const name = `${capitalize(evt.data.first_name!)} ${capitalize(
+        evt.data.last_name!
+      )}`.trim();
       if (email == null) return new Response("No email", { status: 400 });
       if (name == "") return new Response("No email", { status: 400 });
 
@@ -66,7 +65,9 @@ export async function POST(req: Request) {
       const email = evt.data.email_addresses.find(
         (email) => email.id === evt.data.primary_email_address_id
       )?.email_address;
-      const name = `${evt.data.first_name} ${evt.data.last_name}`.trim();
+      const name = `${capitalize(evt.data.first_name!)} ${capitalize(
+        evt.data.last_name!
+      )}`.trim();
       if (email == null) return new Response("No email", { status: 400 });
       if (name == "") return new Response("No email", { status: 400 });
 

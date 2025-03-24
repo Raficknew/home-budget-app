@@ -11,6 +11,5 @@ export async function insertHouseHold(
 
   if (newHouseHold == null) throw new Error("failed to create household");
 
-  // ! Ma tworzyć odrazu membera dla ownera
   return newHouseHold;
 }

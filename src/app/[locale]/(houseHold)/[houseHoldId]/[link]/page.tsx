@@ -10,7 +10,7 @@ export default async function JoinToHouseHoldPage({
   params: Promise<{ houseHoldId: string; link: string }>;
 }) {
   const { houseHoldId, link } = await params;
-  // ! Zrobić komponent Aciton Button
+
   return (
     <div className="flex h-screen justify-center items-center">
       <Button>Dołaczam</Button>
@@ -18,7 +18,7 @@ export default async function JoinToHouseHoldPage({
   );
 }
 
-function getHouseHoldLink(id: string) {
+function getHouseHolduInviteLink(id: string) {
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
     with: { invite: { columns: { link: true } } },
