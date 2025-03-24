@@ -17,7 +17,7 @@ export default async function HouseHoldPage({
 
   return (
     <div className=" mx-6">
-      <p>sd</p>
+      <p>{houseHold.invite?.link}</p>
     </div>
   );
 }
@@ -32,5 +32,6 @@ function getHouseHold(id: string) {
 
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
+    with: { invite: { columns: { link: true } } },
   });
 }
