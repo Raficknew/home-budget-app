@@ -3,7 +3,6 @@ import { z } from "zod";
 import { houseHoldSchema } from "../schema/houseHolds";
 import { redirect } from "next/navigation";
 import { insertHouseHold as insertHouseHoldDB } from "../db/houseHolds";
-import { getCurrentUser } from "@/services/clerk";
 
 export async function insertHouseHold(
   unsafeData: z.infer<typeof houseHoldSchema>,

@@ -3,16 +3,17 @@ import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
 import { MembersTable } from "./members";
-import { UserTable } from "./user";
+
 import { CurrencyTable } from "./currency";
 import { InviteTable } from "./invites";
+import { users } from "./user";
 
 export const HouseHoldTable = pgTable("houseHolds", {
   id,
   name: text().notNull(),
   description: text().notNull(),
   ownerId: uuid()
-    .references(() => UserTable.id, { onDelete: "cascade" })
+    .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
   currencyCode: text()
     .references(() => CurrencyTable.code, { onDelete: "no action" })
@@ -26,9 +27,9 @@ export const HouseHoldRelationships = relations(
   ({ one, many }) => ({
     members: many(MembersTable),
     categories: many(CategoryTable),
-    user: one(UserTable, {
+    user: one(users, {
       fields: [HouseHoldTable.ownerId],
-      references: [UserTable.id],
+      references: [users.id],
     }),
     currency: one(CurrencyTable, {
       fields: [HouseHoldTable.currencyCode],
