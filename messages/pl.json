@@ -1,4 +1,10 @@
 {
+  "HeroPage": {
+    "dashboard": "Panel"
+  },
+  "SignInPage": {
+    "google": "Zaloguj się z Google"
+  },
   "HomePage": {
     "welcome": "Witaj!",
     "or": "LUB",

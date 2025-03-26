@@ -1,4 +1,10 @@
 {
+  "HeroPage": {
+    "dashboard": "Dashboard"
+  },
+  "SignInPage": {
+    "google": "Sign in with Google"
+  },
   "HomePage": {
     "welcome": "Hello!",
     "or": "OR",

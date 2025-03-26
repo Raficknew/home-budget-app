@@ -75,9 +75,6 @@ export function SideBarContent() {
             <p>{t("settings")}</p>
           </Link>
         </SidebarMenuButton>
-        <SidebarMenuButton asChild>
-          <div>USER</div>
-        </SidebarMenuButton>
       </SidebarFooter>
     </>
   );

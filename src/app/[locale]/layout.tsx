@@ -5,7 +5,6 @@ import { SessionProvider } from "next-auth/react";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
-import { LanguageSelect } from "@/components/LanguageSelect";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,10 +33,7 @@ export default async function RootLayout({
     <SessionProvider>
       <html lang={locale}>
         <body className={`${geistSans.variable} antialiased bg-background`}>
-          <NextIntlClientProvider>
-            {children}
-            <LanguageSelect currentLocale={locale} />
-          </NextIntlClientProvider>
+          <NextIntlClientProvider>{children}</NextIntlClientProvider>
         </body>
       </html>
     </SessionProvider>
