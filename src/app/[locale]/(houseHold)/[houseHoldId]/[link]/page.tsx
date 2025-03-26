@@ -10,6 +10,9 @@ export default async function JoinToHouseHoldPage({
   params: Promise<{ houseHoldId: string; link: string }>;
 }) {
   const { houseHoldId, link } = await params;
+  const houseHoldLink = await getHouseHoldInviteLink(houseHoldId);
+
+  if (houseHoldLink == null || houseHoldLink.invite?.link !== link) notFound();
 
   return (
     <div className="flex h-screen justify-center items-center">
@@ -18,9 +21,9 @@ export default async function JoinToHouseHoldPage({
   );
 }
 
-function getHouseHoldInviteLink(id: string) {
+const getHouseHoldInviteLink = (id: string) => {
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
     with: { invite: { columns: { link: true } } },
   });
-}
+};

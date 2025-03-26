@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { SessionProvider } from "next-auth/react";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
@@ -31,7 +31,7 @@ export default async function RootLayout({
   }
 
   return (
-    <ClerkProvider>
+    <SessionProvider>
       <html lang={locale}>
         <body className={`${geistSans.variable} antialiased bg-background`}>
           <NextIntlClientProvider>
@@ -40,6 +40,6 @@ export default async function RootLayout({
           </NextIntlClientProvider>
         </body>
       </html>
-    </ClerkProvider>
+    </SessionProvider>
   );
 }
