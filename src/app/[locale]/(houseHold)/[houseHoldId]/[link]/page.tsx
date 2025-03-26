@@ -18,7 +18,7 @@ export default async function JoinToHouseHoldPage({
   );
 }
 
-function getHouseHolduInviteLink(id: string) {
+function getHouseHoldInviteLink(id: string) {
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
     with: { invite: { columns: { link: true } } },
