@@ -1,11 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
+import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { HomeIcon, PlusIcon } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 
 export default function HomePage() {
@@ -21,22 +22,28 @@ export default function HomePage() {
   );
 }
 
-function UserHouseHoldList({
+async function UserHouseHoldList({
   t,
   locale,
 }: {
   t: ReturnType<typeof useTranslations>;
   locale: string;
 }) {
-  const { data } = useSession();
+  const session = await auth();
+
+  if (session?.user.id == null) redirect(`${locale}/sign-in`);
+
+  const houseHolds = await getUserHouseHolds(session?.user.id);
 
   return (
     <div className="flex flex-col justify-center grow items-center max-w-[400px] bg-card p-6 text-center rounded-sm gap-y-5 max-h-[480px] border-foreground border ">
       <div className="flex gap-2 pb-18">
         <h1 className="font-light text-2xl">{t("welcome")}</h1>
-        <p className="font-semibold text-2xl ">{data.user.name ?? t("user")}</p>
+        <p className="font-semibold text-2xl ">
+          {session?.user.name ?? t("user")}
+        </p>
       </div>
-      {/* {houseHolds.length > 0 && (
+      {houseHolds.length > 0 && (
         <div className="self-stretch">
           <div className="flex flex-col gap-2 text-left">
             <h4 className="pl-1">{t("chooseHouseHold")}</h4>
@@ -57,7 +64,7 @@ function UserHouseHoldList({
             </div>
           </div>
         </div>
-      )} */}
+      )}
       <div
         className="flex flex-col items-center gap-2 pb-18
       "
