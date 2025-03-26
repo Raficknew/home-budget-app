@@ -17,7 +17,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "./ui/sidebar";
-import { UserButton } from "@clerk/nextjs";
 import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
@@ -77,7 +76,7 @@ export function SideBarContent() {
           </Link>
         </SidebarMenuButton>
         <SidebarMenuButton asChild>
-          <UserButton />
+          <div>USER</div>
         </SidebarMenuButton>
       </SidebarFooter>
     </>
