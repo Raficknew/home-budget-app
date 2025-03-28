@@ -19,6 +19,7 @@ export async function insertHouseHold(
 
   const houseHold = await insertHouseHoldDB({
     ...data,
+    description: data.description != "" ? data.description : null,
     ownerId: session?.user.id,
   });
 

@@ -11,7 +11,7 @@ import { users } from "./user";
 export const HouseHoldTable = pgTable("houseHolds", {
   id,
   name: text().notNull(),
-  description: text().notNull(),
+  description: text(),
   ownerId: uuid()
     .references(() => users.id, { onDelete: "cascade" })
     .notNull(),
