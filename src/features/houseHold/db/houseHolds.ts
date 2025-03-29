@@ -1,21 +1,21 @@
 import { db } from "@/drizzle";
 import { HouseHoldTable, InviteTable, MembersTable } from "@/drizzle/schema";
 
-export async function insertHouseHold(
+export async function insertHousehold(
   data: typeof HouseHoldTable.$inferInsert
 ) {
-  const [newHouseHold] = await db
+  const [newHousehold] = await db
     .insert(HouseHoldTable)
     .values(data)
     .returning();
 
-  if (newHouseHold == null) throw new Error("failed to create household");
+  if (newHousehold == null) throw new Error("failed to create household");
 
   const [newMember] = await db
     .insert(MembersTable)
     .values({
-      houseHoldId: newHouseHold.id,
-      userId: newHouseHold.ownerId,
+      houseHoldId: newHousehold.id,
+      userId: newHousehold.ownerId,
       color: "#000000",
     })
     .returning();
@@ -25,11 +25,11 @@ export async function insertHouseHold(
   const [newInviteLink] = await db
     .insert(InviteTable)
     .values({
-      houseHoldId: newHouseHold.id,
+      houseHoldId: newHousehold.id,
     })
     .returning();
 
   if (newInviteLink == null) throw new Error("Failed to create invite");
 
-  return newHouseHold;
+  return newHousehold;
 }

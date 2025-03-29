@@ -19,9 +19,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { houseHoldSchema } from "../schema/houseHolds";
-import { insertHouseHold } from "../actions/houseHolds";
+
 import { useLocale, useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
+import { householdSchema } from "../schema/houseHolds";
+
+const householdGeneralFormSchema = householdSchema.pick({
+  name: true,
+  description: true,
+  currencyCode: true,
+});
+
+type HouseholdGeneralFormSchema = z.infer<typeof householdGeneralFormSchema>;
 
 export function HouseHoldForm({
   currencies,
@@ -29,9 +38,11 @@ export function HouseHoldForm({
   currencies: { code: string }[];
 }) {
   const locale = useLocale();
+  const router = useRouter();
   const t = useTranslations("CreateHouseHold");
-  const form = useForm<z.infer<typeof houseHoldSchema>>({
-    resolver: zodResolver(houseHoldSchema),
+
+  const form = useForm<HouseholdGeneralFormSchema>({
+    resolver: zodResolver(householdGeneralFormSchema),
     defaultValues: {
       name: "",
       description: "",
@@ -39,8 +50,9 @@ export function HouseHoldForm({
     },
   });
 
-  async function onSubmit(data: z.infer<typeof houseHoldSchema>) {
-    await insertHouseHold(data, locale);
+  function onSubmit(data: HouseholdGeneralFormSchema) {
+    console.log(data);
+    router.push(`/${locale}/create/balance`);
   }
 
   return (
@@ -108,7 +120,7 @@ export function HouseHoldForm({
             )}
           />
           <Button variant="submit" type="submit">
-            {t("submit")}
+            Next
           </Button>
         </form>
       </Form>
