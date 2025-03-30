@@ -22,7 +22,7 @@ import {
 
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { householdSchema } from "../schema/houseHolds";
+import { householdSchema } from "../schema/households";
 
 const householdGeneralFormSchema = householdSchema.pick({
   name: true,

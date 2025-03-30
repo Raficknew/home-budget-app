@@ -2,6 +2,7 @@ import { db } from "@/drizzle";
 import { HouseHoldTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { validate } from "uuid";
 
 export default async function HouseHoldPage({
   params,
@@ -23,10 +24,7 @@ export default async function HouseHoldPage({
 }
 
 function getHouseHold(id: string) {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-  if (!uuidRegex.test(id)) {
+  if (!validate(id)) {
     return null;
   }
 

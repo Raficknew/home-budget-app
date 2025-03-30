@@ -1,7 +1,7 @@
 "use client";
 
 import { z } from "zod";
-import { householdSchema } from "../schema/houseHolds";
+import { householdSchema } from "../schema/households";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLocale } from "next-intl";
@@ -34,6 +34,7 @@ export function HouseholdBalanceForm() {
   });
 
   function onSubmit(data: HouseholdBalanceFormSchema) {
+    data.balance = +data.balance;
     console.log(data);
     router.push(`/${locale}/create/members`);
   }
@@ -51,7 +52,16 @@ export function HouseholdBalanceForm() {
             <FormItem>
               <FormLabel>Balance</FormLabel>
               <FormControl>
-                <Input type="number" {...field} />
+                <Input
+                  onClick={(e) => {
+                    if (+(e.target as HTMLInputElement).value == 0) {
+                      (e.target as HTMLInputElement).value = "";
+                    }
+                  }}
+                  min={0}
+                  type="number"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

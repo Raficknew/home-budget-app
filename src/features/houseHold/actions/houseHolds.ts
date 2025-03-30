@@ -1,8 +1,8 @@
 "use server";
 import { z } from "zod";
-import { householdSchema } from "../schema/houseHolds";
+import { householdSchema } from "../schema/households";
 import { redirect } from "next/navigation";
-import { insertHousehold as insertHouseholdDB } from "../db/houseHolds";
+import { insertHousehold as insertHouseholdDB } from "../db/households";
 import { auth } from "@/lib/auth";
 
 export async function insertHousehold(
