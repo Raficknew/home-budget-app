@@ -6,6 +6,6 @@ export const getCurrencies = () => {
   return db.selectDistinct().from(CurrencyTable);
 };
 
-export const createUuid = () => {
+export const createUuid = (): string => {
   return uuidGenerate();
 };
