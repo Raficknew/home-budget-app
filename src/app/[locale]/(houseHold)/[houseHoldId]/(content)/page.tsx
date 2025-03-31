@@ -19,6 +19,19 @@ export default async function HouseHoldPage({
   return (
     <div className=" mx-6">
       <p>{houseHold.invite?.link}</p>
+      <p>{houseHold.currency.code}</p>
+      {houseHold.categories.map((category) => (
+        <div key={category.id}>
+          {category.name}
+          <div>
+            {category.transactions.map((t) => (
+              <div key={t.id}>
+                {t.name} {t.price}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -30,6 +43,14 @@ function getHouseHold(id: string) {
 
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
-    with: { invite: { columns: { link: true } } },
+    with: {
+      invite: { columns: { link: true } },
+      currency: { columns: { code: true } },
+      categories: {
+        with: {
+          transactions: { columns: { id: true, name: true, price: true } },
+        },
+      },
+    },
   });
 }

@@ -48,25 +48,26 @@ export function HouseholdMembersForm() {
 
   function handleSubmit(householdId: string, linkId: string) {
     if (
-      householdId &&
-      linkId &&
-      householdName &&
-      description &&
-      currencyCode &&
-      balance
+      !balance ||
+      !householdId ||
+      !currencyCode ||
+      description == null ||
+      !householdName
     ) {
-      insertHousehold(
-        {
-          householdId,
-          balance,
-          currencyCode,
-          description,
-          linkId,
-          name: householdName,
-        },
-        locale
-      );
+      return;
     }
+
+    insertHousehold(
+      {
+        householdId,
+        balance,
+        currencyCode,
+        description,
+        linkId,
+        name: householdName,
+      },
+      locale
+    );
   }
 
   return (

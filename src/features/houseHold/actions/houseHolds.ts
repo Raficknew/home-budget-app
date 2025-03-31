@@ -24,6 +24,7 @@ export async function insertHousehold(
       description: data.description != "" ? data.description : null,
       ownerId: session?.user.id,
     },
+    data.balance,
     data.linkId
   );
 

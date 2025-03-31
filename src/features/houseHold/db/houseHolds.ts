@@ -1,8 +1,15 @@
 import { db } from "@/drizzle";
-import { HouseHoldTable, InviteTable, MembersTable } from "@/drizzle/schema";
+import {
+  CategoryTable,
+  HouseHoldTable,
+  InviteTable,
+  MembersTable,
+  TransactionTable,
+} from "@/drizzle/schema";
 
 export async function insertHousehold(
   data: typeof HouseHoldTable.$inferInsert,
+  balance: number,
   linkId: string
 ) {
   const [newHousehold] = await db
@@ -32,6 +39,31 @@ export async function insertHousehold(
     .returning();
 
   if (newInviteLink == null) throw new Error("Failed to create invite");
+
+  const [newCategory] = await db
+    .insert(CategoryTable)
+    .values({
+      name: "First Category",
+      categoryType: "fixed",
+      houseHoldId: newHousehold.id,
+    })
+    .returning();
+
+  if (newCategory == null) throw new Error("Failed to create category");
+
+  const [newTransaction] = await db
+    .insert(TransactionTable)
+    .values({
+      categoryId: newCategory.id,
+      date: new Date(),
+      name: "First",
+      price: balance,
+      type: "income",
+      description: "added your balance",
+    })
+    .returning();
+
+  if (newTransaction == null) throw new Error("Failed to create balance");
 
   return newHousehold;
 }
