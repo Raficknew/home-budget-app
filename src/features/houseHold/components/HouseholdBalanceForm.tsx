@@ -16,6 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import { useCreateHouseHoldStore } from "@/app/[locale]/(houseHold)/create/store";
+import { useEffect } from "react";
 
 const householdBalanceFormSchema = householdSchema.pick({
   balance: true,
@@ -26,6 +28,12 @@ type HouseholdBalanceFormSchema = z.infer<typeof householdBalanceFormSchema>;
 export function HouseholdBalanceForm() {
   const locale = useLocale();
   const router = useRouter();
+
+  const householdName = useCreateHouseHoldStore((state) => state.name);
+  const currencyCode = useCreateHouseHoldStore((state) => state.currencyCode);
+
+  const setData = useCreateHouseHoldStore((state) => state.setData);
+
   const form = useForm<HouseholdBalanceFormSchema>({
     resolver: zodResolver(householdBalanceFormSchema),
     defaultValues: {
@@ -34,10 +42,22 @@ export function HouseholdBalanceForm() {
   });
 
   function onSubmit(data: HouseholdBalanceFormSchema) {
-    data.balance = +data.balance;
-    console.log(data);
+    setData(data);
     router.push(`/${locale}/create/members`);
   }
+
+  useEffect(() => {
+    if (!useCreateHouseHoldStore.persist.hasHydrated) return;
+
+    if (!householdName || !currencyCode) {
+      router.push("/create/general");
+    }
+  }, [
+    useCreateHouseHoldStore.persist.hasHydrated,
+    householdName,
+    currencyCode,
+    router,
+  ]);
 
   return (
     <Form {...form}>

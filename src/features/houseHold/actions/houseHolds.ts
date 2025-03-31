@@ -17,11 +17,15 @@ export async function insertHousehold(
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  const houseHold = await insertHouseholdDB({
-    ...data,
-    description: data.description != "" ? data.description : null,
-    ownerId: session?.user.id,
-  });
+  const houseHold = await insertHouseholdDB(
+    {
+      ...data,
+      id: data.householdId,
+      description: data.description != "" ? data.description : null,
+      ownerId: session?.user.id,
+    },
+    data.linkId
+  );
 
   redirect(`/${locale}/${houseHold.id}`);
 }

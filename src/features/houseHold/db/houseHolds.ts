@@ -2,7 +2,8 @@ import { db } from "@/drizzle";
 import { HouseHoldTable, InviteTable, MembersTable } from "@/drizzle/schema";
 
 export async function insertHousehold(
-  data: typeof HouseHoldTable.$inferInsert
+  data: typeof HouseHoldTable.$inferInsert,
+  linkId: string
 ) {
   const [newHousehold] = await db
     .insert(HouseHoldTable)
@@ -26,6 +27,7 @@ export async function insertHousehold(
     .insert(InviteTable)
     .values({
       houseHoldId: newHousehold.id,
+      link: linkId,
     })
     .returning();
 

@@ -23,6 +23,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { householdSchema } from "../schema/households";
+import { useCreateHouseHoldStore } from "@/app/[locale]/(houseHold)/create/store";
 
 const householdGeneralFormSchema = householdSchema.pick({
   name: true,
@@ -40,6 +41,7 @@ export function HouseHoldForm({
   const locale = useLocale();
   const router = useRouter();
   const t = useTranslations("CreateHouseHold");
+  const setData = useCreateHouseHoldStore((state) => state.setData);
 
   const form = useForm<HouseholdGeneralFormSchema>({
     resolver: zodResolver(householdGeneralFormSchema),
@@ -51,7 +53,7 @@ export function HouseHoldForm({
   });
 
   function onSubmit(data: HouseholdGeneralFormSchema) {
-    console.log(data);
+    setData(data);
     router.push(`/${locale}/create/balance`);
   }
 
