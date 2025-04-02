@@ -6,11 +6,11 @@ import {
   MembersTable,
   TransactionTable,
 } from "@/drizzle/schema";
+import { createUuid } from "@/global/functions";
 
 export async function insertHousehold(
   data: typeof HouseHoldTable.$inferInsert,
-  balance: number,
-  linkId: string
+  balance: number
 ) {
   const [newHousehold] = await db
     .insert(HouseHoldTable)
@@ -29,6 +29,8 @@ export async function insertHousehold(
     .returning();
 
   if (newMember == null) throw new Error("Failed to create member for owner");
+
+  const linkId = createUuid();
 
   const [newInviteLink] = await db
     .insert(InviteTable)

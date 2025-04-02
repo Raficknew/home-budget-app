@@ -78,7 +78,7 @@ async function UserHouseHoldList({
           className="rounded-full size-10 bg-background hover:bg-background hover:shadow hover:shadow-accent"
           asChild
         >
-          <Link href={`/${locale}/create/general`}>
+          <Link href={`/${locale}/create`}>
             <PlusIcon className="text-accent" />
           </Link>
         </Button>

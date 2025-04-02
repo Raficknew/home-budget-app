@@ -5,8 +5,6 @@ export const householdSchema = z.object({
   description: z.string().max(30),
   currencyCode: z.string().length(3),
   balance: z.coerce.number().min(0),
-  linkId: z.string().min(1),
-  householdId: z.string().min(1),
 });
 
 export type HouseHoldSchema = z.infer<typeof householdSchema>;

@@ -20,13 +20,11 @@ export async function insertHousehold(
   const houseHold = await insertHouseholdDB(
     {
       ...data,
-      id: data.householdId,
       description: data.description != "" ? data.description : null,
       ownerId: session?.user.id,
     },
-    data.balance,
-    data.linkId
+    data.balance
   );
 
-  redirect(`/${locale}/${houseHold.id}`);
+  redirect(`/${locale}/${houseHold.id}/edit`);
 }

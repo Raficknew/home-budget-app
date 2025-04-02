@@ -18,7 +18,6 @@ export default async function HouseHoldPage({
 
   return (
     <div className=" mx-6">
-      <p>{houseHold.invite?.link}</p>
       <p>{houseHold.currency.code}</p>
       {houseHold.categories.map((category) => (
         <div key={category.id}>
@@ -44,7 +43,6 @@ function getHouseHold(id: string) {
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
     with: {
-      invite: { columns: { link: true } },
       currency: { columns: { code: true } },
       categories: {
         with: {

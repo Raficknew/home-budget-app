@@ -21,17 +21,8 @@ import {
 } from "@/components/ui/select";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useRouter } from "next/navigation";
 import { householdSchema } from "../schema/households";
-import { useCreateHouseHoldStore } from "@/app/[locale]/(houseHold)/create/store";
-
-const householdGeneralFormSchema = householdSchema.pick({
-  name: true,
-  description: true,
-  currencyCode: true,
-});
-
-type HouseholdGeneralFormSchema = z.infer<typeof householdGeneralFormSchema>;
+import { insertHousehold } from "../actions/households";
 
 export function HouseHoldForm({
   currencies,
@@ -39,22 +30,20 @@ export function HouseHoldForm({
   currencies: { code: string }[];
 }) {
   const locale = useLocale();
-  const router = useRouter();
   const t = useTranslations("CreateHouseHold");
-  const setData = useCreateHouseHoldStore((state) => state.setData);
 
-  const form = useForm<HouseholdGeneralFormSchema>({
-    resolver: zodResolver(householdGeneralFormSchema),
+  const form = useForm<z.infer<typeof householdSchema>>({
+    resolver: zodResolver(householdSchema),
     defaultValues: {
       name: "",
       description: "",
       currencyCode: "",
+      balance: 0,
     },
   });
 
-  function onSubmit(data: HouseholdGeneralFormSchema) {
-    setData(data);
-    router.push(`/${locale}/create/balance`);
+  function onSubmit(data: z.infer<typeof householdSchema>) {
+    insertHousehold(data, locale);
   }
 
   return (
@@ -121,8 +110,30 @@ export function HouseHoldForm({
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="balance"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Balance</FormLabel>
+                <FormControl>
+                  <Input
+                    onClick={(e) => {
+                      if (+(e.target as HTMLInputElement).value == 0) {
+                        (e.target as HTMLInputElement).value = "";
+                      }
+                    }}
+                    min={0}
+                    type="number"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <Button variant="submit" type="submit">
-            Next
+            Utwórz
           </Button>
         </form>
       </Form>
