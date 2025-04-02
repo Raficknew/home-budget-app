@@ -22,7 +22,7 @@ import {
 
 import { useLocale, useTranslations } from "next-intl";
 import { householdSchema } from "../schema/households";
-import { insertHousehold } from "../actions/households";
+import { createHousehold } from "../actions/households";
 
 export function HouseHoldForm({
   currencies,
@@ -43,7 +43,7 @@ export function HouseHoldForm({
   });
 
   function onSubmit(data: z.infer<typeof householdSchema>) {
-    insertHousehold(data, locale);
+    createHousehold(data, locale);
   }
 
   return (

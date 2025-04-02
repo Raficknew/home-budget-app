@@ -2,10 +2,10 @@
 import { z } from "zod";
 import { householdSchema } from "../schema/households";
 import { redirect } from "next/navigation";
-import { insertHousehold as insertHouseholdDB } from "../db/households";
+import { insertHousehold } from "../db/households";
 import { auth } from "@/lib/auth";
 
-export async function insertHousehold(
+export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>,
   locale: string
 ) {
@@ -17,7 +17,7 @@ export async function insertHousehold(
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  const houseHold = await insertHouseholdDB(
+  const houseHold = await insertHousehold(
     {
       ...data,
       description: data.description != "" ? data.description : null,

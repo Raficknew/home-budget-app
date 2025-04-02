@@ -2,15 +2,15 @@ import { db } from "@/drizzle";
 import { HouseHoldTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
-import { validate } from "uuid";
+import { validate as validateUuid } from "uuid";
 
-export default async function HouseHoldPage({
+export default async function HouseholdPage({
   params,
 }: {
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
 }) {
-  const { houseHoldId } = await params;
-  const houseHold = await getHouseHold(houseHoldId);
+  const { householdId } = await params;
+  const houseHold = await getHouseHold(householdId);
 
   if (houseHold == null) {
     notFound();
@@ -36,7 +36,7 @@ export default async function HouseHoldPage({
 }
 
 function getHouseHold(id: string) {
-  if (!validate(id)) {
+  if (!validateUuid(id)) {
     return null;
   }
 

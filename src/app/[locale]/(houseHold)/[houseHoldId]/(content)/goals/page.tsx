@@ -1,3 +1,3 @@
-export default function GoalsPage() {
+export default function HouseholdGoalsPage() {
   return <div>Cele</div>;
 }

@@ -39,7 +39,7 @@ async function UserHouseHoldList({
 }) {
   const t = await getTranslations("HomePage");
 
-  const houseHolds = await getUserHouseHolds(user.id);
+  const houseHolds = await getUserHouseholds(user.id);
 
   return (
     <div className="flex flex-col justify-center grow items-center max-w-[400px] bg-card p-6 text-center rounded-sm gap-y-5 max-h-[480px] border-foreground border ">
@@ -87,7 +87,7 @@ async function UserHouseHoldList({
   );
 }
 
-const getUserHouseHolds = (userId: string) => {
+const getUserHouseholds = (userId: string) => {
   return db.query.MembersTable.findMany({
     where: eq(MembersTable.userId, userId),
     with: {

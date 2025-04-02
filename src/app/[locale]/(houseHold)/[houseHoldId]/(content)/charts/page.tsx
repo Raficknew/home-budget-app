@@ -1,3 +1,3 @@
-export default function ChartsPage() {
+export default function HouseholdChartsPage() {
   return <div>Wykresy pokazuje</div>;
 }

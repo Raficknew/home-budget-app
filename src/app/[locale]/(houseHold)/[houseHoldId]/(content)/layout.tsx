@@ -7,7 +7,7 @@ import {
 
 import { ReactNode } from "react";
 
-export default async function HouseHoldLayout({
+export default async function HouseholdLayout({
   children,
 }: Readonly<{
   children: ReactNode;
