@@ -4,7 +4,7 @@ import { HouseHoldTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
-export default async function JoinToHouseHoldPage({
+export default async function HouseholdJoinPage({
   params,
 }: {
   params: Promise<{ householdId: string; link: string }>;

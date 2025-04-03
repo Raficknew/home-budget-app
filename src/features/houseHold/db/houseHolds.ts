@@ -19,12 +19,14 @@ export async function insertHousehold(
 
   if (newHousehold == null) throw new Error("failed to create household");
 
+  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+
   const [newMember] = await db
     .insert(MembersTable)
     .values({
       houseHoldId: newHousehold.id,
       userId: newHousehold.ownerId,
-      color: "#000000",
+      color: `#${randomColor.padStart(6, "0")}`,
     })
     .returning();
 
