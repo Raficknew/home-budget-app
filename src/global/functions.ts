@@ -1,9 +1,25 @@
 import { db } from "@/drizzle";
-import { CurrencyTable } from "@/drizzle/schema";
+import { CategoryTable, CurrencyTable, MembersTable } from "@/drizzle/schema";
+import { eq } from "drizzle-orm";
 import { v4 as uuidGenerate } from "uuid";
 
 export const getCurrencies = () => {
   return db.selectDistinct().from(CurrencyTable);
+};
+
+export const getMembers = (id: string) => {
+  return db.query.MembersTable.findMany({
+    where: eq(MembersTable.houseHoldId, id),
+    columns: { id: true, name: true },
+    with: { user: { columns: { id: true, name: true } } },
+  });
+};
+
+export const getCategoriesIdsAndNames = (id: string) => {
+  return db.query.CategoryTable.findMany({
+    where: eq(CategoryTable.houseHoldId, id),
+    columns: { id: true, name: true },
+  });
 };
 
 export const createUuid = (): string => {
