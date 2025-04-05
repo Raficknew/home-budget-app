@@ -18,17 +18,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { useLocale, useTranslations } from "next-intl";
-import { HouseHoldSchema, householdSchema } from "../schema/households";
+import { useTranslations } from "next-intl";
 import { createHousehold } from "../actions/houseHolds";
+import { householdSchema, HouseHoldSchema } from "../schema/houseHolds";
 
 export function HouseHoldForm({
   currencies,
 }: {
   currencies: { code: string }[];
 }) {
-  const locale = useLocale();
   const t = useTranslations("CreateHouseHold");
 
   const form = useForm<HouseHoldSchema>({
@@ -42,7 +40,7 @@ export function HouseHoldForm({
   });
 
   function onSubmit(data: HouseHoldSchema) {
-    createHousehold(data, locale);
+    createHousehold(data);
   }
 
   return (

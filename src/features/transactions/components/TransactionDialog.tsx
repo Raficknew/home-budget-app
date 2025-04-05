@@ -13,12 +13,13 @@ export async function TransactionDialog({
   const members = await getMembers(householdId);
   const categories = await getCategoriesIdsAndNames(householdId);
   return (
-    <Dialog defaultOpen>
+    <Dialog>
       <DialogTrigger>Dodaj</DialogTrigger>
       <DialogContent>
         <DialogTitle></DialogTitle>
         <DialogDescription></DialogDescription>
         <TransactionForm
+          householdId={householdId}
           categories={categories}
           members={members}
           defaultTransaction={defaultTransaction}

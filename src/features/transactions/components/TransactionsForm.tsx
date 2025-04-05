@@ -30,10 +30,12 @@ import { useForm } from "react-hook-form";
 import { transactionsSchema } from "../schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
+import { createTransaction } from "../actions/transactions";
+import { DialogClose } from "@/components/ui/dialog";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
-  data: true,
+  date: true,
   name: true,
   price: true,
   membersIds: true,
@@ -56,12 +58,14 @@ export function TransactionForm({
   defaultTransaction,
   members,
   categories,
+  householdId,
 }: {
-  defaultTransaction: string;
+  defaultTransaction?: string;
   members: Member[];
   categories: Category[];
+  householdId: string;
 }) {
-  const [transaction, setTransaction] = useState(defaultTransaction);
+  const [transaction, setTransaction] = useState(defaultTransaction ?? "");
   const form = useForm<TranscationFormSchema>({
     resolver: zodResolver(transcationFormSchema),
     defaultValues: {
@@ -74,7 +78,7 @@ export function TransactionForm({
   });
 
   function onSubmit(data: TranscationFormSchema) {
-    console.log(data, transaction);
+    createTransaction({ ...data, type: transaction }, householdId);
   }
 
   const handleTransactionTypeChange = (type: string) => {
@@ -144,7 +148,7 @@ export function TransactionForm({
           )}
         />
         <div className="flex gap-2">
-          <div className="w-3/4">
+          <div className="w-full">
             <FormField
               control={form.control}
               name="membersIds"
@@ -173,17 +177,17 @@ export function TransactionForm({
               )}
             />
           </div>
-          <div className="w-1/4">
+          <div>
             <FormField
               control={form.control}
               name="date"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Data</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
-                        <Button variant={"outline"}>
+                        <Button className="w-[110px]" variant={"outline"}>
                           {dayjs(field.value).format("DD/MM/YYYY")}
                         </Button>
                       </FormControl>
@@ -208,7 +212,7 @@ export function TransactionForm({
           name="categoryId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Konto</FormLabel>
+              <FormLabel>Kategoria</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
@@ -230,10 +234,12 @@ export function TransactionForm({
             </FormItem>
           )}
         />
-        <div className="w-full flex justify-center">
-          <Button variant="submit" type="submit">
-            Utwórz
-          </Button>
+        <div className="w-full flex justify-center ">
+          <DialogClose asChild>
+            <Button variant="submit" type="submit">
+              Zapisz
+            </Button>
+          </DialogClose>
         </div>
       </form>
     </Form>
