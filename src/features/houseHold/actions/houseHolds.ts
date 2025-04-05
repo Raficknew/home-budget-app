@@ -1,15 +1,15 @@
 "use server";
 import { z } from "zod";
-import { houseHoldSchema } from "../schema/houseHolds";
+import { householdSchema } from "../schema/households";
 import { redirect } from "next/navigation";
-import { insertHouseHold as insertHouseHoldDB } from "../db/houseHolds";
+import { insertHousehold } from "../db/households";
 import { auth } from "@/lib/auth";
 
-export async function insertHouseHold(
-  unsafeData: z.infer<typeof houseHoldSchema>,
+export async function createHousehold(
+  unsafeData: z.infer<typeof householdSchema>,
   locale: string
 ) {
-  const { success, data } = houseHoldSchema.safeParse(unsafeData);
+  const { success, data } = householdSchema.safeParse(unsafeData);
 
   if (!success) throw new Error("Failed to create Household");
 
@@ -17,11 +17,14 @@ export async function insertHouseHold(
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  const houseHold = await insertHouseHoldDB({
-    ...data,
-    description: data.description != "" ? data.description : null,
-    ownerId: session?.user.id,
-  });
+  const houseHold = await insertHousehold(
+    {
+      ...data,
+      description: data.description != "" ? data.description : null,
+      ownerId: session?.user.id,
+    },
+    data.balance
+  );
 
-  redirect(`/${locale}/${houseHold.id}`);
+  redirect(`/${locale}/${houseHold.id}/edit`);
 }

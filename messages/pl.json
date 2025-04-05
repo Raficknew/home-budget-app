@@ -33,6 +33,9 @@
       "label": "Waluta",
       "placeholder": "Wybierz walutę"
     },
+    "balance": {
+      "label": "Saldo"
+    },
     "submit": "Utwórz"
   },
   "JoinPage": {

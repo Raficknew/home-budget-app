@@ -19,9 +19,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { houseHoldSchema } from "../schema/houseHolds";
-import { insertHouseHold } from "../actions/houseHolds";
+
 import { useLocale, useTranslations } from "next-intl";
+import { householdSchema } from "../schema/households";
+import { createHousehold } from "../actions/households";
 
 export function HouseHoldForm({
   currencies,
@@ -30,17 +31,19 @@ export function HouseHoldForm({
 }) {
   const locale = useLocale();
   const t = useTranslations("CreateHouseHold");
-  const form = useForm<z.infer<typeof houseHoldSchema>>({
-    resolver: zodResolver(houseHoldSchema),
+
+  const form = useForm<z.infer<typeof householdSchema>>({
+    resolver: zodResolver(householdSchema),
     defaultValues: {
       name: "",
       description: "",
       currencyCode: "",
+      balance: 0,
     },
   });
 
-  async function onSubmit(data: z.infer<typeof houseHoldSchema>) {
-    await insertHouseHold(data, locale);
+  function onSubmit(data: z.infer<typeof householdSchema>) {
+    createHousehold(data, locale);
   }
 
   return (
@@ -102,6 +105,28 @@ export function HouseHoldForm({
                       ))}
                     </SelectContent>
                   </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="balance"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{t("balance.label")}</FormLabel>
+                <FormControl>
+                  <Input
+                    onClick={(e) => {
+                      if (+(e.target as HTMLInputElement).value == 0) {
+                        (e.target as HTMLInputElement).value = "";
+                      }
+                    }}
+                    min={0}
+                    type="number"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

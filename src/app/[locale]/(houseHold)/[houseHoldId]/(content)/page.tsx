@@ -2,14 +2,15 @@ import { db } from "@/drizzle";
 import { HouseHoldTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { validate as validateUuid } from "uuid";
 
-export default async function HouseHoldPage({
+export default async function HouseholdPage({
   params,
 }: {
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
 }) {
-  const { houseHoldId } = await params;
-  const houseHold = await getHouseHold(houseHoldId);
+  const { householdId } = await params;
+  const houseHold = await getHouseHold(householdId);
 
   if (houseHold == null) {
     notFound();
@@ -17,21 +18,37 @@ export default async function HouseHoldPage({
 
   return (
     <div className=" mx-6">
-      <p>{houseHold.invite?.link}</p>
+      <p>{houseHold.currency.code}</p>
+      {houseHold.categories.map((category) => (
+        <div key={category.id}>
+          {category.name}
+          <div>
+            {category.transactions.map((t) => (
+              <div key={t.id}>
+                {t.name} {t.price}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
 
 function getHouseHold(id: string) {
-  const uuidRegex =
-    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-
-  if (!uuidRegex.test(id)) {
+  if (!validateUuid(id)) {
     return null;
   }
 
   return db.query.HouseHoldTable.findFirst({
     where: eq(HouseHoldTable.id, id),
-    with: { invite: { columns: { link: true } } },
+    with: {
+      currency: { columns: { code: true } },
+      categories: {
+        with: {
+          transactions: { columns: { id: true, name: true, price: true } },
+        },
+      },
+    },
   });
 }
