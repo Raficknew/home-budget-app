@@ -120,7 +120,7 @@ export function TransactionForm({
                 <TransactionType
                   className={
                     transaction == t
-                      ? "bg-[#7047EB] hover:bg-[#7047EB] text-foreground"
+                      ? "bg-accent hover:bg-accent text-foreground"
                       : ""
                   }
                   change={
