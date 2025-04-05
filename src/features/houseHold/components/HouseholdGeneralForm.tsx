@@ -115,7 +115,7 @@ export function HouseHoldForm({
             name="balance"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Balance</FormLabel>
+                <FormLabel>{t("balance.label")}</FormLabel>
                 <FormControl>
                   <Input
                     onClick={(e) => {
@@ -133,7 +133,7 @@ export function HouseHoldForm({
             )}
           />
           <Button variant="submit" type="submit">
-            Utwórz
+            {t("submit")}
           </Button>
         </form>
       </Form>

@@ -33,6 +33,9 @@
       "label": "Currency",
       "placeholder": "Choose Currency"
     },
+    "balance": {
+      "label": "Balance"
+    },
     "submit": "Create"
   },
   "JoinPage": {
