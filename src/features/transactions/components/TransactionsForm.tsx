@@ -78,6 +78,8 @@ export function TransactionForm({
 
   function onSubmit(data: TranscationFormSchema) {
     createTransaction({ ...data, type: transaction }, householdId);
+    form.resetField("name");
+    form.resetField("price");
   }
 
   const handleTransactionTypeChange = (type: string) => {
@@ -233,12 +235,9 @@ export function TransactionForm({
             </FormItem>
           )}
         />
-        <div className="inline-grid md:grid-cols-2 xs:grid-cols-1 w-full gap-6 px-10 pt-3.5">
+        <div className="flex justify-center pt-3.5">
           <Button variant="submit" type="submit">
-            Zapisz
-          </Button>
-          <Button variant="submit" type="submit">
-            Dodaj następny
+            Dodaj
           </Button>
         </div>
       </form>
