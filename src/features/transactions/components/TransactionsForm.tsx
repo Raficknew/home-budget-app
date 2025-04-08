@@ -31,7 +31,6 @@ import { transactionsSchema } from "../schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { createTransaction } from "../actions/transactions";
-import { DialogClose } from "@/components/ui/dialog";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
@@ -60,7 +59,7 @@ export function TransactionForm({
   categories,
   householdId,
 }: {
-  defaultTransaction?: string;
+  defaultTransaction: string;
   members: Member[];
   categories: Category[];
   householdId: string;
@@ -114,8 +113,8 @@ export function TransactionForm({
             />
           </div>
           <div className="flex flex-col gap-2">
-            <FormLabel className="grow">Transakcja</FormLabel>
-            <div className="flex gap-2">
+            <FormLabel className="opacity-0">t</FormLabel>
+            <div className="inline-grid md:grid-cols-2 xs:grid-cols-1 gap-2">
               {transactionType.map((t) => (
                 <TransactionType
                   className={
@@ -187,7 +186,7 @@ export function TransactionForm({
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
-                        <Button className="w-[110px]" variant={"outline"}>
+                        <Button className="w-[140px]" variant="datePicker">
                           {dayjs(field.value).format("DD/MM/YYYY")}
                         </Button>
                       </FormControl>
@@ -234,12 +233,13 @@ export function TransactionForm({
             </FormItem>
           )}
         />
-        <div className="w-full flex justify-center ">
-          <DialogClose asChild>
-            <Button variant="submit" type="submit">
-              Zapisz
-            </Button>
-          </DialogClose>
+        <div className="inline-grid md:grid-cols-2 xs:grid-cols-1 w-full gap-6 px-10 pt-3.5">
+          <Button variant="submit" type="submit">
+            Zapisz
+          </Button>
+          <Button variant="submit" type="submit">
+            Dodaj następny
+          </Button>
         </div>
       </form>
     </Form>
@@ -258,7 +258,7 @@ function TransactionType({
   return (
     <Button
       className={cn(
-        "bg-[#222222] hover:bg-[#747474] text-muted-foreground hover:text-foreground",
+        "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-6",
         className
       )}
       type="button"

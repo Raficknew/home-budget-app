@@ -6,6 +6,7 @@ import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { insertTransaction } from "../db/transactions";
+import { revalidatePath } from "next/cache";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
@@ -32,5 +33,6 @@ export async function createTransaction(
 
   const locale = await getLocale();
 
+  revalidatePath(`/${locale}/${householdId}`);
   redirect(`/${locale}/${householdId}`);
 }

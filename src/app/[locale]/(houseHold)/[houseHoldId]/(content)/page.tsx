@@ -21,8 +21,8 @@ export default async function HouseholdPage({
     <div className=" mx-6">
       <p>{houseHold.currency.code}</p>
       <TransactionDialog
+        defaultTransaction="expense"
         householdId={householdId}
-        defaultTransaction="income"
       />
       {houseHold.categories.map((category) => (
         <div key={category.id}>
