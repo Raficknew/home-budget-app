@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const transactionsSchema = z.object({
   price: z.coerce.number().min(0),
-  type: z.enum(["income", "expense"]),
+  type: z.string().min(1),
   name: z.string().min(3),
   membersIds: z.string().min(1),
   date: z.date(),

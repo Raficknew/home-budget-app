@@ -31,7 +31,6 @@ import { transactionsSchema } from "../schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { createTransaction } from "../actions/transactions";
-import { PopoverClose } from "@radix-ui/react-popover";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
