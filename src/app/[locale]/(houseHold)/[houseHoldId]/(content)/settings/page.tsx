@@ -12,8 +12,7 @@ export default async function HouseholdEditPage({
 
   if (household == null) notFound();
 
-  const domain = await env.FRONTEND_URL;
+  const link = `${env.FRONTEND_URL}/${householdId}/${household?.invite?.link}`;
 
-  const link = `http://${domain}/${householdId}/${household?.invite?.link}`;
   return <div>{link}</div>;
 }

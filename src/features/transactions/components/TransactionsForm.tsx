@@ -11,8 +11,6 @@ import {
 import { transactionType } from "@/drizzle/schema";
 import { useState } from "react";
 import { z } from "zod";
-
-import dayjs from "dayjs";
 import {
   Form,
   FormControl,
@@ -33,6 +31,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { useSession } from "next-auth/react";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
@@ -67,13 +67,14 @@ export function TransactionForm({
   householdId: string;
 }) {
   const ts = useTranslations("CreateTransaction");
+  const session = useSession();
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
   const form = useForm<TranscationFormSchema>({
     resolver: zodResolver(transcationFormSchema),
     defaultValues: {
       price: 0,
       name: "",
-      membersIds: members[0]?.id,
+      membersIds: session.data?.user.id ?? "",
       date: new Date(),
       categoryId: "",
     },
@@ -84,10 +85,6 @@ export function TransactionForm({
     form.resetField("name");
     form.resetField("price");
   }
-
-  const handleTransactionTypeChange = (type: string) => {
-    setTransaction(type);
-  };
 
   return (
     <Form {...form}>
@@ -121,16 +118,18 @@ export function TransactionForm({
             <FormLabel className="opacity-0">t</FormLabel>
             <div className="flex gap-2 justify-center">
               {transactionType.map((t) => (
-                <TransactionType
-                  className={
-                    transaction == t
-                      ? "bg-accent hover:bg-accent text-foreground"
-                      : ""
-                  }
-                  onClick={() => handleTransactionTypeChange(t)}
+                <Button
                   key={t}
-                  title={ts(`transactionTypes.${t}`)}
-                />
+                  className={cn(
+                    "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
+                    transaction == t &&
+                      "bg-accent hover:bg-accent text-foreground"
+                  )}
+                  type="button"
+                  onClick={() => setTransaction(t)}
+                >
+                  {ts(`transactionTypes.${t}`)}
+                </Button>
               ))}
             </div>
           </div>
@@ -187,7 +186,7 @@ export function TransactionForm({
                     <PopoverTrigger asChild>
                       <FormControl>
                         <Button className="w-[140px]" variant="datePicker">
-                          {dayjs(field.value).format("DD/MM/YYYY")}
+                          {format(field.value, "dd/MM/yyyy")}
                         </Button>
                       </FormControl>
                     </PopoverTrigger>
@@ -240,28 +239,5 @@ export function TransactionForm({
         </div>
       </form>
     </Form>
-  );
-}
-
-function TransactionType({
-  title,
-  onClick,
-  className,
-}: {
-  title: string;
-  onClick: () => void;
-  className?: string;
-}) {
-  return (
-    <Button
-      className={cn(
-        "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
-        className
-      )}
-      type="button"
-      onClick={onClick}
-    >
-      {title}
-    </Button>
   );
 }
