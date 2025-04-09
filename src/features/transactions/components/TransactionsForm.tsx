@@ -88,9 +88,9 @@ export function TransactionForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <div className="flex justify-center items-center gap-2">
-          <div className="w-3/4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+        <div className="flex justify-center items-center gap-2 w-full sm:flex-nowrap sm:flex-row flex-col-reverse flex-wrap">
+          <div className="w-full">
             <FormField
               control={form.control}
               name="price"
@@ -116,7 +116,7 @@ export function TransactionForm({
           </div>
           <div className="flex flex-col gap-2">
             <FormLabel className="opacity-0">t</FormLabel>
-            <div className="inline-grid md:grid-cols-2 xs:grid-cols-1 gap-2">
+            <div className="flex gap-2 justify-center">
               {transactionType.map((t) => (
                 <TransactionType
                   className={
@@ -257,7 +257,7 @@ function TransactionType({
   return (
     <Button
       className={cn(
-        "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-6",
+        "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
         className
       )}
       type="button"

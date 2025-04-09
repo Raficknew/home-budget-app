@@ -14,7 +14,7 @@ export async function TransactionDialog({
   const categories = await getCategoriesIdsAndNames(householdId);
   return (
     <Dialog>
-      <DialogTrigger>Dodaj</DialogTrigger>
+      <DialogTrigger className="md:block hidden">Dodaj</DialogTrigger>
       <DialogContent>
         <DialogTitle></DialogTitle>
         <DialogDescription></DialogDescription>

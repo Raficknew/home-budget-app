@@ -17,8 +17,8 @@ export async function insertTransaction(
   const [newTransactionMember] = await db
     .insert(TransactionMembersTable)
     .values({
-      memberId,
       transactionId: newTransaction.id,
+      memberId,
     })
     .returning();
 

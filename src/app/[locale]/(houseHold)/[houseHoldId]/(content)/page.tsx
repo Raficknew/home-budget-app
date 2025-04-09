@@ -1,6 +1,7 @@
 import { db } from "@/drizzle";
 import { HouseHoldTable } from "@/drizzle/schema";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
+import { TransactionMobileDialog } from "@/features/transactions/components/TransactionMobileDialog";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { validate as validateUuid } from "uuid";
@@ -20,10 +21,16 @@ export default async function HouseholdPage({
   return (
     <div className=" mx-6">
       <p>{houseHold.currency.code}</p>
-      <TransactionDialog
-        defaultTransaction="expense"
-        householdId={householdId}
-      />
+      <div>
+        <TransactionDialog
+          defaultTransaction="expense"
+          householdId={householdId}
+        />
+        <TransactionMobileDialog
+          defaultTransaction="expense"
+          householdId={householdId}
+        />
+      </div>
       {houseHold.categories.map((category) => (
         <div key={category.id}>
           {category.name}
