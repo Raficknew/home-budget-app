@@ -16,8 +16,8 @@ export async function TransactionDialog({
     <Dialog>
       <DialogTrigger className="md:block hidden">Dodaj</DialogTrigger>
       <DialogContent>
-        <DialogTitle></DialogTitle>
-        <DialogDescription></DialogDescription>
+        <DialogTitle className="hidden"></DialogTitle>
+        <DialogDescription className="hidden"></DialogDescription>
         <TransactionForm
           householdId={householdId}
           categories={categories}

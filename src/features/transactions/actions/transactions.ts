@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { insertTransaction } from "../db/transactions";
 import { revalidatePath } from "next/cache";
+import { TransactionType } from "@/drizzle/schema";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
@@ -26,7 +27,7 @@ export async function createTransaction(
       categoryId: data.categoryId,
       date: data.date,
       price: data.price,
-      type: data.type,
+      type: data.type as TransactionType,
     },
     data.membersIds
   );

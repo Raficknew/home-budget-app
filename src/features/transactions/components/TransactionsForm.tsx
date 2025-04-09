@@ -31,6 +31,7 @@ import { transactionsSchema } from "../schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { createTransaction } from "../actions/transactions";
+import { useTranslations } from "next-intl";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
@@ -64,6 +65,7 @@ export function TransactionForm({
   categories: Category[];
   householdId: string;
 }) {
+  const ts = useTranslations("CreateTransaction");
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
   const form = useForm<TranscationFormSchema>({
     resolver: zodResolver(transcationFormSchema),
@@ -96,7 +98,7 @@ export function TransactionForm({
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Kwota</FormLabel>
+                  <FormLabel>{ts("price")}</FormLabel>
                   <FormControl>
                     <Input
                       onClick={(e) => {
@@ -124,11 +126,9 @@ export function TransactionForm({
                       ? "bg-accent hover:bg-accent text-foreground"
                       : ""
                   }
-                  change={
-                    transaction !== t ? handleTransactionTypeChange : () => {}
-                  }
+                  onClick={() => handleTransactionTypeChange(t)}
                   key={t}
-                  title={t}
+                  title={ts(`transactionTypes.${t}`)}
                 />
               ))}
             </div>
@@ -140,9 +140,9 @@ export function TransactionForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nazwa</FormLabel>
+              <FormLabel>{ts("name.label")}</FormLabel>
               <FormControl>
-                <Input placeholder="Wpisz nazwę" {...field} />
+                <Input placeholder={ts("name.placeholder")} {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -155,7 +155,7 @@ export function TransactionForm({
               name="membersIds"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Konto</FormLabel>
+                  <FormLabel>{ts("member")}</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-full">
@@ -181,7 +181,7 @@ export function TransactionForm({
               name="date"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data</FormLabel>
+                  <FormLabel>{ts("dateLabel")}</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>
@@ -210,14 +210,14 @@ export function TransactionForm({
           name="categoryId"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Kategoria</FormLabel>
+              <FormLabel>{ts("category.label")}</FormLabel>
               <FormControl>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Wybierz" />
+                    <SelectValue placeholder={ts("category.placeholder")} />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category) => (
@@ -234,7 +234,7 @@ export function TransactionForm({
         />
         <div className="flex justify-center pt-3.5">
           <Button variant="submit" type="submit">
-            Dodaj
+            {ts("submit")}
           </Button>
         </div>
       </form>
@@ -244,11 +244,11 @@ export function TransactionForm({
 
 function TransactionType({
   title,
-  change,
+  onClick,
   className,
 }: {
   title: string;
-  change: (t: string) => void;
+  onClick: () => void;
   className?: string;
 }) {
   return (
@@ -258,7 +258,7 @@ function TransactionType({
         className
       )}
       type="button"
-      onClick={() => change(title)}
+      onClick={onClick}
     >
       {title}
     </Button>
