@@ -74,9 +74,9 @@ export function TransactionForm({
     defaultValues: {
       price: 0,
       name: "",
-      membersIds: session.data?.user.id ?? "",
+      membersIds: session.data?.user.id ?? undefined,
       date: new Date(),
-      categoryId: "",
+      categoryId: undefined,
     },
   });
 
