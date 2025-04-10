@@ -1,7 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -19,20 +18,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-
-import { useLocale, useTranslations } from "next-intl";
-import { householdSchema } from "../schema/households";
-import { createHousehold } from "../actions/households";
+import { useTranslations } from "next-intl";
+import { createHousehold } from "../actions/houseHolds";
+import { householdSchema, HouseHoldSchema } from "../schema/houseHolds";
 
 export function HouseHoldForm({
   currencies,
 }: {
   currencies: { code: string }[];
 }) {
-  const locale = useLocale();
   const t = useTranslations("CreateHouseHold");
 
-  const form = useForm<z.infer<typeof householdSchema>>({
+  const form = useForm<HouseHoldSchema>({
     resolver: zodResolver(householdSchema),
     defaultValues: {
       name: "",
@@ -42,8 +39,8 @@ export function HouseHoldForm({
     },
   });
 
-  function onSubmit(data: z.infer<typeof householdSchema>) {
-    createHousehold(data, locale);
+  function onSubmit(data: HouseHoldSchema) {
+    createHousehold(data);
   }
 
   return (

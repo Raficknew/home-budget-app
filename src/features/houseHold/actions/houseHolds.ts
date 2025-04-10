@@ -1,13 +1,13 @@
 "use server";
 import { z } from "zod";
-import { householdSchema } from "../schema/households";
 import { redirect } from "next/navigation";
-import { insertHousehold } from "../db/households";
 import { auth } from "@/lib/auth";
+import { insertHousehold } from "../db/houseHolds";
+import { householdSchema } from "../schema/houseHolds";
+import { getLocale } from "next-intl/server";
 
 export async function createHousehold(
-  unsafeData: z.infer<typeof householdSchema>,
-  locale: string
+  unsafeData: z.infer<typeof householdSchema>
 ) {
   const { success, data } = householdSchema.safeParse(unsafeData);
 
@@ -25,6 +25,8 @@ export async function createHousehold(
     },
     data.balance
   );
+
+  const locale = getLocale();
 
   redirect(`/${locale}/${houseHold.id}/edit`);
 }

@@ -40,5 +40,23 @@
   },
   "JoinPage": {
     "title": "Dołącz"
+  },
+  "CreateTransaction": {
+    "price": "Kwota",
+    "transactionTypes": {
+      "income": "Przychód",
+      "expense": "Wydatek"
+    },
+    "name": {
+      "label": "Nazwa",
+      "placeholder": "Paliwo"
+    },
+    "member": "Użytkownik",
+    "dateLabel": "Date",
+    "category": {
+      "label": "Kategoria",
+      "placeholder": "Wybierz"
+    },
+    "submit": "Dodaj"
   }
 }

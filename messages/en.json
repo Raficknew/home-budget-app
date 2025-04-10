@@ -40,5 +40,23 @@
   },
   "JoinPage": {
     "title": "Join"
+  },
+  "CreateTransaction": {
+    "price": "Price",
+    "transactionTypes": {
+      "income": "Income",
+      "expense": "Expense"
+    },
+    "name": {
+      "label": "Name",
+      "placeholder": "Gas"
+    },
+    "member": "Member",
+    "dateLabel": "Date",
+    "category": {
+      "label": "Category",
+      "placeholder": "Choose"
+    },
+    "submit": "Add"
   }
 }
