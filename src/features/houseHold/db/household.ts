@@ -6,12 +6,17 @@ import {
   MembersTable,
   TransactionTable,
 } from "@/drizzle/schema";
-import { createUuid } from "@/global/functions";
+import { createUuid, generateRandomColor } from "@/global/functions";
+import { auth } from "@/lib/auth";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
   balance: number
 ) {
+  const session = await auth();
+
+  if (!session) throw new Error("failed while createing Household");
+
   const [newHousehold] = await db
     .insert(HouseholdTable)
     .values(data)
@@ -19,14 +24,15 @@ export async function insertHousehold(
 
   if (newHousehold == null) throw new Error("failed to create household");
 
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+  const randomColor = generateRandomColor();
 
   const [newMember] = await db
     .insert(MembersTable)
     .values({
+      name: session.user.name,
       householdId: newHousehold.id,
       userId: newHousehold.ownerId,
-      color: `#${randomColor.padStart(6, "0")}`,
+      color: randomColor,
     })
     .returning();
 
