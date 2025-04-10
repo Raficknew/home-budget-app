@@ -18,7 +18,6 @@ export const transactionTypeEnum = pgEnum("transaction_type", transactionType);
 export const TransactionTable = pgTable("transactions", {
   id,
   name: text().notNull(),
-  description: text(),
   type: transactionTypeEnum().notNull(),
   categoryId: uuid()
     .notNull()

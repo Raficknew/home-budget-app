@@ -9,7 +9,7 @@ export const getCurrencies = () => {
 
 export const getMembers = (id: string) => {
   return db.query.MembersTable.findMany({
-    where: eq(MembersTable.houseHoldId, id),
+    where: eq(MembersTable.householdId, id),
     columns: { id: true, name: true },
     with: { user: { columns: { id: true, name: true } } },
   });
@@ -17,7 +17,7 @@ export const getMembers = (id: string) => {
 
 export const getCategoriesIdsAndNames = (id: string) => {
   return db.query.CategoryTable.findMany({
-    where: eq(CategoryTable.houseHoldId, id),
+    where: eq(CategoryTable.householdId, id),
     columns: { id: true, name: true },
   });
 };

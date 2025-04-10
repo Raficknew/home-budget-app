@@ -8,8 +8,8 @@
   "HomePage": {
     "welcome": "Witaj!",
     "or": "LUB",
-    "createHouseHold": "Utwórz nowe gospodarstwo",
-    "chooseHouseHold": "Wybierz gospodarstwo",
+    "createHousehold": "Utwórz nowe gospodarstwo",
+    "chooseHousehold": "Wybierz gospodarstwo",
     "user": "Użytkownik"
   },
   "Sidebar": {
@@ -19,7 +19,7 @@
     "charts": "Wykresy",
     "settings": "Ustawienia"
   },
-  "CreateHouseHold": {
+  "CreateHousehold": {
     "title": "Utwórz nowe gospodarstwo",
     "name": {
       "label": "Nazwa",

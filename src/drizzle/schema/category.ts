@@ -1,7 +1,7 @@
 import { pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
-import { HouseHoldTable } from "./houseHold";
 import { relations } from "drizzle-orm";
+import { HouseholdTable } from "./household";
 import { TransactionTable } from "./transactions";
 
 export const categoriesOfExpanse = [
@@ -20,9 +20,9 @@ export const CategoryTable = pgTable("categories", {
   id,
   name: text().notNull(),
   categoryType: categoryOfExpanseEnum().notNull(),
-  houseHoldId: uuid()
+  householdId: uuid()
     .notNull()
-    .references(() => HouseHoldTable.id, { onDelete: "cascade" }),
+    .references(() => HouseholdTable.id, { onDelete: "cascade" }),
   createdAt,
   updatedAt,
 });
@@ -30,9 +30,9 @@ export const CategoryTable = pgTable("categories", {
 export const CategoryRelationships = relations(
   CategoryTable,
   ({ one, many }) => ({
-    houseHold: one(HouseHoldTable, {
-      fields: [CategoryTable.houseHoldId],
-      references: [HouseHoldTable.id],
+    household: one(HouseholdTable, {
+      fields: [CategoryTable.householdId],
+      references: [HouseholdTable.id],
     }),
     transactions: many(TransactionTable),
   })

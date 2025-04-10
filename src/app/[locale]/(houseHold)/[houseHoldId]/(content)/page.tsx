@@ -1,5 +1,5 @@
 import { db } from "@/drizzle";
-import { HouseHoldTable } from "@/drizzle/schema";
+import { HouseholdTable } from "@/drizzle/schema";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
 import { TransactionMobileDialog } from "@/features/transactions/components/TransactionMobileDialog";
 import { eq } from "drizzle-orm";
@@ -12,15 +12,15 @@ export default async function HouseholdPage({
   params: Promise<{ householdId: string }>;
 }) {
   const { householdId } = await params;
-  const houseHold = await getHouseHold(householdId);
+  const household = await getHousehold(householdId);
 
-  if (houseHold == null) {
+  if (household == null) {
     notFound();
   }
 
   return (
     <div className=" mx-6">
-      <p>{houseHold.currency.code}</p>
+      <p>{household.currency.code}</p>
       <div>
         <TransactionDialog
           defaultTransaction="expense"
@@ -31,7 +31,7 @@ export default async function HouseholdPage({
           householdId={householdId}
         />
       </div>
-      {houseHold.categories.map((category) => (
+      {household.categories.map((category) => (
         <div key={category.id}>
           {category.name}
           <div>
@@ -47,13 +47,13 @@ export default async function HouseholdPage({
   );
 }
 
-function getHouseHold(id: string) {
+function getHousehold(id: string) {
   if (!validateUuid(id)) {
     return null;
   }
 
-  return db.query.HouseHoldTable.findFirst({
-    where: eq(HouseHoldTable.id, id),
+  return db.query.HouseholdTable.findFirst({
+    where: eq(HouseholdTable.id, id),
     with: {
       currency: { columns: { code: true } },
       categories: {

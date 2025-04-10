@@ -1,16 +1,16 @@
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
-import { HouseHoldTable } from "./houseHold";
+import { HouseholdTable } from "./household";
 import { users } from "./user";
 
 export const MembersTable = pgTable("members", {
   id,
   name: text(),
   userId: uuid().references(() => users.id, { onDelete: "cascade" }),
-  houseHoldId: uuid()
+  householdId: uuid()
     .notNull()
-    .references(() => HouseHoldTable.id, { onDelete: "cascade" }),
+    .references(() => HouseholdTable.id, { onDelete: "cascade" }),
   color: text().notNull(),
   createdAt,
   updatedAt,
@@ -21,8 +21,8 @@ export const MembersRelationships = relations(MembersTable, ({ one }) => ({
     fields: [MembersTable.userId],
     references: [users.id],
   }),
-  houseHold: one(HouseHoldTable, {
-    fields: [MembersTable.houseHoldId],
-    references: [HouseHoldTable.id],
+  household: one(HouseholdTable, {
+    fields: [MembersTable.householdId],
+    references: [HouseholdTable.id],
   }),
 }));

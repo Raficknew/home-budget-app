@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { db } from "@/drizzle";
-import { HouseHoldTable } from "@/drizzle/schema";
+import { HouseholdTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 
@@ -10,9 +10,9 @@ export default async function HouseholdJoinPage({
   params: Promise<{ householdId: string; link: string }>;
 }) {
   const { householdId, link } = await params;
-  const houseHoldLink = await getHouseHoldInviteLink(householdId);
+  const householdLink = await getHouseholdInviteLink(householdId);
 
-  if (houseHoldLink == null || houseHoldLink.invite?.link !== link) notFound();
+  if (householdLink == null || householdLink.invite?.link !== link) notFound();
 
   return (
     <div className="flex h-screen justify-center items-center">
@@ -21,9 +21,9 @@ export default async function HouseholdJoinPage({
   );
 }
 
-const getHouseHoldInviteLink = (id: string) => {
-  return db.query.HouseHoldTable.findFirst({
-    where: eq(HouseHoldTable.id, id),
+const getHouseholdInviteLink = (id: string) => {
+  return db.query.HouseholdTable.findFirst({
+    where: eq(HouseholdTable.id, id),
     with: { invite: { columns: { link: true } } },
   });
 };

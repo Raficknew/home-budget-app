@@ -19,17 +19,17 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
-import { createHousehold } from "../actions/houseHolds";
-import { householdSchema, HouseHoldSchema } from "../schema/houseHolds";
+import { createHousehold } from "../actions/household";
+import { householdSchema, HouseholdSchema } from "../schema/household";
 
-export function HouseHoldForm({
+export function HouseholdForm({
   currencies,
 }: {
   currencies: { code: string }[];
 }) {
-  const t = useTranslations("CreateHouseHold");
+  const t = useTranslations("CreateHousehold");
 
-  const form = useForm<HouseHoldSchema>({
+  const form = useForm<HouseholdSchema>({
     resolver: zodResolver(householdSchema),
     defaultValues: {
       name: "",
@@ -39,7 +39,7 @@ export function HouseHoldForm({
     },
   });
 
-  function onSubmit(data: HouseHoldSchema) {
+  function onSubmit(data: HouseholdSchema) {
     createHousehold(data);
   }
 

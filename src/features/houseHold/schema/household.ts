@@ -7,4 +7,4 @@ export const householdSchema = z.object({
   balance: z.coerce.number().min(0),
 });
 
-export type HouseHoldSchema = z.infer<typeof householdSchema>;
+export type HouseholdSchema = z.infer<typeof householdSchema>;

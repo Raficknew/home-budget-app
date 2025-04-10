@@ -1,7 +1,7 @@
 import { db } from "@/drizzle";
 import {
   CategoryTable,
-  HouseHoldTable,
+  HouseholdTable,
   InviteTable,
   MembersTable,
   TransactionTable,
@@ -9,11 +9,11 @@ import {
 import { createUuid } from "@/global/functions";
 
 export async function insertHousehold(
-  data: typeof HouseHoldTable.$inferInsert,
+  data: typeof HouseholdTable.$inferInsert,
   balance: number
 ) {
   const [newHousehold] = await db
-    .insert(HouseHoldTable)
+    .insert(HouseholdTable)
     .values(data)
     .returning();
 
@@ -24,7 +24,7 @@ export async function insertHousehold(
   const [newMember] = await db
     .insert(MembersTable)
     .values({
-      houseHoldId: newHousehold.id,
+      householdId: newHousehold.id,
       userId: newHousehold.ownerId,
       color: `#${randomColor.padStart(6, "0")}`,
     })
@@ -37,7 +37,7 @@ export async function insertHousehold(
   const [newInviteLink] = await db
     .insert(InviteTable)
     .values({
-      houseHoldId: newHousehold.id,
+      householdId: newHousehold.id,
       link: linkId,
     })
     .returning();
@@ -49,25 +49,26 @@ export async function insertHousehold(
     .values({
       name: "First Category",
       categoryType: "fixed",
-      houseHoldId: newHousehold.id,
+      householdId: newHousehold.id,
     })
     .returning();
 
   if (newCategory == null) throw new Error("Failed to create category");
 
-  const [newTransaction] = await db
-    .insert(TransactionTable)
-    .values({
-      categoryId: newCategory.id,
-      date: new Date(),
-      name: "First",
-      price: balance,
-      type: "income",
-      description: "added your balance",
-    })
-    .returning();
+  if (balance > 0) {
+    const [newTransaction] = await db
+      .insert(TransactionTable)
+      .values({
+        categoryId: newCategory.id,
+        date: new Date(),
+        name: "First",
+        price: balance,
+        type: "income",
+      })
+      .returning();
 
-  if (newTransaction == null) throw new Error("Failed to create balance");
+    if (newTransaction == null) throw new Error("Failed to create balance");
+  }
 
   return newHousehold;
 }

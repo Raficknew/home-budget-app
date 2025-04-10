@@ -2,9 +2,8 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { insertHousehold } from "../db/houseHolds";
-import { householdSchema } from "../schema/houseHolds";
-import { getLocale } from "next-intl/server";
+import { insertHousehold } from "../db/household";
+import { householdSchema } from "../schema/household";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -17,7 +16,7 @@ export async function createHousehold(
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  const houseHold = await insertHousehold(
+  const household = await insertHousehold(
     {
       ...data,
       description: data.description != "" ? data.description : null,
@@ -26,7 +25,5 @@ export async function createHousehold(
     data.balance
   );
 
-  const locale = getLocale();
-
-  redirect(`/${locale}/${houseHold.id}/edit`);
+  redirect(`/${household.id}/settings`);
 }

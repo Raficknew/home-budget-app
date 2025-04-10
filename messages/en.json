@@ -8,8 +8,8 @@
   "HomePage": {
     "welcome": "Hello!",
     "or": "OR",
-    "createHouseHold": "Create new household",
-    "chooseHouseHold": "Choose your household",
+    "createHousehold": "Create new household",
+    "chooseHousehold": "Choose your household",
     "user": "User"
   },
    "Sidebar": {
@@ -19,7 +19,7 @@
     "charts": "Charts",
     "settings": "Settings"
   },
-  "CreateHouseHold": {
+  "CreateHousehold": {
     "title": "Create new Household",
     "name": {
       "label": "Name",

@@ -1,5 +1,5 @@
 {
-  "id": "92e250bd-cae7-4663-ae71-b2154cd21d34",
+  "id": "3d850a83-3e81-4ea5-806f-4687932a8119",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -28,8 +28,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "houseHoldId": {
-          "name": "houseHoldId",
+        "householdId": {
+          "name": "householdId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -51,12 +51,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "categories_houseHoldId_houseHolds_id_fk": {
-          "name": "categories_houseHoldId_houseHolds_id_fk",
+        "categories_householdId_households_id_fk": {
+          "name": "categories_householdId_households_id_fk",
           "tableFrom": "categories",
-          "tableTo": "houseHolds",
+          "tableTo": "households",
           "columnsFrom": [
-            "houseHoldId"
+            "householdId"
           ],
           "columnsTo": [
             "id"
@@ -94,8 +94,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "houseHoldId": {
-          "name": "houseHoldId",
+        "householdId": {
+          "name": "householdId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -136,12 +136,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "members_houseHoldId_houseHolds_id_fk": {
-          "name": "members_houseHoldId_houseHolds_id_fk",
+        "members_householdId_households_id_fk": {
+          "name": "members_householdId_households_id_fk",
           "tableFrom": "members",
-          "tableTo": "houseHolds",
+          "tableTo": "households",
           "columnsFrom": [
-            "houseHoldId"
+            "householdId"
           ],
           "columnsTo": [
             "id"
@@ -156,8 +156,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.houseHolds": {
-      "name": "houseHolds",
+    "public.households": {
+      "name": "households",
       "schema": "",
       "columns": {
         "id": {
@@ -208,9 +208,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "houseHolds_ownerId_user_id_fk": {
-          "name": "houseHolds_ownerId_user_id_fk",
-          "tableFrom": "houseHolds",
+        "households_ownerId_user_id_fk": {
+          "name": "households_ownerId_user_id_fk",
+          "tableFrom": "households",
           "tableTo": "user",
           "columnsFrom": [
             "ownerId"
@@ -221,9 +221,9 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "houseHolds_currencyCode_currency_code_fk": {
-          "name": "houseHolds_currencyCode_currency_code_fk",
-          "tableFrom": "houseHolds",
+        "households_currencyCode_currency_code_fk": {
+          "name": "households_currencyCode_currency_code_fk",
+          "tableFrom": "households",
           "tableTo": "currency",
           "columnsFrom": [
             "currencyCode"
@@ -331,12 +331,6 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
         },
         "type": {
           "name": "type",
@@ -734,8 +728,8 @@
           "notNull": true,
           "default": "gen_random_uuid()"
         },
-        "houseHoldId": {
-          "name": "houseHoldId",
+        "householdId": {
+          "name": "householdId",
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
@@ -743,12 +737,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "invite_table_houseHoldId_houseHolds_id_fk": {
-          "name": "invite_table_houseHoldId_houseHolds_id_fk",
+        "invite_table_householdId_households_id_fk": {
+          "name": "invite_table_householdId_households_id_fk",
           "tableFrom": "invite_table",
-          "tableTo": "houseHolds",
+          "tableTo": "households",
           "columnsFrom": [
-            "houseHoldId"
+            "householdId"
           ],
           "columnsTo": [
             "id"

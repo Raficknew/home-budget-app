@@ -3,12 +3,11 @@ import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
 import { MembersTable } from "./members";
-
 import { CurrencyTable } from "./currency";
 import { InviteTable } from "./invites";
 import { users } from "./user";
 
-export const HouseHoldTable = pgTable("houseHolds", {
+export const HouseholdTable = pgTable("households", {
   id,
   name: text().notNull(),
   description: text(),
@@ -22,17 +21,17 @@ export const HouseHoldTable = pgTable("houseHolds", {
   updatedAt,
 });
 
-export const HouseHoldRelationships = relations(
-  HouseHoldTable,
+export const HouseholdRelationships = relations(
+  HouseholdTable,
   ({ one, many }) => ({
     members: many(MembersTable),
     categories: many(CategoryTable),
     user: one(users, {
-      fields: [HouseHoldTable.ownerId],
+      fields: [HouseholdTable.ownerId],
       references: [users.id],
     }),
     currency: one(CurrencyTable, {
-      fields: [HouseHoldTable.currencyCode],
+      fields: [HouseholdTable.currencyCode],
       references: [CurrencyTable.code],
     }),
     invite: one(InviteTable),

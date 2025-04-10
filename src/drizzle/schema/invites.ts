@@ -1,17 +1,17 @@
 import { pgTable, uuid } from "drizzle-orm/pg-core";
-import { HouseHoldTable } from "./houseHold";
+import { HouseholdTable } from "./household";
 import { relations } from "drizzle-orm";
 
 export const InviteTable = pgTable("invite_table", {
   link: uuid().primaryKey().defaultRandom(),
-  houseHoldId: uuid()
+  householdId: uuid()
     .notNull()
-    .references(() => HouseHoldTable.id, { onDelete: "cascade" }),
+    .references(() => HouseholdTable.id, { onDelete: "cascade" }),
 });
 
 export const InviteRelationships = relations(InviteTable, ({ one }) => ({
-  houseHold: one(HouseHoldTable, {
-    fields: [InviteTable.houseHoldId],
-    references: [HouseHoldTable.id],
+  household: one(HouseholdTable, {
+    fields: [InviteTable.householdId],
+    references: [HouseholdTable.id],
   }),
 }));

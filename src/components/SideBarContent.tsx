@@ -21,28 +21,28 @@ import { useParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 
 export function SideBarContent() {
-  const { locale, houseHoldId } = useParams();
+  const { locale, householdId } = useParams();
   const t = useTranslations("Sidebar");
 
   const routes = [
     {
       title: t("dashboard"),
-      url: `/${locale}/${houseHoldId}`,
+      url: `/${locale}/${householdId}`,
       icon: LayoutDashboardIcon,
     },
     {
       title: t("categories"),
-      url: `/${locale}/${houseHoldId}/categories`,
+      url: `/${locale}/${householdId}/categories`,
       icon: ArrowLeftRightIcon,
     },
     {
       title: t("goals"),
-      url: `/${locale}/${houseHoldId}/goals`,
+      url: `/${locale}/${householdId}/goals`,
       icon: CrosshairIcon,
     },
     {
       title: t("charts"),
-      url: `/${locale}/${houseHoldId}/charts`,
+      url: `/${locale}/${householdId}/charts`,
       icon: ChartLineIcon,
     },
   ];
@@ -70,7 +70,7 @@ export function SideBarContent() {
       </Content>
       <SidebarFooter>
         <SidebarMenuButton asChild>
-          <Link href={`/${locale}/${houseHoldId}/settings`}>
+          <Link href={`/${locale}/${householdId}/settings`}>
             <SettingsIcon />
             <p>{t("settings")}</p>
           </Link>

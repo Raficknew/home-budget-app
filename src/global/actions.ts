@@ -1,5 +1,5 @@
 import { db } from "@/drizzle";
-import { HouseHoldTable } from "@/drizzle/schema";
+import { HouseholdTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 
@@ -8,8 +8,8 @@ export const getHousehold = (id: string) => {
     return null;
   }
 
-  return db.query.HouseHoldTable.findFirst({
-    where: eq(HouseHoldTable.id, id),
+  return db.query.HouseholdTable.findFirst({
+    where: eq(HouseholdTable.id, id),
     with: {
       invite: { columns: { link: true } },
       currency: true,
