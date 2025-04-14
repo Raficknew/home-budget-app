@@ -4,14 +4,14 @@ import { generateRandomColor } from "@/global/functions";
 
 export async function insertMember(
   householdId: string,
-  { userId, name }: { userId: string; name: string }
+  { userId, name }: { userId?: string; name: string }
 ) {
   const randomColor = generateRandomColor();
   const [newMember] = await db
     .insert(MembersTable)
     .values({
       householdId,
-      userId,
+      userId: userId ?? null,
       name,
       color: randomColor,
     })
