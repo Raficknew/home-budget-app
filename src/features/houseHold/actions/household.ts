@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { insertHousehold } from "../db/household";
 import { householdSchema } from "../schema/household";
+import { insertMember } from "@/features/members/db/members";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -26,4 +27,16 @@ export async function createHousehold(
   );
 
   redirect(`/${household.id}/settings`);
+}
+
+export async function joinHousehold(householdId: string, userId: string) {
+  const session = await auth();
+
+  if (session?.user.id == null || session.user.name == null) {
+    throw new Error("User not found");
+  }
+
+  await insertMember(householdId, { userId, name: session.user.name });
+
+  redirect(`/${householdId}`);
 }
