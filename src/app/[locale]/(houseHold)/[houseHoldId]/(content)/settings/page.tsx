@@ -1,7 +1,10 @@
 import { env } from "@/data/env/server";
+import { Member } from "@/features/members/components/Member";
 import { MemberAdd } from "@/features/members/components/MemberAdd";
 import { getHousehold } from "@/global/actions";
 import { getMembers } from "@/global/functions";
+import { auth } from "@/lib/auth";
+
 import { notFound } from "next/navigation";
 
 export default async function HouseholdEditPage({
@@ -11,7 +14,14 @@ export default async function HouseholdEditPage({
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
-  const members = await getMembers(householdId);
+  let members = await getMembers(householdId);
+  const session = await auth();
+
+  members = members.filter(
+    (member) =>
+      member.user?.id !== session?.user.id &&
+      member.user?.id !== household?.ownerId
+  );
 
   if (household == null) notFound();
 
@@ -23,13 +33,11 @@ export default async function HouseholdEditPage({
       <div className="w-full">
         Członkowie:
         <MemberAdd householdId={householdId} />
-        {members.map((member) => (
-          <div className="flex w-full justify-between" key={member.id}>
-            {member.user?.name ?? member.name}
-            <div>Edit</div>
-            <div>Delete</div>
-          </div>
-        ))}
+        <div className="flex flex-col gap-2">
+          {members.map((member) => (
+            <Member key={member.id} member={member} householdId={householdId} />
+          ))}
+        </div>
       </div>
     </div>
   );
