@@ -12,25 +12,43 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { createMember } from "../actions/members";
+import { createMember, updateMember } from "../actions/members";
+import { DialogFooter } from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
-export function MemberAdd({ householdId }: { householdId: string }) {
+export function MemberForm({
+  householdId,
+  member,
+  onSuccess,
+}: {
+  householdId: string;
+  member?: { id: string; name: string };
+  onSuccess?: () => void;
+}) {
   const form = useForm<MembersSchema>({
     resolver: zodResolver(membersSchema),
-    defaultValues: {
+    defaultValues: member ?? {
       name: "",
     },
   });
 
   function onSubmit(data: MembersSchema) {
-    createMember(data, householdId);
-    form.reset();
+    if (member) {
+      updateMember(data, member.id, householdId);
+      onSuccess?.();
+    } else {
+      createMember(data, householdId);
+      form.reset();
+    }
   }
 
   return (
-    <div className="flex ">
+    <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex w-full">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className={cn("w-full", member == null && "flex")}
+        >
           <FormField
             control={form.control}
             name="name"
@@ -43,9 +61,15 @@ export function MemberAdd({ householdId }: { householdId: string }) {
               </FormItem>
             )}
           />
-          <Button variant="submit">
-            <PlusIcon />
-          </Button>
+          {member ? (
+            <DialogFooter className="mt-4">
+              <Button variant="submit">Zapisz</Button>
+            </DialogFooter>
+          ) : (
+            <Button variant="submit">
+              <PlusIcon />
+            </Button>
+          )}
         </form>
       </Form>
     </div>

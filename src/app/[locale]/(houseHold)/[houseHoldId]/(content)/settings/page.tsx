@@ -1,6 +1,6 @@
 import { env } from "@/data/env/server";
 import { Member } from "@/features/members/components/Member";
-import { MemberAdd } from "@/features/members/components/MemberAdd";
+import { MemberForm } from "@/features/members/components/MemberForm";
 import { getHousehold } from "@/global/actions";
 import { getMembers } from "@/global/functions";
 import { auth } from "@/lib/auth";
@@ -32,7 +32,7 @@ export default async function HouseholdEditPage({
       {link}
       <div className="w-full">
         Członkowie:
-        <MemberAdd householdId={householdId} />
+        <MemberForm householdId={householdId} />
         <div className="flex flex-col gap-2">
           {members.map((member) => (
             <Member key={member.id} member={member} householdId={householdId} />

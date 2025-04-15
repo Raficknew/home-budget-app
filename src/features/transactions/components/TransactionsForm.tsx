@@ -164,7 +164,7 @@ export function TransactionForm({
                       <SelectContent>
                         {members.map((member) => (
                           <SelectItem value={member.id} key={member.id}>
-                            {member.user?.name ?? member.name}
+                            {member.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
