@@ -63,10 +63,12 @@ export function MemberForm({
           />
           {member ? (
             <DialogFooter className="mt-4">
-              <Button variant="submit">Zapisz</Button>
+              <Button variant="submit" disabled={form.formState.isSubmitting}>
+                Zapisz
+              </Button>
             </DialogFooter>
           ) : (
-            <Button variant="submit">
+            <Button variant="submit" disabled={form.formState.isSubmitting}>
               <PlusIcon />
             </Button>
           )}

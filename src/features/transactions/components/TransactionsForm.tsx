@@ -233,7 +233,11 @@ export function TransactionForm({
           )}
         />
         <div className="flex justify-center pt-3.5">
-          <Button variant="submit" type="submit">
+          <Button
+            variant="submit"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             {ts("submit")}
           </Button>
         </div>

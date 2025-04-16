@@ -14,7 +14,12 @@ export function HouseholdLinkGenerate({
   const link = `${url}/${householdId}/${inviteId}`;
   return (
     <div className="flex gap-1 items-center">
-      <p className="text-xs">{link}</p>
+      <div
+        onClick={() => navigator.clipboard.writeText(link)}
+        className="cursor-pointer text-xs hover:underline"
+      >
+        {link}
+      </div>
       <ActionButton action={() => generateLinkForHousehold(householdId)}>
         Generate New
       </ActionButton>

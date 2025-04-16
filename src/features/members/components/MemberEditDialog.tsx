@@ -14,7 +14,7 @@ export function MemberEditDialog({
   householdId,
 }: {
   children: ReactNode;
-  member: { id: string; name: string };
+  member: { id: string; name: string; image: string };
   householdId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);

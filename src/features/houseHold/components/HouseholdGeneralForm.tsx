@@ -129,7 +129,11 @@ export function HouseholdForm({
               </FormItem>
             )}
           />
-          <Button variant="submit" type="submit">
+          <Button
+            variant="submit"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             {t("submit")}
           </Button>
         </form>
