@@ -3,7 +3,7 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { insertHousehold, updateLink } from "../db/household";
-import { householdSchema } from "../schema/household";
+import { HouseholdSchema, householdSchema } from "../schema/household";
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
 
@@ -28,6 +28,20 @@ export async function createHousehold(
   );
 
   redirect(`/${household.id}/settings`);
+}
+
+export async function updateHousehold(unsafeData: HouseholdSchema) {
+  const { success, data } = householdSchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Household");
+
+  const session = await auth();
+
+  if (session?.user.id == null) throw new Error("User not found");
+
+  const household = await updateHouseholdDB(data);
+
+  revalidatePath(`/${household.id}/settings`);
 }
 
 export async function joinHousehold(householdId: string, userId: string) {

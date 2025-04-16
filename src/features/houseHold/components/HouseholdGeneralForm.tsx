@@ -24,14 +24,22 @@ import { householdSchema, HouseholdSchema } from "../schema/household";
 
 export function HouseholdForm({
   currencies,
+  household,
 }: {
   currencies: { code: string }[];
+  household?: {
+    id: string;
+    name: string;
+    description: string;
+    currencyCode: string;
+    balance: number;
+  };
 }) {
   const t = useTranslations("CreateHousehold");
 
   const form = useForm<HouseholdSchema>({
     resolver: zodResolver(householdSchema),
-    defaultValues: {
+    defaultValues: household ?? {
       name: "",
       description: "",
       currencyCode: "",
@@ -40,73 +48,74 @@ export function HouseholdForm({
   });
 
   function onSubmit(data: HouseholdSchema) {
-    createHousehold(data);
+    if (household != null) {
+      updateHousehold(data);
+    } else {
+      createHousehold(data);
+    }
   }
 
   return (
-    <>
-      <h1 className="text-2xl">{t("title")}</h1>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="grow w-full space-y-8 text-left"
-        >
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("name.label")}</FormLabel>
-                <FormControl>
-                  <Input placeholder={t("name.placeholder")} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("description.label")}</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder={t("description.placeholder")}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="currencyCode"
-            render={({ field }) => (
-              <FormItem className="flex">
-                <FormLabel>{t("currency.label")}</FormLabel>
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder={t("currency.placeholder")} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {currencies.map((currency) => (
-                        <SelectItem key={currency.code} value={currency.code}>
-                          {currency.code}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="grow w-full space-y-8 text-left"
+      >
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("name.label")}</FormLabel>
+              <FormControl>
+                <Input placeholder={t("name.placeholder")} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="description"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{t("description.label")}</FormLabel>
+              <FormControl>
+                <Input placeholder={t("description.placeholder")} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="currencyCode"
+          render={({ field }) => (
+            <FormItem className="flex">
+              <FormLabel>{t("currency.label")}</FormLabel>
+              <FormControl>
+                <Select
+                  disabled={household != null}
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder={t("currency.placeholder")} />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {currencies.map((currency) => (
+                      <SelectItem key={currency.code} value={currency.code}>
+                        {currency.code}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        {household == null && (
           <FormField
             control={form.control}
             name="balance"
@@ -129,15 +138,15 @@ export function HouseholdForm({
               </FormItem>
             )}
           />
-          <Button
-            variant="submit"
-            type="submit"
-            disabled={form.formState.isSubmitting}
-          >
-            {t("submit")}
-          </Button>
-        </form>
-      </Form>
-    </>
+        )}
+        <Button
+          variant="submit"
+          type="submit"
+          disabled={form.formState.isSubmitting}
+        >
+          {household ? "Zapisz" : t("submit")}
+        </Button>
+      </form>
+    </Form>
   );
 }

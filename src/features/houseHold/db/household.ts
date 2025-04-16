@@ -81,6 +81,25 @@ export async function insertHousehold(
   return newHousehold;
 }
 
+export async function updateHousehold(
+  data: typeof HouseholdTable.$inferSelect
+) {
+  if (!validateUuid(data.id)) {
+    throw new Error("There was an error generateing new link");
+  }
+
+  const [updatedHousehold] = await db
+    .update(HouseholdTable)
+    .set(data)
+    .where(eq(HouseholdTable.id, data.id))
+    .returning();
+
+  if (updatedHousehold == null)
+    throw new Error("Failed to update your Household");
+
+  return updatedHousehold;
+}
+
 export async function updateLink(householdId: string) {
   if (!validateUuid(householdId)) {
     throw new Error("There was an error generateing new link");
