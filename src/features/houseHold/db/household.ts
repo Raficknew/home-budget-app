@@ -8,6 +8,8 @@ import {
 } from "@/drizzle/schema";
 import { createUuid, generateRandomColor } from "@/global/functions";
 import { auth } from "@/lib/auth";
+import { eq } from "drizzle-orm";
+import { validate as validateUuid } from "uuid";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
@@ -77,4 +79,23 @@ export async function insertHousehold(
   }
 
   return newHousehold;
+}
+
+export async function updateLink(householdId: string) {
+  if (!validateUuid(householdId)) {
+    throw new Error("There was an error generateing new link");
+  }
+
+  const newLink = await createUuid();
+
+  const [updatedLink] = await db
+    .update(InviteTable)
+    .set({ link: newLink })
+    .where(eq(HouseholdTable.id, householdId))
+    .from(HouseholdTable)
+    .returning();
+
+  if (updatedLink == null) throw new Error("Failed to generate link");
+
+  return updatedLink;
 }

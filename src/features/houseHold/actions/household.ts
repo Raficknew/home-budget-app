@@ -2,9 +2,10 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { insertHousehold } from "../db/household";
+import { insertHousehold, updateLink } from "../db/household";
 import { householdSchema } from "../schema/household";
 import { insertMember } from "@/features/members/db/members";
+import { revalidatePath } from "next/cache";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -36,7 +37,20 @@ export async function joinHousehold(householdId: string, userId: string) {
     throw new Error("User not found");
   }
 
-  await insertMember(householdId, { userId, name: session.user.name });
+  await insertMember({ userId, name: session.user.name }, householdId);
 
   redirect(`/${householdId}`);
+}
+
+export async function generateLinkForHousehold(householdId: string) {
+  const session = await auth();
+
+  if (session?.user.id == null) {
+    return { error: true, message: "User not found" };
+  }
+
+  await updateLink(householdId);
+
+  revalidatePath(`/${householdId}/settings`);
+  return { error: false, message: "Success" };
 }

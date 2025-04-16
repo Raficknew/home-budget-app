@@ -1,16 +1,18 @@
 "use client";
-import { EditIcon, Trash2Icon } from "lucide-react";
+import { EditIcon, Trash2Icon, User } from "lucide-react";
 import { deleteMember } from "../actions/members";
 import { ActionButton } from "@/components/ActionButton";
 import { MemberEditDialog } from "./MemberEditDialog";
 import { DialogTrigger } from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export type Member = {
   name: string;
   id: string;
   user: {
-    name: string | null;
     id: string;
+    name: string | null;
+    image: string | null;
   } | null;
 };
 
@@ -23,7 +25,15 @@ export function Member({
 }) {
   return (
     <div className="flex items-center w-full justify-between">
-      {member.name}
+      <div className="flex items-center gap-2">
+        <Avatar>
+          <AvatarImage src={member.user?.image ?? ""} />
+          <AvatarFallback className="bg-accent">
+            <User />
+          </AvatarFallback>
+        </Avatar>
+        {member.name}
+      </div>
       <div className="flex items-center gap-6">
         <MemberEditDialog
           member={{ id: member.id, name: member.name }}
