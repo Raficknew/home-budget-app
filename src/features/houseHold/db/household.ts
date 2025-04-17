@@ -11,6 +11,7 @@ import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 import { HouseholdSchema } from "../schema/household";
+import { canMakeChangesToHousehold } from "../permissions/household";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
@@ -82,15 +83,21 @@ export async function insertHousehold(
   return newHousehold;
 }
 
-export async function updateHousehold(data: HouseholdSchema, id: string) {
-  if (!validateUuid(id)) {
+export async function updateHousehold(
+  data: HouseholdSchema,
+  householdId: string
+) {
+  if (
+    !validateUuid(householdId) ||
+    !(await canMakeChangesToHousehold(householdId))
+  ) {
     throw new Error("There was an error generateing new link");
   }
 
   const [updatedHousehold] = await db
     .update(HouseholdTable)
     .set(data)
-    .where(eq(HouseholdTable.id, id))
+    .where(eq(HouseholdTable.id, householdId))
     .returning();
 
   if (updatedHousehold == null)
@@ -99,8 +106,30 @@ export async function updateHousehold(data: HouseholdSchema, id: string) {
   return updatedHousehold;
 }
 
+export async function deleteHousehold(householdId: string) {
+  if (
+    !validateUuid(householdId) ||
+    !(await canMakeChangesToHousehold(householdId))
+  ) {
+    throw new Error("There was an error generateing new link");
+  }
+
+  const [deletedHousehold] = await db
+    .delete(HouseholdTable)
+    .where(eq(HouseholdTable.id, householdId))
+    .returning();
+
+  if (deletedHousehold == null)
+    throw new Error("Failed to update your Household");
+
+  return deletedHousehold;
+}
+
 export async function updateLink(householdId: string) {
-  if (!validateUuid(householdId)) {
+  if (
+    !validateUuid(householdId) ||
+    !(await canMakeChangesToHousehold(householdId))
+  ) {
     throw new Error("There was an error generateing new link");
   }
 

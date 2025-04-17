@@ -1,4 +1,6 @@
+import { ActionButton } from "@/components/ActionButton";
 import { env } from "@/data/env/server";
+import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { Member } from "@/features/members/components/Member";
@@ -55,6 +57,13 @@ export default async function HouseholdEditPage({
           }}
         />
       </div>
+      <ActionButton
+        variant="ghost"
+        action={deleteHousehold.bind(null, household.id)}
+        requireAreYouSure
+      >
+        Delete
+      </ActionButton>
     </div>
   );
 }

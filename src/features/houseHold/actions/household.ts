@@ -2,7 +2,11 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { insertHousehold, updateLink } from "../db/household";
+import {
+  deleteHousehold as deleteHouseholdDB,
+  insertHousehold,
+  updateLink,
+} from "../db/household";
 import { HouseholdSchema, householdSchema } from "../schema/household";
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
@@ -46,6 +50,17 @@ export async function updateHousehold(
   await updateHouseholdDB(data, householdId);
 
   revalidatePath(`/${householdId}/settings`);
+}
+
+export async function deleteHousehold(householdId: string) {
+  const session = await auth();
+
+  if (session?.user.id == null)
+    return { error: true, message: "Failed to delete Household" };
+
+  await deleteHouseholdDB(householdId);
+
+  redirect(`/`);
 }
 
 export async function joinHousehold(householdId: string, userId: string) {
