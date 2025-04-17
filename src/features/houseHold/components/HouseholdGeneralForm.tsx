@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
-import { createHousehold } from "../actions/household";
+import { createHousehold, updateHousehold } from "../actions/household";
 import { householdSchema, HouseholdSchema } from "../schema/household";
 
 export function HouseholdForm({
@@ -49,7 +49,7 @@ export function HouseholdForm({
 
   function onSubmit(data: HouseholdSchema) {
     if (household != null) {
-      updateHousehold(data);
+      updateHousehold(data, household.id);
     } else {
       createHousehold(data);
     }

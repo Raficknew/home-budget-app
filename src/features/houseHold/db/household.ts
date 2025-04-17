@@ -10,6 +10,7 @@ import { createUuid, generateRandomColor } from "@/global/functions";
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
+import { HouseholdSchema } from "../schema/household";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
@@ -81,17 +82,15 @@ export async function insertHousehold(
   return newHousehold;
 }
 
-export async function updateHousehold(
-  data: typeof HouseholdTable.$inferSelect
-) {
-  if (!validateUuid(data.id)) {
+export async function updateHousehold(data: HouseholdSchema, id: string) {
+  if (!validateUuid(id)) {
     throw new Error("There was an error generateing new link");
   }
 
   const [updatedHousehold] = await db
     .update(HouseholdTable)
     .set(data)
-    .where(eq(HouseholdTable.id, data.id))
+    .where(eq(HouseholdTable.id, id))
     .returning();
 
   if (updatedHousehold == null)

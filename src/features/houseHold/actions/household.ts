@@ -6,6 +6,7 @@ import { insertHousehold, updateLink } from "../db/household";
 import { HouseholdSchema, householdSchema } from "../schema/household";
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
+import { updateHousehold as updateHouseholdDB } from "../db/household";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -30,7 +31,10 @@ export async function createHousehold(
   redirect(`/${household.id}/settings`);
 }
 
-export async function updateHousehold(unsafeData: HouseholdSchema) {
+export async function updateHousehold(
+  unsafeData: HouseholdSchema,
+  householdId: string
+) {
   const { success, data } = householdSchema.safeParse(unsafeData);
 
   if (!success) throw new Error("Failed to create Household");
@@ -39,9 +43,9 @@ export async function updateHousehold(unsafeData: HouseholdSchema) {
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  const household = await updateHouseholdDB(data);
+  await updateHouseholdDB(data, householdId);
 
-  revalidatePath(`/${household.id}/settings`);
+  revalidatePath(`/${householdId}/settings`);
 }
 
 export async function joinHousehold(householdId: string, userId: string) {
