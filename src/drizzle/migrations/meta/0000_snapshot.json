@@ -1,5 +1,5 @@
 {
-  "id": "3d850a83-3e81-4ea5-806f-4687932a8119",
+  "id": "ce4c7b66-21ca-4c0d-8dc2-2f0aa0b2a516",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,6 +17,12 @@
         },
         "name": {
           "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icon": {
+          "name": "icon",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -86,7 +92,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "userId": {
           "name": "userId",

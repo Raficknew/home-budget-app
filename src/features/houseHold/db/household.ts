@@ -13,6 +13,99 @@ import { validate as validateUuid } from "uuid";
 import { HouseholdSchema } from "../schema/household";
 import { canMakeChangesToHousehold } from "../permissions/household";
 
+const defaultCategories = [
+  {
+    name: "mortgage",
+    icon: "",
+    categoryType: "fixed",
+  },
+  {
+    name: "transportation",
+    icon: "",
+    categoryType: "fixed",
+  },
+  {
+    name: "phone",
+    icon: "",
+    categoryType: "fixed",
+  },
+  {
+    name: "insurence",
+    icon: "",
+    categoryType: "fixed",
+  },
+  {
+    name: "groceries",
+    icon: "",
+    categoryType: "fixed",
+  },
+  {
+    name: "healthcare",
+    icon: "",
+    categoryType: "fixed",
+  },
+  {
+    name: "clothing",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "eating out",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "Gym",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "gifts",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "Spotify",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "Netflix",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "coffee",
+    icon: "",
+    categoryType: "fun",
+  },
+  {
+    name: "emergency fund",
+    icon: "",
+    categoryType: "future you",
+  },
+  {
+    name: "education",
+    icon: "",
+    categoryType: "future you",
+  },
+  {
+    name: "vacation fund",
+    icon: "",
+    categoryType: "future you",
+  },
+  {
+    name: "daily job",
+    icon: "",
+    categoryType: "incomes",
+  },
+  {
+    name: "side hustle",
+    icon: "",
+    categoryType: "incomes",
+  },
+];
+
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
   balance: number
@@ -33,7 +126,7 @@ export async function insertHousehold(
   const [newMember] = await db
     .insert(MembersTable)
     .values({
-      name: session.user.name,
+      name: session.user.name!,
       householdId: newHousehold.id,
       userId: newHousehold.ownerId,
       color: randomColor,
@@ -58,6 +151,7 @@ export async function insertHousehold(
     .insert(CategoryTable)
     .values({
       name: "First Category",
+      icon: "",
       categoryType: "fixed",
       householdId: newHousehold.id,
     })
