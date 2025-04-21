@@ -87,57 +87,59 @@ export function HouseholdForm({
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="currencyCode"
-          render={({ field }) => (
-            <FormItem className="flex">
-              <FormLabel>{t("currency.label")}</FormLabel>
-              <FormControl>
-                <Select
-                  disabled={household != null}
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder={t("currency.placeholder")} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currencies.map((currency) => (
-                      <SelectItem key={currency.code} value={currency.code}>
-                        {currency.code}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+
         {household == null && (
-          <FormField
-            control={form.control}
-            name="balance"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>{t("balance.label")}</FormLabel>
-                <FormControl>
-                  <Input
-                    onClick={(e) => {
-                      if (+(e.target as HTMLInputElement).value == 0) {
-                        (e.target as HTMLInputElement).value = "";
-                      }
-                    }}
-                    min={0}
-                    type="number"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <>
+            <FormField
+              control={form.control}
+              name="currencyCode"
+              render={({ field }) => (
+                <FormItem className="flex">
+                  <FormLabel>{t("currency.label")}</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder={t("currency.placeholder")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {currencies.map((currency) => (
+                          <SelectItem key={currency.code} value={currency.code}>
+                            {currency.code}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="balance"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("balance.label")}</FormLabel>
+                  <FormControl>
+                    <Input
+                      onClick={(e) => {
+                        if (+(e.target as HTMLInputElement).value == 0) {
+                          (e.target as HTMLInputElement).value = "";
+                        }
+                      }}
+                      min={0}
+                      type="number"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </>
         )}
         <Button
           variant="submit"

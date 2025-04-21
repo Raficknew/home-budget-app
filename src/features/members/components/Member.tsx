@@ -1,5 +1,5 @@
 "use client";
-import { EditIcon, Trash2Icon, User } from "lucide-react";
+import { Edit2Icon, Trash2Icon, User } from "lucide-react";
 import { deleteMember } from "../actions/members";
 import { ActionButton } from "@/components/ActionButton";
 import { MemberEditDialog } from "./MemberEditDialog";
@@ -36,11 +36,15 @@ export function Member({
       </div>
       <div className="flex items-center gap-6">
         <MemberEditDialog
-          member={{ id: member.id, name: member.name }}
+          member={{
+            id: member.id,
+            image: member.user?.image ?? "",
+            name: member.name,
+          }}
           householdId={householdId}
         >
           <DialogTrigger>
-            <EditIcon className="cursor-pointer" size={16} />
+            <Edit2Icon className="cursor-pointer" size={16} />
           </DialogTrigger>
         </MemberEditDialog>
 

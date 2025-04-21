@@ -24,7 +24,7 @@ export async function insertMember(
 }
 
 export async function deleteMember(memberId: string, householdId: string) {
-  const [newMember] = await db
+  const [deletedMember] = await db
     .delete(MembersTable)
     .where(
       and(
@@ -34,9 +34,9 @@ export async function deleteMember(memberId: string, householdId: string) {
     )
     .returning();
 
-  if (newMember == null) throw new Error("Failed to create Member");
+  if (deletedMember == null) throw new Error("Failed to create Member");
 
-  return newMember;
+  return deletedMember;
 }
 
 export async function updateMember(

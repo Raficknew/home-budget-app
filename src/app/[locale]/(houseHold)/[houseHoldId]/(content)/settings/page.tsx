@@ -1,12 +1,13 @@
 import { ActionButton } from "@/components/ActionButton";
 import { env } from "@/data/env/server";
+import { Category } from "@/features/categories/components/Category";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { Member } from "@/features/members/components/Member";
 import { MemberForm } from "@/features/members/components/MemberForm";
 import { getHousehold } from "@/global/actions";
-import { getCurrencies, getMembers } from "@/global/functions";
+import { getCategories, getCurrencies, getMembers } from "@/global/functions";
 import { auth } from "@/lib/auth";
 import { notFound } from "next/navigation";
 
@@ -17,6 +18,7 @@ export default async function HouseholdEditPage({
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
+  const categories = await getCategories(householdId);
   const currencies = await getCurrencies();
   let members = await getMembers(householdId);
   const session = await auth();
@@ -56,6 +58,15 @@ export default async function HouseholdEditPage({
             balance: 0,
           }}
         />
+      </div>
+      <div>
+        {categories.map((category) => (
+          <Category
+            key={category.id}
+            category={category}
+            householdId={householdId}
+          />
+        ))}
       </div>
       <ActionButton
         variant="ghost"

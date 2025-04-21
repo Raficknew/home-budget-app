@@ -15,10 +15,10 @@ export const getMembers = (id: string) => {
   });
 };
 
-export const getCategoriesIdsAndNames = (id: string) => {
+export const getCategories = (id: string) => {
   return db.query.CategoryTable.findMany({
     where: eq(CategoryTable.householdId, id),
-    columns: { id: true, name: true },
+    columns: { id: true, name: true, categoryType: true },
   });
 };
 
