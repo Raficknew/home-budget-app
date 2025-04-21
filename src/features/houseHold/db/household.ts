@@ -65,12 +65,7 @@ const defaultCategories = [
     categoryType: "fun",
   },
   {
-    name: "Spotify",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "Netflix",
+    name: "Streaming",
     icon: "",
     categoryType: "fun",
   },
