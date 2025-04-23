@@ -1,5 +1,6 @@
 import { db } from "@/drizzle";
 import {
+  CategoriesOfExpanse,
   CategoryTable,
   HouseholdTable,
   InviteTable,
@@ -12,94 +13,7 @@ import { eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 import { HouseholdSchema } from "../schema/household";
 import { canMakeChangesToHousehold } from "../permissions/household";
-
-const defaultCategories = [
-  {
-    name: "mortgage",
-    icon: "",
-    categoryType: "fixed",
-  },
-  {
-    name: "transportation",
-    icon: "",
-    categoryType: "fixed",
-  },
-  {
-    name: "phone",
-    icon: "",
-    categoryType: "fixed",
-  },
-  {
-    name: "insurence",
-    icon: "",
-    categoryType: "fixed",
-  },
-  {
-    name: "groceries",
-    icon: "",
-    categoryType: "fixed",
-  },
-  {
-    name: "healthcare",
-    icon: "",
-    categoryType: "fixed",
-  },
-  {
-    name: "clothing",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "eating out",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "Gym",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "gifts",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "Streaming",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "coffee",
-    icon: "",
-    categoryType: "fun",
-  },
-  {
-    name: "emergency fund",
-    icon: "",
-    categoryType: "future you",
-  },
-  {
-    name: "education",
-    icon: "",
-    categoryType: "future you",
-  },
-  {
-    name: "vacation fund",
-    icon: "",
-    categoryType: "future you",
-  },
-  {
-    name: "daily job",
-    icon: "",
-    categoryType: "incomes",
-  },
-  {
-    name: "side hustle",
-    icon: "",
-    categoryType: "incomes",
-  },
-];
+import { getTranslations } from "next-intl/server";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
@@ -142,25 +56,132 @@ export async function insertHousehold(
 
   if (newInviteLink == null) throw new Error("Failed to create invite");
 
-  const [newCategory] = await db
-    .insert(CategoryTable)
-    .values({
-      name: "First Category",
-      icon: "",
+  const t = await getTranslations("DefaultCategories");
+
+  const defaultCategories: {
+    name: string;
+    icon: string;
+    categoryType: CategoriesOfExpanse;
+    householdId: string;
+  }[] = [
+    {
+      name: t("mortgage"),
+      icon: "1_mortgage",
       categoryType: "fixed",
       householdId: newHousehold.id,
-    })
+    },
+    {
+      name: t("transportation"),
+      icon: "2_transportation",
+      categoryType: "fixed",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("phone"),
+      icon: "3_phone",
+      categoryType: "fixed",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("insurence"),
+      icon: "4_insurence",
+      categoryType: "fixed",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("groceries"),
+      icon: "5_groceries",
+      categoryType: "fixed",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("healthcare"),
+      icon: "6_healthcare",
+      categoryType: "fixed",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("clothing"),
+      icon: "7_clothing",
+      categoryType: "fun",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("eatingOut"),
+      icon: "8_eatingOut",
+      categoryType: "fun",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("gym"),
+      icon: "9_gym",
+      categoryType: "fun",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("gifts"),
+      icon: "10_gifts",
+      categoryType: "fun",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("subscriptions"),
+      icon: "11_subscriptions",
+      categoryType: "fun",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("coffee"),
+      icon: "12_coffee",
+      categoryType: "fun",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("emergencyFund"),
+      icon: "13_emergencyFund",
+      categoryType: "future you",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("education"),
+      icon: "14_education",
+      categoryType: "future you",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("vacationFund"),
+      icon: "15_vacationFund",
+      categoryType: "future you",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("dailyJob"),
+      icon: "16_dailyJob",
+      categoryType: "incomes",
+      householdId: newHousehold.id,
+    },
+    {
+      name: t("sideHustle"),
+      icon: "17_sideHustle",
+      categoryType: "incomes",
+      householdId: newHousehold.id,
+    },
+  ];
+
+  const [newCategories] = await db
+    .insert(CategoryTable)
+    .values(defaultCategories)
     .returning();
 
-  if (newCategory == null) throw new Error("Failed to create category");
+  if (newCategories == null) throw new Error("Failed to create category");
 
   if (balance > 0) {
     const [newTransaction] = await db
       .insert(TransactionTable)
       .values({
-        categoryId: newCategory.id,
+        categoryId: "",
         date: new Date(),
-        name: "First",
+        name: t("balance"),
         price: balance,
         type: "income",
       })

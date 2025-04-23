@@ -58,5 +58,25 @@
       "placeholder": "Wybierz"
     },
     "submit": "Dodaj"
+  },
+  "DefaultCategories": {
+    "mortgage": "Kredyt",
+    "transportation": "Podróżowanie",
+    "phone": "Telefon",
+    "insurence": "Ubezpieczenie",
+    "groceries": "Zakupy",
+    "healthcare": "Opieka zdrowotna",
+    "clothing": "Ubrania",
+    "eatingOut": "Restauracje",
+    "gym": "Siłownia",
+    "gifts": "Prezenty",
+    "subscriptions": "Subskrybcje",
+    "coffee": "Kawa",
+    "emergencyFund": "Oszczędności",
+    "education": "Edukacja",
+    "vacationFund": "Wakacje",
+    "dailyJob": "Praca",
+    "sideHustle": "Dodatkowa Praca",
+    "balance": "Saldo"
   }
 }
