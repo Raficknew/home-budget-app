@@ -8,7 +8,7 @@ export default async function HouseholdGeneralInfoFormPage() {
   return (
     <div className="py-2">
       <h1 className="text-2xl">{t("title")}</h1>
-      <HouseholdForm currencies={currencies} />;
+      <HouseholdForm currencies={currencies} />
     </div>
   );
 }

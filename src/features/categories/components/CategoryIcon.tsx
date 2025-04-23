@@ -18,7 +18,7 @@ import {
   UtensilsIcon,
 } from "lucide-react";
 
-const icons = {
+export const icons = {
   "1_mortgage": HouseIcon,
   "2_transportation": CarFrontIcon,
   "3_phone": SmartphoneIcon,
@@ -39,7 +39,7 @@ const icons = {
   default: HouseIcon,
 };
 
-type IconKeys = keyof typeof icons;
+export type IconKeys = keyof typeof icons;
 
 export const CategoryIcon = ({
   categoryIconName,

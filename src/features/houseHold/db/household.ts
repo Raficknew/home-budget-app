@@ -5,7 +5,6 @@ import {
   HouseholdTable,
   InviteTable,
   MembersTable,
-  TransactionTable,
 } from "@/drizzle/schema";
 import { createUuid, generateRandomColor } from "@/global/functions";
 import { auth } from "@/lib/auth";
@@ -16,12 +15,11 @@ import { canMakeChangesToHousehold } from "../permissions/household";
 import { getTranslations } from "next-intl/server";
 
 export async function insertHousehold(
-  data: typeof HouseholdTable.$inferInsert,
-  balance: number
+  data: typeof HouseholdTable.$inferInsert
 ) {
   const session = await auth();
 
-  if (!session) throw new Error("failed while createing Household");
+  if (!session) throw new Error("Failed while createing Household");
 
   const [newHousehold] = await db
     .insert(HouseholdTable)
@@ -174,21 +172,6 @@ export async function insertHousehold(
     .returning();
 
   if (newCategories == null) throw new Error("Failed to create category");
-
-  if (balance > 0) {
-    const [newTransaction] = await db
-      .insert(TransactionTable)
-      .values({
-        categoryId: "",
-        date: new Date(),
-        name: t("balance"),
-        price: balance,
-        type: "income",
-      })
-      .returning();
-
-    if (newTransaction == null) throw new Error("Failed to create balance");
-  }
 
   return newHousehold;
 }

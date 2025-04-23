@@ -1,6 +1,8 @@
 import { ActionButton } from "@/components/ActionButton";
 import { env } from "@/data/env/server";
 import { Category } from "@/features/categories/components/Category";
+import { CategoryForm } from "@/features/categories/components/CategoryForm";
+import { IconKeys } from "@/features/categories/components/CategoryIcon";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
@@ -60,10 +62,16 @@ export default async function HouseholdEditPage({
         />
       </div>
       <div>
+        <CategoryForm householdId={householdId} type="fun" />
+      </div>
+      <div>
         {categories.map((category) => (
           <Category
             key={category.id}
-            category={category}
+            category={{
+              ...category,
+              icon: category.icon as IconKeys,
+            }}
             householdId={householdId}
           />
         ))}

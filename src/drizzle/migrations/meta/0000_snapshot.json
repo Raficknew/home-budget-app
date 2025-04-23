@@ -1,5 +1,5 @@
 {
-  "id": "ce4c7b66-21ca-4c0d-8dc2-2f0aa0b2a516",
+  "id": "a74ac97f-40e3-4d8d-88e1-442d9f93ff16",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -197,6 +197,12 @@
           "primaryKey": false,
           "notNull": true
         },
+        "balance": {
+          "name": "balance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp with time zone",
@@ -360,6 +366,12 @@
         "date": {
           "name": "date",
           "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currentBalance": {
+          "name": "currentBalance",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },

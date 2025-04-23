@@ -1,4 +1,4 @@
-import { pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
@@ -6,6 +6,7 @@ import { MembersTable } from "./members";
 import { CurrencyTable } from "./currency";
 import { InviteTable } from "./invites";
 import { users } from "./user";
+
 
 export const HouseholdTable = pgTable("households", {
   id,
@@ -17,6 +18,7 @@ export const HouseholdTable = pgTable("households", {
   currencyCode: text()
     .references(() => CurrencyTable.code, { onDelete: "no action" })
     .notNull(),
+  balance: integer().notNull(),
   createdAt,
   updatedAt,
 });

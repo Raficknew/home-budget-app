@@ -2,6 +2,30 @@ import { db } from "@/drizzle";
 import { CategoryTable } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
+export async function insertCategory(data: typeof CategoryTable.$inferInsert) {
+  const newCategory = await db
+    .insert(CategoryTable)
+    .values(data)
+    .returning()
+    .then((res) => res[0]);
+
+  if (newCategory == null) throw new Error("Failed to create Category");
+
+  return newCategory;
+}
+
+export async function updateCategory(data: typeof CategoryTable.$inferInsert) {
+  const newCategory = await db
+    .update(CategoryTable)
+    .set(data)
+    .returning()
+    .then((res) => res[0]);
+
+  if (newCategory == null) throw new Error("Failed to create Category");
+
+  return newCategory;
+}
+
 export async function deleteCategory(categoryId: string, householdId: string) {
   const [deletedCategory] = await db
     .delete(CategoryTable)
