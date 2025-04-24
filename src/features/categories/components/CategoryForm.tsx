@@ -45,7 +45,7 @@ export function CategoryForm({
 
   async function onSubmit(data: CategorySchema) {
     if (category) {
-      updateCategory(data, category.id, householdId);
+      updateCategory(data, category.id, householdId, type);
       onSuccess?.();
     } else {
       createCategory(data, householdId);

@@ -35,7 +35,8 @@ export async function createCategory(
 export async function updateCategory(
   unsafeData: z.infer<typeof categorySchema>,
   categoryId: string,
-  householdId: string
+  householdId: string,
+  type: CategoriesOfExpanse
 ) {
   const { data, success } = categorySchema.safeParse(unsafeData);
 
@@ -45,7 +46,12 @@ export async function updateCategory(
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  await updateCategoryDB({ ...data, id: categoryId, householdId });
+  await updateCategoryDB({
+    ...data,
+    id: categoryId,
+    householdId,
+    categoryType: type,
+  });
 
   revalidatePath(`/${householdId}/settings`);
 }

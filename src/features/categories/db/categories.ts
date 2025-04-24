@@ -3,11 +3,7 @@ import { CategoryTable } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function insertCategory(data: typeof CategoryTable.$inferInsert) {
-  const newCategory = await db
-    .insert(CategoryTable)
-    .values(data)
-    .returning()
-    .then((res) => res[0]);
+  const [newCategory] = await db.insert(CategoryTable).values(data).returning();
 
   if (newCategory == null) throw new Error("Failed to create Category");
 
@@ -18,8 +14,8 @@ export async function updateCategory(data: typeof CategoryTable.$inferInsert) {
   const newCategory = await db
     .update(CategoryTable)
     .set(data)
-    .returning()
-    .then((res) => res[0]);
+    .where(eq(CategoryTable.id, data.id!))
+    .returning();
 
   if (newCategory == null) throw new Error("Failed to create Category");
 
