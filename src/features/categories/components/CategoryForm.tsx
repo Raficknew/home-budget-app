@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { categorySchema, CategorySchema } from "../schema/category";
-import { CategoriesOfExpanse } from "@/drizzle/schema";
+import { categoriesOfExpanse, CategoriesOfExpanse } from "@/drizzle/schema";
 import {
   Select,
   SelectContent,
@@ -45,7 +45,12 @@ export function CategoryForm({
 
   async function onSubmit(data: CategorySchema) {
     if (category) {
-      updateCategory(data, category.id, householdId, type);
+      updateCategory(
+        data,
+        category.id,
+        householdId,
+        data.type as CategoriesOfExpanse
+      );
       onSuccess?.();
     } else {
       createCategory(data, householdId);
@@ -64,6 +69,32 @@ export function CategoryForm({
               <FormItem className="grow">
                 <FormControl>
                   <Input placeholder="Zakupy" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem className="flex">
+                <FormControl>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <SelectTrigger className="flex">
+                      <SelectValue placeholder="Wybierz ikone" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categoriesOfExpanse.map((category) => (
+                        <SelectItem value={category} key={category}>
+                          {category}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 <FormMessage />
               </FormItem>
