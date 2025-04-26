@@ -20,7 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryIcon, IconKeys, icons } from "./CategoryIcon";
+import { CategoryIcon, CategoryIconKeys, icons } from "./CategoryIcon";
 import { createCategory, updateCategory } from "../actions/category";
 
 export function CategoryForm({
@@ -121,7 +121,7 @@ export function CategoryForm({
                             <SelectItem value={icon} key={icon}>
                               <CategoryIcon
                                 size={12}
-                                categoryIconName={icon as IconKeys}
+                                categoryIconName={icon as CategoryIconKeys}
                               />
                             </SelectItem>
                           ))}

@@ -3,7 +3,7 @@ import { ActionButton } from "@/components/ActionButton";
 import { Edit2Icon, Trash2Icon } from "lucide-react";
 import { deleteCategory } from "../actions/category";
 import { CategoriesOfExpanse } from "@/drizzle/schema";
-import { CategoryIcon, IconKeys } from "./CategoryIcon";
+import { CategoryIcon, CategoryIconKeys } from "./CategoryIcon";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { CategoryEditDialog } from "./CategoryEditDialog";
 
@@ -14,7 +14,7 @@ export function Category({
   category: {
     id: string;
     name: string;
-    icon: IconKeys;
+    icon: CategoryIconKeys;
     categoryType: CategoriesOfExpanse;
   };
   householdId: string;

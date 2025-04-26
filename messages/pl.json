@@ -60,7 +60,8 @@
     "submit": "Dodaj"
   },
   "DefaultCategories": {
-    "mortgage": "Kredyt",
+    "rent": "Czynsz",
+    "loan": "Kredyt",
     "transportation": "Podróżowanie",
     "phone": "Telefon",
     "insurence": "Ubezpieczenie",

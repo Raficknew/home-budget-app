@@ -15,13 +15,13 @@ export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
   householdId: string
 ) {
-  const { success, data } = transactionsSchema.safeParse(unsafeData);
-
-  if (!success) throw new Error("Failed to create Transaction");
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  const { success, data } = transactionsSchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Transaction");
 
   const currentBalance = await db.query.HouseholdTable.findFirst({
     where: eq(HouseholdTable.id, householdId),

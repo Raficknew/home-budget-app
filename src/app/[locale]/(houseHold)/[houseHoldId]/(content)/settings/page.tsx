@@ -2,15 +2,15 @@ import { ActionButton } from "@/components/ActionButton";
 import { env } from "@/data/env/server";
 import { Category } from "@/features/categories/components/Category";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
-import { IconKeys } from "@/features/categories/components/CategoryIcon";
+import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
+import { canMakeChangesToHousehold } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
 import { MemberForm } from "@/features/members/components/MemberForm";
 import { getHousehold } from "@/global/actions";
 import { getCategories, getCurrencies, getMembers } from "@/global/functions";
-import { auth } from "@/lib/auth";
 import { notFound } from "next/navigation";
 
 export default async function HouseholdEditPage({
@@ -22,16 +22,9 @@ export default async function HouseholdEditPage({
   const household = await getHousehold(householdId);
   const categories = await getCategories(householdId);
   const currencies = await getCurrencies();
-  let members = await getMembers(householdId);
-  const session = await auth();
+  const members = await getMembers(householdId);
 
-  members = members.filter(
-    (member) =>
-      member.user?.id !== session?.user.id &&
-      member.user?.id !== household?.ownerId
-  );
-
-  if (household == null) notFound();
+  if (household == null || !canMakeChangesToHousehold(householdId)) notFound();
 
   return (
     <div className="p-2 flex flex-col gap-10">
@@ -70,7 +63,7 @@ export default async function HouseholdEditPage({
             key={category.id}
             category={{
               ...category,
-              icon: category.icon as IconKeys,
+              icon: category.icon as CategoryIconKeys,
             }}
             householdId={householdId}
           />

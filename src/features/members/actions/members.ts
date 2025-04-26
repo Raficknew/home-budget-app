@@ -45,13 +45,13 @@ export async function updateMember(
   memberId: string,
   householdId: string
 ) {
-  const { data, success } = membersSchema.safeParse(unsafeData);
-
-  if (!success) throw new Error("Failed to create Transaction");
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  const { data, success } = membersSchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Transaction");
 
   await updateMemberDB({ memberId, name: data.name }, householdId);
 

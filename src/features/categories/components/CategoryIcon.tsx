@@ -9,6 +9,7 @@ import {
   HandCoinsIcon,
   HeartPulseIcon,
   HouseIcon,
+  LandmarkIcon,
   ShieldUserIcon,
   ShirtIcon,
   ShoppingCartIcon,
@@ -19,34 +20,35 @@ import {
 } from "lucide-react";
 
 export const icons = {
-  "1_mortgage": HouseIcon,
-  "2_transportation": CarFrontIcon,
-  "3_phone": SmartphoneIcon,
-  "4_insurence": ShieldUserIcon,
-  "5_groceries": ShoppingCartIcon,
-  "6_healthcare": HeartPulseIcon,
-  "7_clothing": ShirtIcon,
-  "8_eatingOut": UtensilsIcon,
-  "9_gym": DumbbellIcon,
-  "10_gifts": GiftIcon,
-  "11_subscriptions": AirplayIcon,
-  "12_coffee": CoffeeIcon,
-  "13_emergencyFund": SirenIcon,
-  "14_education": GraduationCapIcon,
-  "15_vacationFund": TreePalmIcon,
-  "16_dailyJob": BriefcaseBusinessIcon,
-  "17_sideHustle": HandCoinsIcon,
+  "1_rent": HouseIcon,
+  "2_loan": LandmarkIcon,
+  "3_transportation": CarFrontIcon,
+  "4_phone": SmartphoneIcon,
+  "5_insurence": ShieldUserIcon,
+  "6_groceries": ShoppingCartIcon,
+  "7_healthcare": HeartPulseIcon,
+  "8_clothing": ShirtIcon,
+  "9_eatingOut": UtensilsIcon,
+  "10_gym": DumbbellIcon,
+  "11_gifts": GiftIcon,
+  "12_subscriptions": AirplayIcon,
+  "13_coffee": CoffeeIcon,
+  "14_emergencyFund": SirenIcon,
+  "15_education": GraduationCapIcon,
+  "16_vacationFund": TreePalmIcon,
+  "17_dailyJob": BriefcaseBusinessIcon,
+  "18_sideHustle": HandCoinsIcon,
   default: HouseIcon,
 };
 
-export type IconKeys = keyof typeof icons;
+export type CategoryIconKeys = keyof typeof icons;
 
 export const CategoryIcon = ({
   categoryIconName,
   size = 20,
   color,
 }: {
-  categoryIconName: IconKeys;
+  categoryIconName: CategoryIconKeys;
   size?: number;
   color?: string;
 }) => {

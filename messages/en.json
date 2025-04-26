@@ -60,7 +60,8 @@
     "submit": "Add"
   },
   "DefaultCategories": {
-    "mortgage": "Mortgage",
+    "rent": "Rent",
+    "loan": "Loan",
     "transportation": "Transportation",
     "phone": "Phone",
     "insurence": "Insurence",

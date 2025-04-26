@@ -38,13 +38,13 @@ export async function updateCategory(
   householdId: string,
   type: CategoriesOfExpanse
 ) {
-  const { data, success } = categorySchema.safeParse(unsafeData);
-
-  if (!success) throw new Error("Failed to create Transaction");
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  const { data, success } = categorySchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Transaction");
 
   await updateCategoryDB({
     ...data,
@@ -57,13 +57,13 @@ export async function updateCategory(
 }
 
 export async function deleteCategory(categoryId: string, householdId: string) {
-  if (!validateUuid(householdId) || !validateUuid(categoryId)) {
-    return { error: true, message: "Failed to delete member" };
-  }
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  if (!validateUuid(householdId) || !validateUuid(categoryId)) {
+    return { error: true, message: "Failed to delete member" };
+  }
 
   await deleteCategoryDB(categoryId, householdId);
 

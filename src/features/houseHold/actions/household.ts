@@ -15,22 +15,19 @@ import { updateHousehold as updateHouseholdDB } from "../db/household";
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
 ) {
-  const { success, data } = householdSchema.safeParse(unsafeData);
-
-  if (!success) throw new Error("Failed to create Household");
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  const household = await insertHousehold(
-    {
-      ...data,
-      description: data.description != "" ? data.description : null,
-      ownerId: session?.user.id,
-    },
-    data.balance
-  );
+  const { success, data } = householdSchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Household");
+
+  const household = await insertHousehold({
+    ...data,
+    description: data.description != "" ? data.description : null,
+    ownerId: session?.user.id,
+  });
 
   redirect(`/${household.id}/settings`);
 }
@@ -39,13 +36,13 @@ export async function updateHousehold(
   unsafeData: HouseholdSchema,
   householdId: string
 ) {
-  const { success, data } = householdSchema.safeParse(unsafeData);
-
-  if (!success) throw new Error("Failed to create Household");
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  const { success, data } = householdSchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Household");
 
   await updateHouseholdDB(data, householdId);
 
