@@ -11,7 +11,7 @@ export const getMembers = (id: string) => {
   return db.query.MembersTable.findMany({
     where: eq(MembersTable.householdId, id),
     columns: { id: true, name: true },
-    with: { user: { columns: { id: true, name: true, image: true } } },
+    with: { user: { columns: { id: true, image: true } } },
   });
 };
 

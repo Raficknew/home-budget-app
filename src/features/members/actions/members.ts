@@ -25,13 +25,13 @@ export async function createMember(
 }
 
 export async function deleteMember(memberId: string, householdId: string) {
-  if (!validateUuid(householdId) || !validateUuid(memberId)) {
-    return { error: true, message: "Failed to delete member" };
-  }
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  if (!validateUuid(householdId) || !validateUuid(memberId)) {
+    return { error: true, message: "Failed to delete member" };
+  }
 
   await deleteMemberDB(memberId, householdId);
 

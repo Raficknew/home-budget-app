@@ -11,7 +11,6 @@ export type Member = {
   id: string;
   user: {
     id: string;
-    name: string | null;
     image: string | null;
   } | null;
 };

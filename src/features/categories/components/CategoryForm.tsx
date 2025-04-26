@@ -12,7 +12,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { categorySchema, CategorySchema } from "../schema/category";
-import { categoriesOfExpanse, CategoriesOfExpanse } from "@/drizzle/schema";
+import {
+  categoriesOfExpanse,
+  CategoriesOfExpanse,
+  CategoryTable,
+} from "@/drizzle/schema";
 import {
   Select,
   SelectContent,
@@ -30,7 +34,7 @@ export function CategoryForm({
   onSuccess,
 }: {
   type: CategoriesOfExpanse;
-  category?: { id: string; name: string; icon: string; type: string };
+  category?: typeof CategoryTable.$inferSelect;
   householdId: string;
   onSuccess?: () => void;
 }) {
