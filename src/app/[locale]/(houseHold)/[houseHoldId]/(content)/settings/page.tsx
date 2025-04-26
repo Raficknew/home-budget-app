@@ -6,7 +6,7 @@ import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon"
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
-import { canMakeChangesToHousehold } from "@/features/household/permissions/household";
+import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
 import { MemberForm } from "@/features/members/components/MemberForm";
 import { getHousehold } from "@/global/actions";
@@ -24,7 +24,7 @@ export default async function HouseholdEditPage({
   const currencies = await getCurrencies();
   const members = await getMembers(householdId);
 
-  if (household == null || !canMakeChangesToHousehold(householdId)) notFound();
+  if (household == null || !assertHouseholdWriteAccess(householdId)) notFound();
 
   return (
     <div className="p-2 flex flex-col gap-10">

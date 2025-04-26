@@ -21,14 +21,19 @@ import {
 import { useTranslations } from "next-intl";
 import { createHousehold, updateHousehold } from "../actions/household";
 import { householdSchema, HouseholdSchema } from "../schema/household";
-import { HouseholdTable } from "@/drizzle/schema";
 
 export function HouseholdForm({
   currencies,
   household,
 }: {
   currencies: { code: string }[];
-  household?: typeof HouseholdTable.$inferSelect;
+  household?: {
+    id: string;
+    name: string;
+    description: string;
+    currencyCode: string;
+    balance: number;
+  };
 }) {
   const t = useTranslations("CreateHousehold");
 

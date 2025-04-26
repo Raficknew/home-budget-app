@@ -1,5 +1,5 @@
 {
-  "id": "a74ac97f-40e3-4d8d-88e1-442d9f93ff16",
+  "id": "d5b45826-bff9-4c83-a89a-f64b8783d10d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -369,8 +369,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "currentBalance": {
-          "name": "currentBalance",
+        "balanceAfterTransaction": {
+          "name": "balanceAfterTransaction",
           "type": "integer",
           "primaryKey": false,
           "notNull": true

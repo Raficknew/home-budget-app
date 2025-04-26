@@ -6,18 +6,21 @@ import { revalidatePath } from "next/cache";
 import { insertMember, updateMember as updateMemberDB } from "../db/members";
 import { validate as validateUuid } from "uuid";
 import { deleteMember as deleteMemberDB } from "../db/members";
+import { assertMemberWriteAccess } from "../permissions/members";
 
 export async function createMember(
   unsafeData: z.infer<typeof membersSchema>,
   householdId: string
 ) {
-  const { data, success } = membersSchema.safeParse(unsafeData);
-
-  if (!success) throw new Error("Failed to create Transaction");
-
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  await assertMemberWriteAccess(householdId);
+
+  const { data, success } = membersSchema.safeParse(unsafeData);
+
+  if (!success) throw new Error("Failed to create Transaction");
 
   await insertMember(data, householdId);
 
@@ -29,7 +32,11 @@ export async function deleteMember(memberId: string, householdId: string) {
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  if (!validateUuid(householdId) || !validateUuid(memberId)) {
+  if (
+    !validateUuid(householdId) ||
+    !validateUuid(memberId) ||
+    (await assertMemberWriteAccess(householdId))
+  ) {
     return { error: true, message: "Failed to delete member" };
   }
 
@@ -52,6 +59,8 @@ export async function updateMember(
   const { data, success } = membersSchema.safeParse(unsafeData);
 
   if (!success) throw new Error("Failed to create Transaction");
+
+  await assertMemberWriteAccess(householdId);
 
   await updateMemberDB({ memberId, name: data.name }, householdId);
 

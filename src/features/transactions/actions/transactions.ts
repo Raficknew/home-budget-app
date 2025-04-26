@@ -10,6 +10,8 @@ import { revalidatePath } from "next/cache";
 import { HouseholdTable, TransactionType } from "@/drizzle/schema";
 import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
+import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
+import { updateHouseholdBalance } from "@/features/household/db/household";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
@@ -19,15 +21,27 @@ export async function createTransaction(
 
   if (session?.user.id == null) throw new Error("User not found");
 
+  await assertHouseholdWriteAccess(householdId);
+
   const { success, data } = transactionsSchema.safeParse(unsafeData);
 
   if (!success) throw new Error("Failed to create Transaction");
 
-  const currentBalance = await db.query.HouseholdTable.findFirst({
+  const household = await db.query.HouseholdTable.findFirst({
     where: eq(HouseholdTable.id, householdId),
     columns: { balance: true },
   });
 
+  if (!household) {
+    throw new Error("Household not found");
+  }
+
+  const balanceAfterTransaction =
+    data.type == "income"
+      ? household.balance + data.price
+      : household.balance - data.price;
+
+  await updateHouseholdBalance(householdId, balanceAfterTransaction);
   await insertTransaction(
     {
       name: data.name,
@@ -35,7 +49,7 @@ export async function createTransaction(
       date: data.date,
       price: data.price,
       type: data.type as TransactionType,
-      currentBalance: currentBalance?.balance ?? 0,
+      balanceAfterTransaction,
     },
     data.membersIds
   );

@@ -11,7 +11,7 @@ import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 import { HouseholdSchema } from "../schema/household";
-import { canMakeChangesToHousehold } from "../permissions/household";
+import { assertHouseholdWriteAccess } from "../permissions/household";
 import { getTranslations } from "next-intl/server";
 
 export async function insertHousehold(
@@ -188,7 +188,7 @@ export async function updateHousehold(
 ) {
   if (
     !validateUuid(householdId) ||
-    !(await canMakeChangesToHousehold(householdId))
+    (await assertHouseholdWriteAccess(householdId))
   ) {
     throw new Error("There was an error generateing new link");
   }
@@ -208,7 +208,7 @@ export async function updateHousehold(
 export async function deleteHousehold(householdId: string) {
   if (
     !validateUuid(householdId) ||
-    !(await canMakeChangesToHousehold(householdId))
+    (await assertHouseholdWriteAccess(householdId))
   ) {
     throw new Error("There was an error generateing new link");
   }
@@ -227,7 +227,7 @@ export async function deleteHousehold(householdId: string) {
 export async function updateLink(householdId: string) {
   if (
     !validateUuid(householdId) ||
-    !(await canMakeChangesToHousehold(householdId))
+    (await assertHouseholdWriteAccess(householdId))
   ) {
     throw new Error("There was an error generateing new link");
   }
@@ -244,4 +244,19 @@ export async function updateLink(householdId: string) {
   if (updatedLink == null) throw new Error("Failed to generate link");
 
   return updatedLink;
+}
+
+export async function updateHouseholdBalance(
+  householdId: string,
+  balance: number
+) {
+  const [updatedBalance] = await db
+    .update(HouseholdTable)
+    .set({ balance })
+    .where(eq(HouseholdTable.id, householdId))
+    .returning();
+
+  if (updatedBalance == null) throw new Error("Failed to generate link");
+
+  return updatedBalance;
 }
