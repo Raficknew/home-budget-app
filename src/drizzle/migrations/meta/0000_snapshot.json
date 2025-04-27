@@ -1,5 +1,5 @@
 {
-  "id": "3d850a83-3e81-4ea5-806f-4687932a8119",
+  "id": "d5b45826-bff9-4c83-a89a-f64b8783d10d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -17,6 +17,12 @@
         },
         "name": {
           "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "icon": {
+          "name": "icon",
           "type": "text",
           "primaryKey": false,
           "notNull": true
@@ -86,7 +92,7 @@
           "name": "name",
           "type": "text",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "userId": {
           "name": "userId",
@@ -188,6 +194,12 @@
         "currencyCode": {
           "name": "currencyCode",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "balance": {
+          "name": "balance",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -354,6 +366,12 @@
         "date": {
           "name": "date",
           "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "balanceAfterTransaction": {
+          "name": "balanceAfterTransaction",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },

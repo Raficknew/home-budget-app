@@ -1,17 +1,18 @@
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
 import { generateRandomColor } from "@/global/functions";
+import { and, eq } from "drizzle-orm";
 
 export async function insertMember(
-  householdId: string,
-  { userId, name }: { userId: string; name: string }
+  { userId, name }: { userId?: string; name: string },
+  householdId: string
 ) {
   const randomColor = generateRandomColor();
   const [newMember] = await db
     .insert(MembersTable)
     .values({
       householdId,
-      userId,
+      userId: userId ?? null,
       name,
       color: randomColor,
     })
@@ -20,4 +21,40 @@ export async function insertMember(
   if (newMember == null) throw new Error("Failed to create Member");
 
   return newMember;
+}
+
+export async function deleteMember(memberId: string, householdId: string) {
+  const [deletedMember] = await db
+    .delete(MembersTable)
+    .where(
+      and(
+        eq(MembersTable.id, memberId),
+        eq(MembersTable.householdId, householdId)
+      )
+    )
+    .returning();
+
+  if (deletedMember == null) throw new Error("Failed to create Member");
+
+  return deletedMember;
+}
+
+export async function updateMember(
+  { memberId, name }: { memberId: string; name: string },
+  householdId: string
+) {
+  const [updatedMember] = await db
+    .update(MembersTable)
+    .set({ name: name })
+    .where(
+      and(
+        eq(MembersTable.id, memberId),
+        eq(MembersTable.householdId, householdId)
+      )
+    )
+    .returning();
+
+  if (updatedMember == null) throw new Error("Failed to create Member");
+
+  return updatedMember;
 }

@@ -1,6 +1,6 @@
 import { MobileOverlay } from "@/components/MobileOverlay";
 import { TransactionForm } from "./TransactionsForm";
-import { getCategoriesIdsAndNames, getMembers } from "@/global/functions";
+import { getCategories, getMembers } from "@/global/functions";
 
 export async function TransactionMobileDialog({
   defaultTransaction,
@@ -10,7 +10,7 @@ export async function TransactionMobileDialog({
   householdId: string;
 }) {
   const members = await getMembers(householdId);
-  const categories = await getCategoriesIdsAndNames(householdId);
+  const categories = await getCategories(householdId);
   return (
     <MobileOverlay>
       <TransactionForm

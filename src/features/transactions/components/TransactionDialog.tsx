@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { TransactionForm } from "./TransactionsForm";
-import { getMembers, getCategoriesIdsAndNames } from "@/global/functions";
+import { getMembers, getCategories } from "@/global/functions";
 
 export async function TransactionDialog({
   defaultTransaction,
@@ -11,7 +11,7 @@ export async function TransactionDialog({
   householdId: string;
 }) {
   const members = await getMembers(householdId);
-  const categories = await getCategoriesIdsAndNames(householdId);
+  const categories = await getCategories(householdId);
   return (
     <Dialog>
       <DialogTrigger className="md:block hidden">Dodaj</DialogTrigger>

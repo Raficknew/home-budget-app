@@ -24,6 +24,7 @@ export const TransactionTable = pgTable("transactions", {
     .references(() => CategoryTable.id, { onDelete: "cascade" }),
   price: integer().notNull(),
   date: timestamp().notNull(),
+  balanceAfterTransaction: integer().notNull(),
   createdAt,
   updatedAt,
 });

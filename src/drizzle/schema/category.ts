@@ -19,6 +19,7 @@ export const categoryOfExpanseEnum = pgEnum(
 export const CategoryTable = pgTable("categories", {
   id,
   name: text().notNull(),
+  icon: text().notNull(),
   categoryType: categoryOfExpanseEnum().notNull(),
   householdId: uuid()
     .notNull()

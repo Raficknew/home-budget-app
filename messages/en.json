@@ -58,5 +58,26 @@
       "placeholder": "Choose"
     },
     "submit": "Add"
+  },
+  "DefaultCategories": {
+    "rent": "Rent",
+    "loan": "Loan",
+    "transportation": "Transportation",
+    "phone": "Phone",
+    "insurence": "Insurence",
+    "groceries": "Groceries",
+    "healthcare": "Healthcare",
+    "clothing": "Clothing",
+    "eatingOut": "Eating Out",
+    "gym": "Gym",
+    "gifts": "Gifts",
+    "subscriptions": "Subscriptions",
+    "coffee": "Coffee",
+    "emergencyFund": "Emergency Fund",
+    "education": "Education",
+    "vacationFund": "Vacation Fund",
+    "dailyJob": "Daily Job",
+    "sideHustle": "Side Hustle",
+    "balance": "Balance"
   }
 }

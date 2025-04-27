@@ -47,7 +47,7 @@ type TranscationFormSchema = z.infer<typeof transcationFormSchema>;
 type Member = {
   name: string | null;
   id: string;
-  user: { name: string | null; id: string } | null;
+  user: { id: string; image: string | null } | null;
 };
 
 type Category = {
@@ -69,12 +69,17 @@ export function TransactionForm({
   const ts = useTranslations("CreateTransaction");
   const session = useSession();
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
+
+  const currentMemberId = members.find(
+    (member) => member.user?.id === session.data?.user.id
+  )?.id;
+
   const form = useForm<TranscationFormSchema>({
     resolver: zodResolver(transcationFormSchema),
     defaultValues: {
       price: 0,
       name: "",
-      membersIds: session.data?.user.id ?? undefined,
+      membersIds: currentMemberId ?? undefined,
       date: new Date(),
       categoryId: undefined,
     },
@@ -159,12 +164,12 @@ export function TransactionForm({
                   <FormControl>
                     <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder={members[0]?.user?.name} />
+                        <SelectValue placeholder={session.data?.user.name} />
                       </SelectTrigger>
                       <SelectContent>
                         {members.map((member) => (
                           <SelectItem value={member.id} key={member.id}>
-                            {member.user?.name ?? member.name}
+                            {member.name}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -233,7 +238,11 @@ export function TransactionForm({
           )}
         />
         <div className="flex justify-center pt-3.5">
-          <Button variant="submit" type="submit">
+          <Button
+            variant="submit"
+            type="submit"
+            disabled={form.formState.isSubmitting}
+          >
             {ts("submit")}
           </Button>
         </div>
