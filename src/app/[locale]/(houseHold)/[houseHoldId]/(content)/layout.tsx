@@ -1,10 +1,4 @@
-import { SideBarContent } from "@/components/SideBarContent";
-import {
-  Sidebar,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
-
+import { Sidebar } from "@/components/Sidebar";
 import { ReactNode } from "react";
 
 export default async function HouseholdLayout({
@@ -13,20 +7,9 @@ export default async function HouseholdLayout({
   children: ReactNode;
 }>) {
   return (
-    <SidebarProvider>
-      <SideBar />
-      <main className="w-full">
-        <SidebarTrigger />
-        {children}
-      </main>
-    </SidebarProvider>
-  );
-}
-
-function SideBar() {
-  return (
-    <Sidebar collapsible="icon">
-      <SideBarContent />
-    </Sidebar>
+    <div className="pt-3">
+      <Sidebar />
+      <div className="absolute left-0 sm:left-20">{children}</div>
+    </div>
   );
 }

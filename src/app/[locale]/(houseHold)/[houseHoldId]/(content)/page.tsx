@@ -19,7 +19,7 @@ export default async function HouseholdPage({
   }
 
   return (
-    <div className=" mx-6">
+    <div>
       <p>Balance: {household.balance}</p>
       <div>
         <TransactionDialog
