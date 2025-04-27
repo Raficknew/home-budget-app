@@ -34,14 +34,7 @@ export function Member({
         {member.name}
       </div>
       <div className="flex items-center gap-6">
-        <MemberEditDialog
-          member={{
-            id: member.id,
-            image: member.user?.image ?? "",
-            name: member.name,
-          }}
-          householdId={householdId}
-        >
+        <MemberEditDialog member={member} householdId={householdId}>
           <DialogTrigger>
             <Edit2Icon className="cursor-pointer" size={16} />
           </DialogTrigger>

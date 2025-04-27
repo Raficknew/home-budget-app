@@ -1,6 +1,6 @@
 "use server";
 import { auth } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { validate as validateUuid } from "uuid";
 import {
   deleteCategory as deleteCategoryDB,
@@ -53,7 +53,7 @@ export async function updateCategory(
     categoryType: type,
   });
 
-  revalidatePath(`/${householdId}/settings`);
+  revalidateTag(`/${householdId}/settings`);
 }
 
 export async function deleteCategory(categoryId: string, householdId: string) {
@@ -67,7 +67,7 @@ export async function deleteCategory(categoryId: string, householdId: string) {
 
   await deleteCategoryDB(categoryId, householdId);
 
-  revalidatePath(`/${householdId}/settings`);
+  revalidateTag(`/${householdId}/settings`);
 
   return { error: false, message: "Success" };
 }

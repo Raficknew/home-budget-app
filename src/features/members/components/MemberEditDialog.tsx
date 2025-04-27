@@ -14,7 +14,14 @@ export function MemberEditDialog({
   householdId,
 }: {
   children: ReactNode;
-  member: { id: string; name: string; image: string };
+  member: {
+    id: string;
+    name: string;
+    user: {
+      id: string;
+      image: string | null;
+    } | null;
+  };
   householdId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);

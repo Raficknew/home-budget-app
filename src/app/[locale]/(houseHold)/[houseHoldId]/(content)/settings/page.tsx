@@ -24,7 +24,8 @@ export default async function HouseholdEditPage({
   const currencies = await getCurrencies();
   const members = await getMembers(householdId);
 
-  if (household == null || !assertHouseholdWriteAccess(householdId)) notFound();
+  if (household == null || (await assertHouseholdWriteAccess(householdId)))
+    notFound();
 
   return (
     <div className="p-2 flex flex-col gap-10">

@@ -2,7 +2,7 @@
 import { z } from "zod";
 import { membersSchema } from "../schema/members";
 import { auth } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { insertMember, updateMember as updateMemberDB } from "../db/members";
 import { validate as validateUuid } from "uuid";
 import { deleteMember as deleteMemberDB } from "../db/members";
@@ -24,7 +24,7 @@ export async function createMember(
 
   await insertMember(data, householdId);
 
-  revalidatePath(`/${householdId}/settings`);
+  revalidateTag(`/${householdId}/members`);
 }
 
 export async function deleteMember(memberId: string, householdId: string) {
@@ -64,5 +64,5 @@ export async function updateMember(
 
   await updateMemberDB({ memberId, name: data.name }, householdId);
 
-  revalidatePath(`/${householdId}/settings`);
+  revalidateTag(`/${householdId}/members`);
 }
