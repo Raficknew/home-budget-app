@@ -8,7 +8,7 @@ import {
 } from "@/drizzle/schema";
 import { createUuid, generateRandomColor } from "@/global/functions";
 import { auth } from "@/lib/auth";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 import { HouseholdSchema } from "../schema/household";
 import { assertHouseholdWriteAccess } from "../permissions/household";
@@ -224,7 +224,7 @@ export async function deleteHousehold(householdId: string) {
   return deletedHousehold;
 }
 
-export async function updateLink(householdId: string) {
+export async function updateLink(householdId: string, link: string) {
   if (
     !validateUuid(householdId) ||
     (await assertHouseholdWriteAccess(householdId))
@@ -237,7 +237,7 @@ export async function updateLink(householdId: string) {
   const [updatedLink] = await db
     .update(InviteTable)
     .set({ link: newLink })
-    .where(eq(HouseholdTable.id, householdId))
+    .where(and(eq(HouseholdTable.id, householdId), eq(InviteTable.link, link)))
     .from(HouseholdTable)
     .returning();
 

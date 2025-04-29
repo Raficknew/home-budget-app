@@ -72,7 +72,7 @@ export function Sidebar() {
           ))}
         </div>
       </div>
-      <div className="self-center hidden sm:block">
+      <div className="self-center hidden sm:flex">
         <Route
           currentRoute={currentRoute ?? ""}
           url={`/${locale}/${householdId}/settings`}
@@ -105,10 +105,10 @@ function Route({
       href={url}
       className={cn(
         "self-center",
-        currentRoute == url.split("/")[3] && "bg-accent p-1.5 rounded-full",
+        currentRoute == url.split("/")[3] && "bg-accent p-2 rounded-full",
         currentRoute == "" &&
           title == "Dashboard" &&
-          "bg-accent p-1.5 rounded-full"
+          "bg-accent p-2 rounded-full"
       )}
     >
       {children}

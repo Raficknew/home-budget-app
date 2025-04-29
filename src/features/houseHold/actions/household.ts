@@ -72,14 +72,17 @@ export async function joinHousehold(householdId: string, userId: string) {
   redirect(`/${householdId}`);
 }
 
-export async function generateLinkForHousehold(householdId: string) {
+export async function generateLinkForHousehold(
+  householdId: string,
+  link: string
+) {
   const session = await auth();
 
   if (session?.user.id == null) {
     return { error: true, message: "User not found" };
   }
 
-  await updateLink(householdId);
+  await updateLink(householdId, link);
 
   revalidatePath(`/${householdId}/settings`);
   return { error: false, message: "Success" };
