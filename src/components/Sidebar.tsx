@@ -55,21 +55,26 @@ export function Sidebar() {
             height={30}
           />
         </div>
-        <div className="flex flex-row sm:flex-col justify-center gap-5">
+        <div className="flex flex-row sm:flex-col justify-center gap-7 sm:gap-5">
           {routes.map((route) => (
-            <Route
-              title={route.title}
-              currentRoute={currentRoute ?? ""}
-              url={route.url}
-              key={route.title}
-            >
-              <HugeiconsIcon
-                strokeWidth={2}
-                width={20}
-                height={20}
-                icon={route.icon}
-              />
-            </Route>
+            <>
+              <Route
+                title={route.title}
+                currentRoute={currentRoute ?? ""}
+                url={route.url}
+                key={route.title}
+              >
+                <HugeiconsIcon
+                  strokeWidth={2}
+                  width={20}
+                  height={20}
+                  icon={route.icon}
+                />
+              </Route>
+              {routes.indexOf(route) != 3 && (
+                <div className="w-px bg-[#616062]"></div>
+              )}
+            </>
           ))}
         </div>
       </div>
