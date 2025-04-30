@@ -13,6 +13,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SignOutButton } from "./SignOutButton";
 
 export function Sidebar() {
   const { locale, householdId } = useParams();
@@ -72,7 +73,7 @@ export function Sidebar() {
           ))}
         </div>
       </div>
-      <div className="self-center hidden sm:flex">
+      <div className="self-center hidden sm:flex sm:flex-col gap-5">
         <Route
           currentRoute={currentRoute ?? ""}
           url={`/${locale}/${householdId}/settings`}
@@ -84,6 +85,7 @@ export function Sidebar() {
             icon={Settings01Icon}
           />
         </Route>
+        <SignOutButton />
       </div>
     </div>
   );
