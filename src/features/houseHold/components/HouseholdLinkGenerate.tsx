@@ -20,7 +20,9 @@ export function HouseholdLinkGenerate({
       >
         {link}
       </div>
-      <ActionButton action={() => generateLinkForHousehold(householdId)}>
+      <ActionButton
+        action={() => generateLinkForHousehold(householdId, inviteId)}
+      >
         Generate New
       </ActionButton>
     </div>
