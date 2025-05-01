@@ -34,7 +34,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar-background)
+  --color-sidebar: var(--sidebar-background);
+  --shadow-xl: 0 0 25px 5px rgba(112, 71, 235, 0.5);
 }
 
 :root {
