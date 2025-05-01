@@ -16,14 +16,14 @@ export function HouseholdLinkGenerate({
     <div className="flex gap-1 items-center">
       <div
         onClick={() => navigator.clipboard.writeText(link)}
-        className="cursor-pointer text-xs hover:underline"
+        className="cursor-pointer text-[10px] hover:underline"
       >
-        {link}
+        {link.substring(0, 45) + "..."}
       </div>
       <ActionButton
         action={() => generateLinkForHousehold(householdId, inviteId)}
       >
-        Generate New
+        G
       </ActionButton>
     </div>
   );

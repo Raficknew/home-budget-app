@@ -19,8 +19,6 @@ export function Sidebar() {
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
 
-  console.log(currentRoute);
-
   const routes = [
     {
       title: t("dashboard"),
@@ -76,7 +74,7 @@ export function Sidebar() {
       <div className="self-center hidden sm:flex sm:flex-col gap-5">
         <Route
           currentRoute={currentRoute ?? ""}
-          url={`/${locale}/${householdId}/settings`}
+          url={`/${locale}/${householdId}/settings/household`}
           icon={Settings01Icon}
         />
         <SignOutButton />

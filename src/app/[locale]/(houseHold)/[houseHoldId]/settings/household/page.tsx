@@ -1,11 +1,9 @@
 import { ActionButton } from "@/components/ActionButton";
-import { env } from "@/data/env/server";
 import { Category } from "@/features/categories/components/Category";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
 import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
-import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
 import { MemberForm } from "@/features/members/components/MemberForm";
@@ -29,11 +27,6 @@ export default async function HouseholdEditPage({
 
   return (
     <div className="p-2 flex flex-col gap-10">
-      <HouseholdLinkGenerate
-        url={env.FRONTEND_URL}
-        householdId={householdId}
-        inviteId={household.invite?.link ?? ""}
-      />
       <div className="w-full">
         Członkowie:
         <MemberForm householdId={householdId} />
