@@ -4,7 +4,7 @@ import { signOut } from "next-auth/react";
 
 export function SignOutButton() {
   return (
-    <div className="cursor-pointer" onClick={() => signOut()}>
+    <div className="cursor-pointer self-center" onClick={() => signOut()}>
       <HugeiconsIcon
         strokeWidth={2}
         width={20}

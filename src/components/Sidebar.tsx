@@ -10,7 +10,6 @@ import {
   Settings01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ReactNode } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "./SignOutButton";
@@ -45,7 +44,7 @@ export function Sidebar() {
     },
   ];
   return (
-    <div className="fixed z-10 sm:left-0 sm:rounded-none rounded-t-2xl bottom-0 bg-sidebar sm:h-full w-full sm:w-fit h-fit p-5 flex flex-row sm:flex-col items-start justify-center sm:justify-between">
+    <div className="fixed z-10 sm:left-0 sm:rounded-none rounded-t-2xl bottom-0 bg-sidebar sm:h-full w-full sm:w-fit h-fit p-5 flex flex-row sm:flex-col justify-center sm:justify-between">
       <div className="flex flex-col gap-10 items-center">
         <div className="hidden sm:block">
           <Image
@@ -55,26 +54,22 @@ export function Sidebar() {
             height={30}
           />
         </div>
-        <div className="flex flex-row sm:flex-col justify-center gap-7 sm:gap-5">
+        <div className="flex flex-row sm:flex-col gap-5 sm:gap-5">
           {routes.map((route) => (
-            <>
+            <div
+              className="flex justify-center gap-5 sm:gap-0"
+              key={route.title}
+            >
               <Route
                 title={route.title}
                 currentRoute={currentRoute ?? ""}
                 url={route.url}
-                key={route.title}
-              >
-                <HugeiconsIcon
-                  strokeWidth={2}
-                  width={20}
-                  height={20}
-                  icon={route.icon}
-                />
-              </Route>
+                icon={route.icon}
+              />
               {routes.indexOf(route) != 3 && (
-                <div className="w-px bg-[#616062]"></div>
+                <div className="w-px sm:w-0 bg-[#616062]"></div>
               )}
-            </>
+            </div>
           ))}
         </div>
       </div>
@@ -82,14 +77,8 @@ export function Sidebar() {
         <Route
           currentRoute={currentRoute ?? ""}
           url={`/${locale}/${householdId}/settings`}
-        >
-          <HugeiconsIcon
-            strokeWidth={2}
-            width={20}
-            height={20}
-            icon={Settings01Icon}
-          />
-        </Route>
+          icon={Settings01Icon}
+        />
         <SignOutButton />
       </div>
     </div>
@@ -97,28 +86,39 @@ export function Sidebar() {
 }
 
 function Route({
-  children,
+  icon,
   url,
   currentRoute,
   title,
 }: {
-  children: ReactNode;
+  icon: typeof Settings01Icon;
   url: string;
   currentRoute: string;
   title?: string;
 }) {
+  const isHovered =
+    currentRoute == url.split("/")[3] ||
+    (currentRoute == "" && title == "Dashboard");
   return (
     <Link
       href={url}
       className={cn(
-        "self-center",
-        currentRoute == url.split("/")[3] && "bg-accent p-2 rounded-full",
-        currentRoute == "" &&
-          title == "Dashboard" &&
-          "bg-accent p-2 rounded-full"
+        "self-center p-1 sm:p-2",
+        isHovered && "sm:bg-accent rounded-full"
       )}
     >
-      {children}
+      <div className="sm:hidden flex">
+        <HugeiconsIcon
+          strokeWidth={2}
+          width={20}
+          color={cn(isHovered && "#7047EB")}
+          height={20}
+          icon={icon}
+        />
+      </div>
+      <div className="hidden sm:flex">
+        <HugeiconsIcon strokeWidth={2} width={20} height={20} icon={icon} />
+      </div>
     </Link>
   );
 }
