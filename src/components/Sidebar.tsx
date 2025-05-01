@@ -106,6 +106,12 @@ function Route({
         "self-center p-1 sm:p-2",
         isHovered && "sm:bg-accent rounded-full"
       )}
+      style={{
+        boxShadow:
+          isHovered && typeof window !== "undefined" && window.innerWidth >= 640
+            ? "0 0 25px 5px rgba(112, 71, 235, 0.5)"
+            : "none",
+      }}
     >
       <div className="sm:hidden flex">
         <HugeiconsIcon
