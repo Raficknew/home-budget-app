@@ -25,6 +25,7 @@ import { householdSchema, HouseholdSchema } from "../schema/household";
 export function HouseholdForm({
   currencies,
   household,
+  inputBgColor,
 }: {
   currencies: { code: string }[];
   household?: {
@@ -34,6 +35,7 @@ export function HouseholdForm({
     currencyCode: string;
     balance: number;
   };
+  inputBgColor?: string;
 }) {
   const t = useTranslations("CreateHousehold");
 
@@ -59,7 +61,7 @@ export function HouseholdForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grow w-full space-y-8 text-left"
+        className="grow w-full space-y-8 text-right"
       >
         <FormField
           control={form.control}
@@ -68,7 +70,11 @@ export function HouseholdForm({
             <FormItem>
               <FormLabel>{t("name.label")}</FormLabel>
               <FormControl>
-                <Input placeholder={t("name.placeholder")} {...field} />
+                <Input
+                  className={inputBgColor}
+                  placeholder={t("name.placeholder")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +87,11 @@ export function HouseholdForm({
             <FormItem>
               <FormLabel>{t("description.label")}</FormLabel>
               <FormControl>
-                <Input placeholder={t("description.placeholder")} {...field} />
+                <Input
+                  className={inputBgColor}
+                  placeholder={t("description.placeholder")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

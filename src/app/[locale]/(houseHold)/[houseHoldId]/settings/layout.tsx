@@ -26,9 +26,11 @@ export default async function HouseholdSettingsLayout({
   return (
     <>
       <Sidebar />
-      <div className="sm:pl-22 pr-4 pt-3 w-full">
+      <div className="flex flex-col h-screen gap-3 sm:pl-22 pr-4 py-3 w-full">
         <TopBar householdId={householdId} link={household.invite?.link ?? ""} />
-        <div>{children}</div>
+        <div className="bg-sidebar w-full h-full rounded-xl pt-10 flex flex-col items-center">
+          <div className="w-3/4">{children}</div>
+        </div>
       </div>
     </>
   );
@@ -36,7 +38,7 @@ export default async function HouseholdSettingsLayout({
 
 function TopBar({ householdId, link }: { householdId: string; link: string }) {
   return (
-    <div className="bg-sidebar rounded-xl p-3  flex-col gap-5 hidden sm:flex">
+    <div className="bg-sidebar rounded-xl p-3 flex-col gap-5 hidden sm:flex">
       <div className="flex justify-between">
         <h1 className="text-2xl">Ustawienia</h1>
         <HouseholdLinkGenerate

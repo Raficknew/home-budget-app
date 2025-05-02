@@ -25,15 +25,6 @@ export default async function HouseholdEditPage({
 
   return (
     <div className="flex flex-col gap-10">
-      <div className="w-full">
-        Członkowie:
-        <MemberForm householdId={householdId} />
-        <div className="flex flex-col gap-2">
-          {members.map((member) => (
-            <Member key={member.id} member={member} householdId={householdId} />
-          ))}
-        </div>
-      </div>
       <div>
         <HouseholdForm
           currencies={currencies}
@@ -44,9 +35,24 @@ export default async function HouseholdEditPage({
             name: household.name,
             balance: 0,
           }}
+          inputBgColor="bg-[#161616]"
         />
       </div>
-      <div>
+      <SectionSpacer />
+      <div className="w-full">
+        <SectionHeader
+          title="Członkowie"
+          description="Dodawaj, usuwaj i edytuj członków gospodarstwa"
+        />
+        <MemberForm householdId={householdId} />
+        <div className="flex flex-col gap-2">
+          {members.map((member) => (
+            <Member key={member.id} member={member} householdId={householdId} />
+          ))}
+        </div>
+      </div>
+
+      {/* <div>
         <CategoryForm householdId={householdId} type="fun" />
       </div>
       <div>
@@ -60,7 +66,26 @@ export default async function HouseholdEditPage({
             householdId={householdId}
           />
         ))}
-      </div>
+      </div> */}
+    </div>
+  );
+}
+
+function SectionSpacer() {
+  return <div className="bg-[#616062] w-full h-px"></div>;
+}
+
+function SectionHeader({
+  title,
+  description,
+}: {
+  title: string;
+  description?: string;
+}) {
+  return (
+    <div>
+      <h2 className="text-xl">{title}</h2>
+      <h4 className="text-xs">{description}</h4>
     </div>
   );
 }
