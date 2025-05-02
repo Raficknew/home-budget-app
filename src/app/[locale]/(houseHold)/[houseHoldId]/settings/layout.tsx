@@ -1,11 +1,13 @@
+import { ActionButton } from "@/components/ActionButton";
+import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
 import { Sidebar } from "@/components/Sidebar";
-import { Button } from "@/components/ui/button";
 import { env } from "@/data/env/server";
+import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 import { getHousehold } from "@/global/actions";
-import { Home01Icon, UserIcon } from "@hugeicons/core-free-icons";
+import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import Link from "next/link";
+
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -25,49 +27,40 @@ export default async function HouseholdSettingsLayout({
     <>
       <Sidebar />
       <div className="sm:pl-22 pr-4 pt-3 w-full">
-        <div className="bg-sidebar rounded-xl p-3 flex flex-col gap-5">
-          <div className="flex justify-between">
-            <h1 className="text-2xl">Ustawienia</h1>
-            <HouseholdLinkGenerate
-              url={env.FRONTEND_URL}
-              householdId={householdId}
-              inviteId={household.invite?.link ?? ""}
-            />
-          </div>
-          <div className="flex gap-2">
-            <TopBarNavigationButton
-              link={`/${householdId}/settings/account`}
-              title="Konto"
-              icon={UserIcon}
-            />
-            <TopBarNavigationButton
-              link={`/${householdId}/settings/household`}
-              title="Gospodarstwo"
-              icon={Home01Icon}
-            />
-          </div>
-        </div>
+        <TopBar householdId={householdId} link={household.invite?.link ?? ""} />
         <div>{children}</div>
       </div>
     </>
   );
 }
 
-function TopBarNavigationButton({
-  link,
-  title,
-  icon,
-}: {
-  link: string;
-  title: string;
-  icon: typeof UserIcon;
-}) {
+function TopBar({ householdId, link }: { householdId: string; link: string }) {
   return (
-    <Button variant="submit" className="rounded-full " asChild>
-      <Link href={link}>
-        <HugeiconsIcon strokeWidth={3} width={20} height={20} icon={icon} />
-        <p className="text-sm font-medium">{title}</p>
-      </Link>
-    </Button>
+    <div className="bg-sidebar rounded-xl p-3  flex-col gap-5 hidden sm:flex">
+      <div className="flex justify-between">
+        <h1 className="text-2xl">Ustawienia</h1>
+        <HouseholdLinkGenerate
+          url={env.FRONTEND_URL}
+          householdId={householdId}
+          inviteId={link}
+        />
+      </div>
+      <div className="flex justify-between">
+        <SettingsNavigationBar householdId={householdId} />
+        <ActionButton
+          variant="ghostDestructive"
+          action={deleteHousehold.bind(null, householdId)}
+          requireAreYouSure
+        >
+          <HugeiconsIcon
+            strokeWidth={2}
+            width={10}
+            height={10}
+            icon={Delete02Icon}
+          />
+          <p className="text-xs">Usuń Gospodarstwo</p>
+        </ActionButton>
+      </div>
+    </div>
   );
 }

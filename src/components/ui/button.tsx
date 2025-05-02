@@ -19,6 +19,8 @@ const buttonVariants = cva(
           "bg-secondary text-foreground shadow-xs hover:bg-secondary/80",
         datePicker: "bg-card text-foreground shadow-xs",
         ghost: "hover:bg-accent hover:text-accent-foreground",
+        ghostDestructive:
+          "hover:bg-destructive hover:text-sidebar text-destructive ",
         submit: "bg-accent text-foreground shadow-xs hover:bg-accent/80",
         link: "text-primary underline-offset-4 hover:underline",
       },

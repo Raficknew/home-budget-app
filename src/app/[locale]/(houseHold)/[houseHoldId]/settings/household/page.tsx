@@ -1,8 +1,6 @@
-import { ActionButton } from "@/components/ActionButton";
 import { Category } from "@/features/categories/components/Category";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
 import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
-import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
@@ -26,7 +24,7 @@ export default async function HouseholdEditPage({
     notFound();
 
   return (
-    <div className="p-2 flex flex-col gap-10">
+    <div className="flex flex-col gap-10">
       <div className="w-full">
         Członkowie:
         <MemberForm householdId={householdId} />
@@ -63,13 +61,6 @@ export default async function HouseholdEditPage({
           />
         ))}
       </div>
-      <ActionButton
-        variant="ghost"
-        action={deleteHousehold.bind(null, household.id)}
-        requireAreYouSure
-      >
-        Delete
-      </ActionButton>
     </div>
   );
 }

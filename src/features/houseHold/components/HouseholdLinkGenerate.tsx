@@ -1,6 +1,8 @@
 "use client";
 import { generateLinkForHousehold } from "../actions/household";
 import { ActionButton } from "@/components/ActionButton";
+import { ArrowReloadHorizontalIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 export function HouseholdLinkGenerate({
   householdId,
@@ -16,14 +18,21 @@ export function HouseholdLinkGenerate({
     <div className="flex gap-1 items-center">
       <div
         onClick={() => navigator.clipboard.writeText(link)}
-        className="cursor-pointer text-[10px] hover:underline"
+        className="cursor-pointer text-[12px] hover:underline bg-[#0F0F0F] h-full flex items-center p-2 rounded-lg"
       >
-        {link.substring(0, 45) + "..."}
+        <p className="font-medium">{link.substring(0, 45) + "..."}</p>
       </div>
       <ActionButton
+        variant="submit"
+        className="size-9"
         action={() => generateLinkForHousehold(householdId, inviteId)}
       >
-        G
+        <HugeiconsIcon
+          strokeWidth={3}
+          width={20}
+          height={20}
+          icon={ArrowReloadHorizontalIcon}
+        />
       </ActionButton>
     </div>
   );
