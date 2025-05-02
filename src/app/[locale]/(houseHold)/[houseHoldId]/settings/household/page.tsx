@@ -39,13 +39,13 @@ export default async function HouseholdEditPage({
         />
       </div>
       <SectionSpacer />
-      <div className="w-full">
+      <div className="flex flex-col gap-5">
         <SectionHeader
           title="Członkowie"
           description="Dodawaj, usuwaj i edytuj członków gospodarstwa"
         />
         <MemberForm householdId={householdId} />
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-3">
           {members.map((member) => (
             <Member key={member.id} member={member} householdId={householdId} />
           ))}
@@ -84,8 +84,8 @@ function SectionHeader({
 }) {
   return (
     <div>
-      <h2 className="text-xl">{title}</h2>
-      <h4 className="text-xs">{description}</h4>
+      <h2 className="text-xl font-medium">{title}</h2>
+      <h4 className="text-xs text-[#828183]">{description}</h4>
     </div>
   );
 }
