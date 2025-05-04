@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { membersSchema, MembersSchema } from "../schema/members";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +13,6 @@ import {
 } from "@/components/ui/form";
 import { createMember, updateMember } from "../actions/members";
 import { DialogFooter } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-
 export function MemberForm({
   householdId,
   member,
@@ -47,7 +44,7 @@ export function MemberForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className={cn("w-full", member == null && "flex")}
+          className="flex flex-col gap-2 w-full"
         >
           <FormField
             control={form.control}
@@ -61,17 +58,12 @@ export function MemberForm({
               </FormItem>
             )}
           />
-          {member ? (
-            <DialogFooter className="mt-4">
-              <Button variant="submit" disabled={form.formState.isSubmitting}>
-                Zapisz
-              </Button>
-            </DialogFooter>
-          ) : (
+
+          <DialogFooter>
             <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <PlusIcon />
+              {member ? "Zapisz" : "Dodaj"}
             </Button>
-          )}
+          </DialogFooter>
         </form>
       </Form>
     </div>

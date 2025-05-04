@@ -1,12 +1,15 @@
+import { DialogTrigger } from "@/components/ui/dialog";
 import { Category } from "@/features/categories/components/Category";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
 import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
-import { MemberForm } from "@/features/members/components/MemberForm";
+import { MemberAddDialog } from "@/features/members/components/MemberAddDialog";
 import { getHousehold } from "@/global/actions";
 import { getCategories, getCurrencies, getMembers } from "@/global/functions";
+import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { notFound } from "next/navigation";
 
 export default async function HouseholdEditPage({
@@ -24,7 +27,7 @@ export default async function HouseholdEditPage({
     notFound();
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-8">
       <div>
         <HouseholdForm
           currencies={currencies}
@@ -44,11 +47,20 @@ export default async function HouseholdEditPage({
           title="Członkowie"
           description="Dodawaj, usuwaj i edytuj członków gospodarstwa"
         />
-        <MemberForm householdId={householdId} />
-        <div className="flex flex-col gap-3">
+        <div className="grid grid-cols-4 gap-2">
           {members.map((member) => (
             <Member key={member.id} member={member} householdId={householdId} />
           ))}
+          {members.length !== 8 && (
+            <MemberAddDialog householdId={householdId}>
+              <DialogTrigger className="flex flex-col items-center justify-center h-[184px] rounded-lg ring ring-accent cursor-pointer">
+                <HugeiconsIcon
+                  className="size-12 text-accent"
+                  icon={PlusSignCircleIcon}
+                />
+              </DialogTrigger>
+            </MemberAddDialog>
+          )}
         </div>
       </div>
 

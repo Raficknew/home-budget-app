@@ -28,7 +28,7 @@ export default async function HouseholdSettingsLayout({
       <Sidebar />
       <div className="flex flex-col h-screen gap-3 sm:pl-22 pr-4 py-3 w-full">
         <TopBar householdId={householdId} link={household.invite?.link ?? ""} />
-        <div className="bg-sidebar w-full h-full rounded-xl pt-10 flex flex-col items-center">
+        <div className="bg-sidebar w-full h-full rounded-xl py-5 flex flex-col items-center">
           <div className="w-3/4">{children}</div>
         </div>
       </div>
