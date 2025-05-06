@@ -7,7 +7,6 @@ import { HouseholdLinkGenerate } from "@/features/household/components/Household
 import { getHousehold } from "@/global/actions";
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
