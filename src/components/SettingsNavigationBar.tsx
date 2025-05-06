@@ -1,6 +1,10 @@
 "use client";
 import Link from "next/link";
-import { Home01Icon, UserIcon } from "@hugeicons/core-free-icons";
+import {
+  DashboardCircleIcon,
+  Home01Icon,
+  UserIcon,
+} from "@hugeicons/core-free-icons";
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { usePathname } from "next/navigation";
@@ -22,6 +26,11 @@ export function SettingsNavigationBar({
       link: `/${householdId}/settings/household`,
       title: "Gospodarstwo",
       icon: Home01Icon,
+    },
+    {
+      link: `/${householdId}/settings/categories`,
+      title: "Kategorie",
+      icon: DashboardCircleIcon,
     },
   ];
 

@@ -28,12 +28,18 @@ export function Member({
   householdId: string;
 }) {
   return (
-    <div className="flex flex-col justify-center items-center bg-[#161616] px-5 py-4 rounded-xl gap-4 drop-shadow-lg">
-      <div className="flex flex-col items-center gap-3">
-        <Avatar className="size-16">
-          <AvatarImage src={member.user?.image ?? ""} />
+    <div className="flex sm:flex-col sm:justify-center justify-between items-center sm:bg-[#161616] bg-sidebar px-5 py-4 rounded-xl gap-4 drop-shadow-lg">
+      <div className="flex sm:flex-col items-center gap-3">
+        <Avatar className="sm:size-16 size-8">
+          <AvatarImage
+            src={member.user?.image ?? ""}
+            className="sm:size-10 size-5"
+          />
           <AvatarFallback className="bg-accent">
-            <HugeiconsIcon size={32} icon={User03FreeIcons} />
+            <HugeiconsIcon
+              className="sm:size-10 size-5"
+              icon={User03FreeIcons}
+            />
           </AvatarFallback>
         </Avatar>
         {member.name}
@@ -42,8 +48,7 @@ export function Member({
         <MemberEditDialog member={member} householdId={householdId}>
           <DialogTrigger className="flex items-center justify-center w-12">
             <HugeiconsIcon
-              className="cursor-pointer"
-              size={24}
+              className="cursor-pointer sm:size-6 size-5"
               icon={PencilEdit02Icon}
             />
           </DialogTrigger>
@@ -54,7 +59,10 @@ export function Member({
           requireAreYouSure
           variant="ghostDestructive"
         >
-          <HugeiconsIcon className="size-6" icon={Cancel01Icon} />
+          <HugeiconsIcon
+            className="cursor-pointer sm:size-6 size-5"
+            icon={Cancel01Icon}
+          />
         </ActionButton>
       </div>
     </div>

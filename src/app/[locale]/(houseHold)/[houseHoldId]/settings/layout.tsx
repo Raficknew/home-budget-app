@@ -26,10 +26,10 @@ export default async function HouseholdSettingsLayout({
   return (
     <>
       <Sidebar />
-      <div className="flex flex-col h-screen gap-3 sm:pl-22 pr-4 py-3 w-full">
+      <div className="flex flex-col h-screen gap-3 sm:pl-22 sm:pr-4 py-3 w-full">
         <TopBar householdId={householdId} link={household.invite?.link ?? ""} />
-        <div className="bg-sidebar w-full h-full rounded-xl py-5 flex flex-col items-center">
-          <div className="w-3/4">{children}</div>
+        <div className="sm:bg-sidebar w-full h-full rounded-xl p-5 flex flex-col items-center">
+          <div className="w-full sm:w-3/4 pb-[80px] sm:pb-0">{children}</div>
         </div>
       </div>
     </>
