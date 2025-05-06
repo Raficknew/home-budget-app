@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/form";
 import { createMember, updateMember } from "../actions/members";
 import { DialogFooter } from "@/components/ui/dialog";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 export function MemberForm({
   householdId,
   member,
@@ -44,7 +46,7 @@ export function MemberForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-2 w-full"
+          className="flex sm:flex-col gap-2 w-full"
         >
           <FormField
             control={form.control}
@@ -61,7 +63,11 @@ export function MemberForm({
 
           <DialogFooter>
             <Button variant="submit" disabled={form.formState.isSubmitting}>
-              {member ? "Zapisz" : "Dodaj"}
+              <p className="sm:flex hidden">{member ? "Zapisz" : "Dodaj"}</p>
+              <HugeiconsIcon
+                className="cursor-pointer sm:size-6 size-5 sm:hidden"
+                icon={PlusSignIcon}
+              />
             </Button>
           </DialogFooter>
         </form>

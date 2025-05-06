@@ -3,6 +3,7 @@ import { HouseholdForm } from "@/features/household/components/HouseholdGeneralF
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
 import { MemberAddDialog } from "@/features/members/components/MemberAddDialog";
+import { MemberForm } from "@/features/members/components/MemberForm";
 import { getHousehold } from "@/global/actions";
 import { getCurrencies, getMembers } from "@/global/functions";
 import { PlusSignCircleIcon } from "@hugeicons/core-free-icons";
@@ -26,6 +27,7 @@ export default async function HouseholdEditPage({
   return (
     <div className="flex flex-col gap-8">
       <div>
+        <SectionHeader title="Informacje" />
         <HouseholdForm
           currencies={currencies}
           household={{
@@ -44,6 +46,9 @@ export default async function HouseholdEditPage({
           title="Członkowie"
           description="Dodawaj, usuwaj i edytuj członków gospodarstwa"
         />
+        <div className="sm:hidden">
+          <MemberForm householdId={householdId} />
+        </div>
         <div className="grid sm:grid-cols-4 gap-2">
           {members.map((member) => (
             <Member key={member.id} member={member} householdId={householdId} />
@@ -65,7 +70,7 @@ export default async function HouseholdEditPage({
 }
 
 function SectionSpacer() {
-  return <div className="bg-[#616062] w-full h-px"></div>;
+  return <div className="bg-[#616062] sm:w-full sm:h-px h-0 w-0"></div>;
 }
 
 function SectionHeader({
