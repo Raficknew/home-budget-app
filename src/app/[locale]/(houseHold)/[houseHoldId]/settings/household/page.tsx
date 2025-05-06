@@ -25,20 +25,24 @@ export default async function HouseholdEditPage({
     notFound();
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col sm:gap-8 gap-4">
       <div>
-        <SectionHeader title="Informacje" />
-        <HouseholdForm
-          currencies={currencies}
-          household={{
-            id: household.id,
-            currencyCode: household.currencyCode,
-            description: household.description ?? "",
-            name: household.name,
-            balance: 0,
-          }}
-          inputBgColor="sm:bg-[#161616]"
-        />
+        <div className="sm:hidden mb-2">
+          <SectionHeader title="Informacje" />
+        </div>
+        <div className="bg-sidebar p-5 rounded-xl">
+          <HouseholdForm
+            currencies={currencies}
+            household={{
+              id: household.id,
+              currencyCode: household.currencyCode,
+              description: household.description ?? "",
+              name: household.name,
+              balance: 0,
+            }}
+            inputBgColor="bg-[#161616]"
+          />
+        </div>
       </div>
       <SectionSpacer />
       <div className="flex flex-col sm:gap-5 gap-2">
@@ -70,7 +74,7 @@ export default async function HouseholdEditPage({
 }
 
 function SectionSpacer() {
-  return <div className="bg-[#616062] sm:w-full sm:h-px h-0 w-0"></div>;
+  return <div className="bg-[#616062] sw-full sm:h-px h-0 w-0"></div>;
 }
 
 function SectionHeader({
