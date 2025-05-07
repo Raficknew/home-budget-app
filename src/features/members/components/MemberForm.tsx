@@ -46,7 +46,7 @@ export function MemberForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="flex sm:flex-col gap-2 w-full"
+          className="flex md:flex-col gap-2 w-full"
         >
           <FormField
             control={form.control}
@@ -54,7 +54,11 @@ export function MemberForm({
             render={({ field }) => (
               <FormItem className="grow">
                 <FormControl>
-                  <Input placeholder="Maciek" {...field} />
+                  <Input
+                    className="bg-[#161616]"
+                    placeholder="Maciek"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -63,9 +67,9 @@ export function MemberForm({
 
           <DialogFooter>
             <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <p className="sm:flex hidden">{member ? "Zapisz" : "Dodaj"}</p>
+              <p className="md:flex hidden">{member ? "Zapisz" : "Dodaj"}</p>
               <HugeiconsIcon
-                className="cursor-pointer sm:size-6 size-5 sm:hidden"
+                className="cursor-pointer sm:size-6 size-5 md:hidden"
                 icon={PlusSignIcon}
               />
             </Button>

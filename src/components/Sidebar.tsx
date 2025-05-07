@@ -42,7 +42,7 @@ export function Sidebar() {
     },
   ];
   return (
-    <div className="fixed z-10 sm:left-0 sm:rounded-none rounded-t-2xl bottom-0 bg-sidebar sm:h-full w-full sm:w-fit h-fit p-5 flex flex-row sm:flex-col justify-center sm:justify-between">
+    <div className="fixed z-10 sm:left-0 sm:rounded-none rounded-t-2xl bottom-0 bg-sidebar sm:h-full w-full sm:w-fit h-fit p-5 flex flex-row sm:flex-col justify-evenly sm:justify-between">
       <div className="flex flex-col gap-10 items-center">
         <div className="hidden sm:block">
           <Image
@@ -52,7 +52,7 @@ export function Sidebar() {
             height={30}
           />
         </div>
-        <div className="flex flex-row sm:flex-col gap-5 sm:gap-5">
+        <div className="flex sm:flex-col gap-5">
           {routes.map((route) => (
             <div
               className="flex justify-center gap-5 sm:gap-0"
@@ -108,9 +108,9 @@ function Route({
       <div className="sm:hidden flex">
         <HugeiconsIcon
           strokeWidth={2}
-          width={20}
+          width={22}
           color={cn(isHovered && "#7047EB")}
-          height={20}
+          height={22}
           icon={icon}
         />
       </div>

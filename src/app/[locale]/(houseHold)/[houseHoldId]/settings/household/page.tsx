@@ -43,12 +43,12 @@ export default async function HouseholdEditPage({
           />
         </ActionButton>
       </MobileTopHeader>
-      <div className="flex flex-col sm:gap-8 gap-4">
+      <div className="flex flex-col md:gap-4 gap-2">
         <div>
           <div className="sm:hidden mb-2">
             <SectionHeader title="Informacje" />
           </div>
-          <div className="bg-sidebar p-5 rounded-xl">
+          <div className="bg-sidebar sm:p-0 p-5 rounded-xl">
             <HouseholdForm
               currencies={currencies}
               household={{
@@ -63,15 +63,15 @@ export default async function HouseholdEditPage({
           </div>
         </div>
         <SectionSpacer />
-        <div className="flex flex-col sm:gap-5 gap-2">
+        <div className="flex flex-col md:gap-5 gap-2">
           <SectionHeader
             title="Członkowie"
             description="Dodawaj, usuwaj i edytuj członków gospodarstwa"
           />
-          <div className="sm:hidden">
+          <div className="md:hidden">
             <MemberForm householdId={householdId} />
           </div>
-          <div className="grid sm:grid-cols-4 gap-2">
+          <div className="grid md:grid-cols-4 xl:grid-cols-8 gap-2">
             {members.map((member) => (
               <Member
                 key={member.id}
@@ -81,7 +81,7 @@ export default async function HouseholdEditPage({
             ))}
             {members.length !== 8 && (
               <MemberAddDialog householdId={householdId}>
-                <DialogTrigger className="sm:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
+                <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
                   <HugeiconsIcon
                     className="size-12 text-accent"
                     icon={PlusSignCircleIcon}
@@ -97,7 +97,7 @@ export default async function HouseholdEditPage({
 }
 
 function SectionSpacer() {
-  return <div className="bg-[#616062] sw-full sm:h-px h-0 w-0"></div>;
+  return <div className="bg-[#616062] md:w-full md:h-px h-0 w-0"></div>;
 }
 
 function SectionHeader({
@@ -109,7 +109,7 @@ function SectionHeader({
 }) {
   return (
     <div>
-      <h2 className="sm:text-xl text-xs text-[#A2A1A3] sm:text-white font-medium">
+      <h2 className="md:text-xl sm:text-lg text-xs text-[#A2A1A3] sm:text-white font-medium">
         {title}
       </h2>
       <h4 className="hidden md:block text-xs text-[#828183]">{description}</h4>

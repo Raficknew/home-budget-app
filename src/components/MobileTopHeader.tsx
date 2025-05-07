@@ -11,7 +11,7 @@ export function MobileTopHeader({
   return (
     <div className="flex items-center justify-between sm:hidden mb-4 w-full">
       <RouteBackButton />
-      <p className="text-sm font-medium">{title}</p>
+      <p className="text-sm font-semibold">{title}</p>
       {children}
     </div>
   );
