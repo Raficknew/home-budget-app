@@ -1,5 +1,7 @@
 import { ActionButton } from "@/components/ActionButton";
 import { MobileTopHeader } from "@/components/MobileTopHeader";
+import { SectionHeader } from "@/components/SectionHeader";
+import { Spacer } from "@/components/Spacer";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
@@ -62,7 +64,7 @@ export default async function HouseholdEditPage({
             />
           </div>
         </div>
-        <SectionSpacer />
+        <Spacer />
         <div className="flex flex-col md:gap-5 gap-2">
           <SectionHeader
             title="Członkowie"
@@ -93,26 +95,5 @@ export default async function HouseholdEditPage({
         </div>
       </div>
     </>
-  );
-}
-
-function SectionSpacer() {
-  return <div className="bg-[#616062] md:w-full md:h-px h-0 w-0"></div>;
-}
-
-function SectionHeader({
-  title,
-  description,
-}: {
-  title: string;
-  description?: string;
-}) {
-  return (
-    <div>
-      <h2 className="md:text-xl sm:text-lg text-xs text-[#A2A1A3] sm:text-white font-medium">
-        {title}
-      </h2>
-      <h4 className="hidden md:block text-xs text-[#828183]">{description}</h4>
-    </div>
   );
 }

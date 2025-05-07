@@ -1,6 +1,5 @@
-import { Category } from "@/features/categories/components/Category";
-import { CategoryForm } from "@/features/categories/components/CategoryForm";
-import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
+import { SectionHeader } from "@/components/SectionHeader";
+import { CategoryList } from "@/features/categories/components/CategoryList";
 import { getCategories } from "@/global/functions";
 
 export default async function HouseholdCategorySettingsPage({
@@ -10,22 +9,15 @@ export default async function HouseholdCategorySettingsPage({
 }) {
   const { householdId } = await params;
   const categories = await getCategories(householdId);
+
   return (
-    <div>
+    <div className="flex flex-col gap-10">
+      <SectionHeader
+        title="Kategorie"
+        description="Dodawaj, usuwaj i edytuj kategorie"
+      />
       <div>
-        <CategoryForm householdId={householdId} type="fun" />
-      </div>
-      <div>
-        {categories.map((category) => (
-          <Category
-            key={category.id}
-            category={{
-              ...category,
-              icon: category.icon as CategoryIconKeys,
-            }}
-            householdId={householdId}
-          />
-        ))}
+        <CategoryList categories={categories} householdId={householdId} />
       </div>
     </div>
   );

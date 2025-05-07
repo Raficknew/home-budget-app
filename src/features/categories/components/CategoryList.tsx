@@ -1,0 +1,119 @@
+"use client";
+import {
+  CategoriesOfExpanse,
+  categoriesOfExpanse,
+} from "@/drizzle/schema/category";
+import { Category } from "./Category";
+import { CategoryIconKeys } from "./CategoryIcon";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { CategoryForm } from "./CategoryForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { Spacer } from "@/components/Spacer";
+
+type Category = {
+  name: string;
+  id: string;
+  icon: string;
+  categoryType: "fixed" | "fun" | "future you" | "incomes";
+};
+
+export function CategoryList({
+  categories,
+  householdId,
+}: {
+  categories: Category[];
+  householdId: string;
+}) {
+  const [currentCategoryType, setCurrentCategoryType] = useState("fixed");
+  const filteredCategories = categories.filter(
+    (category) => category.categoryType === currentCategoryType
+  );
+  return (
+    <div className="flex flex-col gap-5">
+      <div className="grid grid-cols-4 text-center gap-4">
+        {categoriesOfExpanse.map((categoryType) => (
+          <div
+            className={cn(
+              "cursor-pointer p-2",
+              currentCategoryType === categoryType &&
+                "border-b-2 rounded-sm border-[#9B8DF8] text-[#9B8DF8]"
+            )}
+            onClick={() => {
+              if (currentCategoryType !== categoryType) {
+                setCurrentCategoryType(categoryType);
+              }
+            }}
+            key={categoryType}
+          >
+            {categoryType}
+          </div>
+        ))}
+      </div>
+      <div className="grid gap-2">
+        {filteredCategories.map((category) => (
+          <div key={category.id} className="flex flex-col gap-2">
+            <Category
+              category={{
+                ...category,
+                icon: category.icon as CategoryIconKeys,
+              }}
+              householdId={householdId}
+            />
+            {filteredCategories[filteredCategories.indexOf(category) + 1] && (
+              <Spacer />
+            )}
+          </div>
+        ))}
+      </div>
+
+      <AddCategoryButton
+        category={currentCategoryType as CategoriesOfExpanse}
+        householdId={householdId}
+      />
+    </div>
+  );
+}
+
+function AddCategoryButton({
+  householdId,
+  category,
+}: {
+  householdId: string;
+  category: CategoriesOfExpanse;
+}) {
+  const [isOpen, setIsOpen] = useState(false);
+  return (
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger className="self-center cursor-pointer">
+        <div className="flex items-center gap-2 bg-accent px-4 py-2 rounded-lg">
+          <HugeiconsIcon
+            strokeWidth={2}
+            width={15}
+            height={15}
+            icon={PlusSignIcon}
+          />
+          <p className="text-sm font-semibold">Dodaj Kategorie</p>
+        </div>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Stwórz Kategorie</DialogTitle>
+        </DialogHeader>
+        <CategoryForm
+          householdId={householdId}
+          onSuccess={() => setIsOpen(false)}
+          type={category}
+        />
+      </DialogContent>
+    </Dialog>
+  );
+}
