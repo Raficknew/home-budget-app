@@ -30,7 +30,7 @@ export function CategoryEditDialog({
           householdId={householdId}
           category={category}
           onSuccess={() => setIsOpen(false)}
-          type={category.categoryType as CategoriesOfExpanse}
+          categoryType={category.categoryType as CategoriesOfExpanse}
         />
       </DialogContent>
     </Dialog>

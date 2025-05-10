@@ -1,3 +1,4 @@
+import { MobileTopHeader } from "@/components/MobileTopHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { CategoryList } from "@/features/categories/components/CategoryList";
 import { getCategories } from "@/global/functions";
@@ -11,14 +12,17 @@ export default async function HouseholdCategorySettingsPage({
   const categories = await getCategories(householdId);
 
   return (
-    <div className="flex flex-col gap-10">
-      <SectionHeader
-        title="Kategorie"
-        description="Dodawaj, usuwaj i edytuj kategorie"
-      />
-      <div>
+    <>
+      <MobileTopHeader title="EDYTUJ KATEGORIE">
+        <div className="w-10"></div>
+      </MobileTopHeader>
+      <div className="flex flex-col sm:gap-10 gap-4">
+        <SectionHeader
+          title="Kategorie"
+          description="Dodawaj, usuwaj i edytuj kategorie"
+        />
         <CategoryList categories={categories} householdId={householdId} />
       </div>
-    </div>
+    </>
   );
 }

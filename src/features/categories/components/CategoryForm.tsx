@@ -26,38 +26,44 @@ import {
 } from "@/components/ui/select";
 import { CategoryIcon, CategoryIconKeys, icons } from "./CategoryIcon";
 import { createCategory, updateCategory } from "../actions/category";
+import { Spacer } from "@/components/Spacer";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
 export function CategoryForm({
-  type,
+  categoryType,
   category,
   householdId,
   onSuccess,
 }: {
-  type: CategoriesOfExpanse;
+  categoryType: CategoriesOfExpanse;
   category?: typeof CategoryTable.$inferSelect;
   householdId: string;
   onSuccess?: () => void;
 }) {
+  const [categoryIcon, setCategoryIcon] = useState(category?.icon ?? "");
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
     defaultValues: category ?? {
       name: "",
-      icon: "",
-      type,
+      icon: categoryIcon,
+      categoryType,
     },
   });
 
   async function onSubmit(data: CategorySchema) {
+    if (categoryIcon == "") return;
+
     if (category) {
       updateCategory(
-        data,
+        { ...data, icon: categoryIcon },
         category.id,
         householdId,
-        data.type as CategoriesOfExpanse
+        data.categoryType as CategoriesOfExpanse
       );
       onSuccess?.();
     } else {
-      createCategory(data, householdId);
+      createCategory({ ...data, icon: categoryIcon }, householdId);
     }
     form.reset();
   }
@@ -65,14 +71,21 @@ export function CategoryForm({
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+        >
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem className="grow">
                 <FormControl>
-                  <Input placeholder="Zakupy" {...field} />
+                  <Input
+                    className="bg-[#212122]"
+                    placeholder="Zakupy"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,16 +93,16 @@ export function CategoryForm({
           />
           <FormField
             control={form.control}
-            name="type"
+            name="categoryType"
             render={({ field }) => (
-              <FormItem className="flex">
+              <FormItem className="w-full">
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="flex">
-                      <SelectValue placeholder="Wybierz ikone" />
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Wybierz nadkategorie" />
                     </SelectTrigger>
                     <SelectContent>
                       {categoriesOfExpanse.map((category) => (
@@ -104,41 +117,39 @@ export function CategoryForm({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="icon"
-            render={({ field }) => (
-              <FormItem className="flex">
-                <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="flex">
-                      <SelectValue placeholder="Wybierz ikone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <div className="grid grid-cols-5">
-                        {Object.keys(icons)
-                          .filter((icon) => icon !== "default")
-                          .map((icon) => (
-                            <SelectItem value={icon} key={icon}>
-                              <CategoryIcon
-                                size={12}
-                                categoryIconName={icon as CategoryIconKeys}
-                              />
-                            </SelectItem>
-                          ))}
-                      </div>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+          <Spacer color="bg-white" />
+          <div className="grid grid-cols-10 gap-3">
+            {Object.keys(icons)
+              .filter((icon) => icon !== "default")
+              .map((icon) => (
+                <div
+                  key={icon}
+                  onClick={() => setCategoryIcon(icon)}
+                  className={cn(
+                    "flex justify-center p-2.5 rounded-lg cursor-pointer",
+                    categoryIcon == icon ? "bg-accent" : "bg-[#212122]"
+                  )}
+                >
+                  <CategoryIcon
+                    size={20}
+                    categoryIconName={icon as CategoryIconKeys}
+                  />
+                </div>
+              ))}
+          </div>
+          <Button
+            className="text-end"
+            variant="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            {category ? (
+              "Zapisz"
+            ) : (
+              <div className="flex items-center">
+                <PlusIcon />
+                Dodaj
+              </div>
             )}
-          />
-          <Button variant="submit" disabled={form.formState.isSubmitting}>
-            {category ? "Save" : <PlusIcon />}
           </Button>
         </form>
       </Form>

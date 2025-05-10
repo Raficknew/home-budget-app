@@ -18,6 +18,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { Spacer } from "@/components/Spacer";
+import { DialogDescription } from "@radix-ui/react-dialog";
 
 type Category = {
   name: string;
@@ -38,12 +39,12 @@ export function CategoryList({
     (category) => category.categoryType === currentCategoryType
   );
   return (
-    <div className="flex flex-col gap-5">
-      <div className="grid grid-cols-4 text-center gap-4">
+    <div className="flex flex-col gap-4 bg-sidebar p-2 rounded-lg">
+      <div className="sm:grid sm:grid-cols-4 text-center w-full hide-scrollbar-mobile overflow-auto whitespace-nowrap sm:space-x-0 sm:gap-4 space-x-2 ">
         {categoriesOfExpanse.map((categoryType) => (
           <div
             className={cn(
-              "cursor-pointer p-2",
+              "cursor-pointer py-1 inline-block sm:w-full w-1/3",
               currentCategoryType === categoryType &&
                 "border-b-2 rounded-sm border-[#9B8DF8] text-[#9B8DF8]"
             )}
@@ -83,7 +84,7 @@ export function CategoryList({
   );
 }
 
-function AddCategoryButton({
+export function AddCategoryButton({
   householdId,
   category,
 }: {
@@ -94,7 +95,7 @@ function AddCategoryButton({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="self-center cursor-pointer">
-        <div className="flex items-center gap-2 bg-accent px-4 py-2 rounded-lg">
+        <div className="flex items-center gap-2 bg-accent sm:px-4 px-2.5 py-2.5 rounded-lg">
           <HugeiconsIcon
             strokeWidth={2}
             width={15}
@@ -108,10 +109,11 @@ function AddCategoryButton({
         <DialogHeader>
           <DialogTitle>Stwórz Kategorie</DialogTitle>
         </DialogHeader>
+        <DialogDescription className="hidden"></DialogDescription>
         <CategoryForm
           householdId={householdId}
           onSuccess={() => setIsOpen(false)}
-          type={category}
+          categoryType={category}
         />
       </DialogContent>
     </Dialog>
