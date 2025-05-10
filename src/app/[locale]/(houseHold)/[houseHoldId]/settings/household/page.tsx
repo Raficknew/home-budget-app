@@ -13,6 +13,7 @@ import { getHousehold } from "@/global/actions";
 import { getCurrencies, getMembers } from "@/global/functions";
 import { Delete02Icon, PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 export default async function HouseholdEditPage({
@@ -22,16 +23,16 @@ export default async function HouseholdEditPage({
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
-
   const currencies = await getCurrencies();
   const members = await getMembers(householdId);
+  const t = await getTranslations("Settings.household");
 
   if (household == null || (await assertHouseholdWriteAccess(householdId)))
     notFound();
 
   return (
     <>
-      <MobileTopHeader title="EDYTUJ GOSPODARSTWO">
+      <MobileTopHeader title={t("mobileTitle")}>
         <ActionButton
           variant="ghostDestructive"
           action={deleteHousehold.bind(null, householdId)}
@@ -48,7 +49,7 @@ export default async function HouseholdEditPage({
       <div className="flex flex-col md:gap-4 gap-2">
         <div>
           <div className="sm:hidden mb-2">
-            <SectionHeader title="Informacje" />
+            <SectionHeader title={t("informations")} />
           </div>
           <div className="bg-sidebar sm:p-0 p-5 rounded-xl">
             <HouseholdForm
@@ -67,8 +68,8 @@ export default async function HouseholdEditPage({
         <Spacer />
         <div className="flex flex-col md:gap-5 gap-2">
           <SectionHeader
-            title="Członkowie"
-            description="Dodawaj, usuwaj i edytuj członków gospodarstwa"
+            title={t("members.title")}
+            description={t("members.description")}
           />
           <div className="md:hidden">
             <MemberForm householdId={householdId} />

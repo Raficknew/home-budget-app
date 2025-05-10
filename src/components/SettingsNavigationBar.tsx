@@ -8,6 +8,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export function SettingsNavigationBar({
   householdId,
@@ -15,21 +16,21 @@ export function SettingsNavigationBar({
   householdId: string;
 }) {
   const currentPath = usePathname().split("/")[4];
-
+  const t = useTranslations("Settings");
   const navigationButtons = [
     {
       link: `/${householdId}/settings/account`,
-      title: "Konto",
+      title: t("account.title"),
       icon: UserIcon,
     },
     {
       link: `/${householdId}/settings/household`,
-      title: "Gospodarstwo",
+      title: t("household.title"),
       icon: Home01Icon,
     },
     {
       link: `/${householdId}/settings/categories`,
-      title: "Kategorie",
+      title: t("categories.title"),
       icon: DashboardCircleIcon,
     },
   ];

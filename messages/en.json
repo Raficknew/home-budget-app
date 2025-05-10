@@ -36,7 +36,8 @@
     "balance": {
       "label": "Balance"
     },
-    "submit": "Create"
+    "submit": "Create",
+    "save": "Save"
   },
   "JoinPage": {
     "title": "Join"
@@ -79,5 +80,50 @@
     "dailyJob": "Daily Job",
     "sideHustle": "Side Hustle",
     "balance": "Balance"
+  },
+  "Settings": {
+    "title": "Settings",
+    "household": {
+      "title": "Household",
+      "mobileTitle": "EDIT HOUSEHOLD",
+      "delete": "Delete Household",
+      "informations": "Informations",
+      "members": {
+        "title": "Members",
+        "description": "Add, delete and edit members in household",
+        "placeholder": "John",
+        "add": "Add Member",
+        "edit": "Edit",
+        "submit": "Create",
+        "save": "Save"
+      }
+    },
+    "account": {
+      "title": "Account"
+    },
+    "categories": {
+      "title": "Categories",
+      "description": "Add, delete and edit categories",
+      "mobileTitle": "EDIT CATEGORIES",
+      "types": {
+        "fixed": "Fixed",
+        "fun": "Fun",
+        "future you": "Future you",
+        "incomes": "Incomes"
+      },
+      "placeholders": {
+        "name": "Groceries"
+      },
+      "add": "Add Category",
+      "edit": "Edit",
+      "submit": "Add",
+      "save": "Save"
+    }
+  },
+  "AreYouSureDialog": {
+    "title": "Are you absolutely sure?",
+    "description": "This action cannot be undone",
+    "cancel": "Cancel",
+    "proceed": "Yes"
   }
 }

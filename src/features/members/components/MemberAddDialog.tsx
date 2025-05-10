@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
 import { MemberForm } from "./MemberForm";
+import { useTranslations } from "next-intl";
 
 export function MemberAddDialog({
   children,
@@ -16,12 +17,13 @@ export function MemberAddDialog({
   householdId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("Settings.household.members");
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       {children}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Dodaj fikcyjnego członka</DialogTitle>
+          <DialogTitle>{t("add")}</DialogTitle>
         </DialogHeader>
         <MemberForm
           householdId={householdId}

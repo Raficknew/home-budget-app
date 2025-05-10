@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -28,6 +27,7 @@ import { CategoryIcon, CategoryIconKeys, icons } from "./CategoryIcon";
 import { createCategory, updateCategory } from "../actions/category";
 import { Spacer } from "@/components/Spacer";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function CategoryForm({
   categoryType,
@@ -40,6 +40,7 @@ export function CategoryForm({
   householdId: string;
   onSuccess?: () => void;
 }) {
+  const t = useTranslations("Settings.categories");
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
     defaultValues: category ?? {
@@ -80,7 +81,7 @@ export function CategoryForm({
                 <FormControl>
                   <Input
                     className="bg-[#212122]"
-                    placeholder="Zakupy"
+                    placeholder={t("placeholders.name")}
                     {...field}
                   />
                 </FormControl>
@@ -102,9 +103,9 @@ export function CategoryForm({
                       <SelectValue placeholder="Wybierz nadkategorie" />
                     </SelectTrigger>
                     <SelectContent>
-                      {categoriesOfExpanse.map((category) => (
-                        <SelectItem value={category} key={category}>
-                          {category}
+                      {categoriesOfExpanse.map((type) => (
+                        <SelectItem value={type} key={type}>
+                          {t(`types.${type}`)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -131,7 +132,7 @@ export function CategoryForm({
                             form.setValue("icon", icon);
                           }}
                           className={cn(
-                            "flex justify-center p-2.5 rounded-lg cursor-pointer",
+                            "flex justify-center p-2 rounded-lg cursor-pointer",
                             field.value == icon ? "bg-accent" : "bg-[#212122]"
                           )}
                         >
@@ -148,8 +149,8 @@ export function CategoryForm({
             )}
           />
 
-          <Button className="text-end" variant="submit">
-            {category ? "Zapisz" : <PlusIcon />}
+          <Button className="w-fit self-end" variant="submit">
+            {category ? t("save") : t("submit")}
           </Button>
         </form>
       </Form>

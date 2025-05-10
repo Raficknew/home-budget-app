@@ -7,6 +7,7 @@ import { HouseholdLinkGenerate } from "@/features/household/components/Household
 import { getHousehold } from "@/global/actions";
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -35,11 +36,18 @@ export default async function HouseholdSettingsLayout({
   );
 }
 
-function TopBar({ householdId, link }: { householdId: string; link: string }) {
+async function TopBar({
+  householdId,
+  link,
+}: {
+  householdId: string;
+  link: string;
+}) {
+  const t = await getTranslations("Settings");
   return (
     <div className="bg-sidebar rounded-xl p-3 flex-col gap-5 hidden sm:flex">
       <div className="flex justify-between">
-        <h1 className="text-2xl">Ustawienia</h1>
+        <h1 className="text-2xl">{t("title")}</h1>
         <HouseholdLinkGenerate
           url={env.FRONTEND_URL}
           householdId={householdId}
@@ -59,7 +67,7 @@ function TopBar({ householdId, link }: { householdId: string; link: string }) {
             height={10}
             icon={Delete02Icon}
           />
-          <p className="text-xs">Usuń Gospodarstwo</p>
+          <p className="text-xs">{t("household.delete")}</p>
         </ActionButton>
       </div>
     </div>

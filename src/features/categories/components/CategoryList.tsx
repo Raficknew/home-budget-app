@@ -19,6 +19,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { Spacer } from "@/components/Spacer";
 import { DialogDescription } from "@radix-ui/react-dialog";
+import { useTranslations } from "next-intl";
 
 type Category = {
   name: string;
@@ -38,6 +39,7 @@ export function CategoryList({
   const filteredCategories = categories.filter(
     (category) => category.categoryType === currentCategoryType
   );
+  const t = useTranslations("Settings.categories");
   return (
     <div className="flex flex-col gap-4 bg-sidebar p-2 rounded-lg">
       <div className="sm:grid sm:grid-cols-4 text-center w-full hide-scrollbar-mobile overflow-auto whitespace-nowrap sm:space-x-0 sm:gap-4 space-x-2 ">
@@ -55,7 +57,7 @@ export function CategoryList({
             }}
             key={categoryType}
           >
-            {categoryType}
+            {t(`types.${categoryType}`)}
           </div>
         ))}
       </div>
@@ -84,7 +86,7 @@ export function CategoryList({
   );
 }
 
-export function AddCategoryButton({
+function AddCategoryButton({
   householdId,
   category,
 }: {
@@ -92,6 +94,7 @@ export function AddCategoryButton({
   category: CategoriesOfExpanse;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const t = useTranslations("Settings.categories");
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger className="self-center cursor-pointer">
@@ -102,12 +105,12 @@ export function AddCategoryButton({
             height={15}
             icon={PlusSignIcon}
           />
-          <p className="text-sm font-semibold">Dodaj Kategorie</p>
+          <p className="text-sm font-semibold">{t("add")}</p>
         </div>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Stwórz Kategorie</DialogTitle>
+          <DialogTitle>{t("add")}</DialogTitle>
         </DialogHeader>
         <DialogDescription className="hidden"></DialogDescription>
         <CategoryForm

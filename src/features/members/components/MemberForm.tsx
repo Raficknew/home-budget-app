@@ -15,6 +15,7 @@ import { createMember, updateMember } from "../actions/members";
 import { DialogFooter } from "@/components/ui/dialog";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { useTranslations } from "next-intl";
 export function MemberForm({
   householdId,
   member,
@@ -24,6 +25,7 @@ export function MemberForm({
   member?: { id: string; name: string };
   onSuccess?: () => void;
 }) {
+  const t = useTranslations("Settings.household.members");
   const form = useForm<MembersSchema>({
     resolver: zodResolver(membersSchema),
     defaultValues: member ?? {
@@ -56,7 +58,7 @@ export function MemberForm({
                 <FormControl>
                   <Input
                     className="bg-[#161616]"
-                    placeholder="Maciek"
+                    placeholder={t("placeholder")}
                     {...field}
                   />
                 </FormControl>
@@ -67,7 +69,9 @@ export function MemberForm({
 
           <DialogFooter>
             <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <p className="md:flex hidden">{member ? "Zapisz" : "Dodaj"}</p>
+              <p className="md:flex hidden">
+                {member ? t("save") : t("submit")}
+              </p>
               <HugeiconsIcon
                 className="cursor-pointer sm:size-6 size-5 md:hidden"
                 icon={PlusSignIcon}

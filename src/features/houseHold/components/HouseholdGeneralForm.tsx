@@ -156,7 +156,7 @@ export function HouseholdForm({
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          {household ? "Zapisz" : t("submit")}
+          {household ? t("save") : t("submit")}
         </Button>
       </form>
     </Form>
