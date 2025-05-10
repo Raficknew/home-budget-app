@@ -8,9 +8,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { redirect, usePathname } from "@/i18n/navigation";
-import { GlobeIcon } from "lucide-react";
 
-export function LanguageSelect({ currentLocale }: { currentLocale: string }) {
+export function LanguageSelect({
+  currentLocale,
+  classname,
+}: {
+  currentLocale: string;
+  classname?: string;
+}) {
   const languages = routing.locales;
   const pathname = usePathname();
 
@@ -23,7 +28,7 @@ export function LanguageSelect({ currentLocale }: { currentLocale: string }) {
   }
 
   return (
-    <div className="flex items-center gap-2 absolute top-2 right-2">
+    <div className={`flex items-center gap-2 ${classname}`}>
       <Select
         defaultValue={currentLocale}
         onValueChange={(value) =>
@@ -31,7 +36,6 @@ export function LanguageSelect({ currentLocale }: { currentLocale: string }) {
         }
       >
         <SelectTrigger>
-          <GlobeIcon />
           <SelectValue placeholder={currentLocale} />
         </SelectTrigger>
         <SelectContent>
