@@ -13,6 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from "next-auth";
+import { updateUser } from "../actions/users";
 
 export function UserForm({
   user,
@@ -34,7 +35,7 @@ export function UserForm({
   });
 
   function onSubmit(data: UsersSchema) {
-    // updateUser(data.name);
+    updateUser(data, user?.id ?? "");
   }
 
   return (

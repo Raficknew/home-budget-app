@@ -2,6 +2,7 @@ import { LanguageSelect } from "@/components/LanguageSelect";
 import { MobileTopHeader } from "@/components/MobileTopHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { UserForm } from "@/features/users/components/UserForm";
 import { auth } from "@/lib/auth";
 import { GlobalIcon, User02FreeIcons } from "@hugeicons/core-free-icons";
@@ -10,9 +11,15 @@ import { Session } from "next-auth";
 import { getLocale } from "next-intl/server";
 import { Suspense } from "react";
 
-export default async function HouseholdAccountSettings() {
+export default async function HouseholdAccountSettings({
+  params,
+}: {
+  params: Promise<{ householdId: string }>;
+}) {
   const locale = await getLocale();
   const session = await auth();
+  const { householdId } = await params;
+
   return (
     <>
       <MobileTopHeader title="USTAWIENIA">
@@ -28,8 +35,12 @@ export default async function HouseholdAccountSettings() {
             </div>
           </Suspense>
         </div>
+        <div className="flex flex-col gap-2 sm:hidden">
+          <SectionHeader title="Zawartość" />
+          {householdId}
+        </div>
         <div className="flex flex-col gap-2">
-          <p className="text-[#A2A1A3] text-sm">Preferencje</p>
+          <SectionHeader title="Preferencje" />
           <div className="flex  justify-between items-center w-full">
             <div className="flex items-center gap-2 h-full">
               <HugeiconsIcon size={20} icon={GlobalIcon} />
@@ -39,6 +50,12 @@ export default async function HouseholdAccountSettings() {
           </div>
         </div>
       </div>
+      <Button
+        variant="ghostDestructive"
+        className="absolute sm:hidden bottom-30 left-0 w-full ring"
+      >
+        Logout
+      </Button>
     </>
   );
 }
