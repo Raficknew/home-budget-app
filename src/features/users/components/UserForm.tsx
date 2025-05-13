@@ -58,7 +58,7 @@ export function UserForm({
           )}
         />
         <Button
-          className="self-end"
+          className="self-end w-full sm:w-fit"
           variant="submit"
           type="submit"
           disabled={form.formState.isSubmitting}

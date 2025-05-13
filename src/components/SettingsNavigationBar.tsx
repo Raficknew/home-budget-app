@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import {
+  ArrowRight01Icon,
   DashboardCircleIcon,
   Home01Icon,
   UserIcon,
@@ -9,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
+import { cn } from "@/lib/utils";
 
 export function SettingsNavigationBar({
   householdId,
@@ -36,9 +38,9 @@ export function SettingsNavigationBar({
   ];
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 flex-col sm:flex-row ">
       {navigationButtons.map((navigation) => (
-        <TopBarNavigationButton
+        <NavigationBar
           key={navigation.title}
           title={navigation.title}
           link={navigation.link}
@@ -50,7 +52,7 @@ export function SettingsNavigationBar({
   );
 }
 
-function TopBarNavigationButton({
+function NavigationBar({
   link,
   title,
   icon,
@@ -66,13 +68,19 @@ function TopBarNavigationButton({
     (currentPath == "" && title == "Dashboard");
   return (
     <Button
-      variant={isActive ? "submit" : "ghost"}
-      className="rounded-full "
+      variant={isActive ? "navigation" : "ghost"}
+      className={cn(
+        "sm:rounded-full rounded-sm bg-none flex justify-between md:justify-center",
+        isActive && "bg-none"
+      )}
       asChild
     >
       <Link href={link}>
-        <HugeiconsIcon strokeWidth={3} width={20} height={20} icon={icon} />
-        <p className="text-sm font-medium">{title}</p>
+        <div className="flex items-center gap-2">
+          <HugeiconsIcon strokeWidth={3} width={20} height={20} icon={icon} />
+          <p className="text-sm font-medium">{title}</p>
+        </div>
+        <HugeiconsIcon className="sm:hidden" icon={ArrowRight01Icon} />
       </Link>
     </Button>
   );
