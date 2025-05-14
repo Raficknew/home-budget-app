@@ -99,7 +99,14 @@
       }
     },
     "account": {
-      "title": "Konto"
+      "title": "Konto",
+      "description": "Ustaw szczegóły konta",
+      "contain": "Zawartość",
+      "preferences": "Preferencje",
+      "language": "Język",
+      "label": "Nazwa",
+      "save": "Zapisz",
+      "signOut": "Wyloguj się"
     },
     "categories": {
       "title": "Kategorie",

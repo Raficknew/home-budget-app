@@ -14,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from "next-auth";
 import { updateUser } from "../actions/users";
+import { useTranslations } from "next-intl";
 
 export function UserForm({
   user,
@@ -27,6 +28,7 @@ export function UserForm({
       } & User)
     | undefined;
 }) {
+  const t = useTranslations("Settings.account");
   const form = useForm<UsersSchema>({
     resolver: zodResolver(usersSchema),
     defaultValues: {
@@ -49,7 +51,7 @@ export function UserForm({
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nazwa</FormLabel>
+              <FormLabel>{t("label")}</FormLabel>
               <FormControl>
                 <Input className="bg-[#161616]" {...field} />
               </FormControl>
@@ -63,7 +65,7 @@ export function UserForm({
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          Zapisz
+          {t("save")}
         </Button>
       </form>
     </Form>

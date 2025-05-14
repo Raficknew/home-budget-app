@@ -70,8 +70,10 @@ function NavigationBar({
     <Button
       variant={isActive ? "navigation" : "ghost"}
       className={cn(
-        "sm:rounded-full rounded-sm bg-none flex justify-between md:justify-center",
-        isActive && "bg-none"
+        "sm:rounded-full rounded-sm flex justify-between md:justify-center",
+        isActive && "bg-none",
+        (title == "Konto" && "hidden sm:flex") ||
+          (title == "Account" && "hidden sm:flex")
       )}
       asChild
     >

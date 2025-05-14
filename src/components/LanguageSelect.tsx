@@ -35,7 +35,7 @@ export function LanguageSelect({
           value != currentLocale && changeLanguage(value, pathname)
         }
       >
-        <SelectTrigger className="bg-[#212122]">
+        <SelectTrigger>
           <SelectValue placeholder={currentLocale} />
         </SelectTrigger>
         <SelectContent>

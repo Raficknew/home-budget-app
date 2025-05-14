@@ -99,7 +99,14 @@
       }
     },
     "account": {
-      "title": "Account"
+      "title": "Account",
+      "description": "Manage your account settings",
+      "contain": "Contains",
+      "preferences": "Preferences",
+      "language": "Language",
+      "label": "Name",
+      "save": "Save",
+      "signOut": "Sign out"
     },
     "categories": {
       "title": "Categories",
