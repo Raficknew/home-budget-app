@@ -1,15 +1,19 @@
 import { LanguageSelect } from "@/components/LanguageSelect";
+import { LinkSheet } from "@/components/LinkSheet";
 import { MobileTopHeader } from "@/components/MobileTopHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
 import { SignOutButtonStretched } from "@/components/SignOutButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { env } from "@/data/env/server";
 import { UserForm } from "@/features/users/components/UserForm";
+import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
 import { GlobalIcon, User02FreeIcons } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Session } from "next-auth";
 import { getLocale, getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function HouseholdAccountSettings({
@@ -20,12 +24,19 @@ export default async function HouseholdAccountSettings({
   const locale = await getLocale();
   const session = await auth();
   const { householdId } = await params;
+  const household = await getHousehold(householdId);
   const t = await getTranslations("Settings.account");
+
+  if (!household) notFound();
 
   return (
     <>
       <MobileTopHeader title={t("title")}>
-        <div className="w-10"></div>
+        <LinkSheet
+          url={env.FRONTEND_URL}
+          householdId={householdId}
+          link={household.invite?.link ?? ""}
+        />
       </MobileTopHeader>
       <div className="flex flex-col gap-10 sm:gap-5">
         <div className="hidden sm:flex">

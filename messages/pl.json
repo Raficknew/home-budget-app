@@ -125,6 +125,10 @@
        "edit": "Edytuj",
       "submit": "Dodaj",
       "save": "Zapisz"
+    },
+    "linkSheet": {
+      "title": "Zaproś do gospodarstwa",
+      "copy": "Skopiuj link"
     }
   },
   "AreYouSureDialog": {

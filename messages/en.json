@@ -125,6 +125,10 @@
       "edit": "Edit",
       "submit": "Add",
       "save": "Save"
+    },
+    "linkSheet": {
+      "title": "Invite to household",
+      "copy": "Copy link"
     }
   },
   "AreYouSureDialog": {
