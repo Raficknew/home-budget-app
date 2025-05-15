@@ -99,7 +99,7 @@ export function CategoryForm({
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger className="w-full bg-[#212122]">
                       <SelectValue placeholder="Wybierz nadkategorie" />
                     </SelectTrigger>
                     <SelectContent>
@@ -122,7 +122,7 @@ export function CategoryForm({
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormControl>
-                  <div className="grid grid-cols-10 gap-3">
+                  <div className="grid sm:grid-cols-10 grid-cols-5 gap-3">
                     {Object.keys(icons)
                       .filter((icon) => icon !== "default")
                       .map((icon) => (

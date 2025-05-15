@@ -6,6 +6,7 @@ import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
 import { SignOutButtonStretched } from "@/components/SignOutButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { env } from "@/data/env/server";
+import { assertHouseholdReadAccess } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
@@ -55,7 +56,12 @@ export default async function HouseholdAccountSettings({
         <div className="flex flex-col gap-2 sm:hidden">
           <SectionHeader title={t("contain")} />
           <div className="bg-[#212122] p-2.5 rounded-lg">
-            <SettingsNavigationBar householdId={householdId} />
+            <SettingsNavigationBar
+              canAccessHouseholdSettings={await assertHouseholdReadAccess(
+                householdId
+              )}
+              householdId={householdId}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-2">

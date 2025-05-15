@@ -74,7 +74,7 @@ export function Sidebar() {
       <div className="self-center hidden sm:flex sm:flex-col gap-5">
         <Route
           currentRoute={currentRoute ?? ""}
-          url={`/${locale}/${householdId}/settings/household`}
+          url={`/${locale}/${householdId}/settings/account`}
           icon={Settings01Icon}
         />
         <SignOutButton />

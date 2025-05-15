@@ -18,7 +18,7 @@ export function HouseholdLinkGenerate({
     <div className="flex gap-1 items-center">
       <div
         onClick={() => navigator.clipboard.writeText(link)}
-        className="cursor-pointer text-[12px] hover:underline bg-[#0F0F0F] h-full flex items-center p-2 rounded-lg"
+        className="cursor-pointer text-[12px] hover:underline bg-[#0F0F0F] h-full flex w-full items-center p-2 rounded-lg"
       >
         <p className="font-medium">{link.substring(0, 45) + "..."}</p>
       </div>

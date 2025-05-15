@@ -14,22 +14,14 @@ import { cn } from "@/lib/utils";
 
 export function SettingsNavigationBar({
   householdId,
+  canAccessHouseholdSettings,
 }: {
   householdId: string;
+  canAccessHouseholdSettings: boolean;
 }) {
   const currentPath = usePathname().split("/")[4];
   const t = useTranslations("Settings");
   const navigationButtons = [
-    {
-      link: `/${householdId}/settings/account`,
-      title: t("account.title"),
-      icon: UserIcon,
-    },
-    {
-      link: `/${householdId}/settings/household`,
-      title: t("household.title"),
-      icon: Home01Icon,
-    },
     {
       link: `/${householdId}/settings/categories`,
       title: t("categories.title"),
@@ -39,6 +31,24 @@ export function SettingsNavigationBar({
 
   return (
     <div className="flex gap-2 flex-col sm:flex-row ">
+      <div className="sm:flex hidden">
+        <NavigationBar
+          title={t("account.title")}
+          link={`/${householdId}/settings/account`}
+          icon={UserIcon}
+          currentPath={currentPath ?? ""}
+        />
+      </div>
+      {canAccessHouseholdSettings && (
+        <div className="sm:flex hidden">
+          <NavigationBar
+            title={t("household.title")}
+            link={`/${householdId}/settings/household`}
+            icon={Home01Icon}
+            currentPath={currentPath ?? ""}
+          />
+        </div>
+      )}
       {navigationButtons.map((navigation) => (
         <NavigationBar
           key={navigation.title}
@@ -71,9 +81,7 @@ function NavigationBar({
       variant={isActive ? "navigation" : "ghost"}
       className={cn(
         "sm:rounded-full rounded-sm flex justify-between md:justify-center",
-        isActive && "bg-none",
-        (title == "Konto" && "hidden sm:flex") ||
-          (title == "Account" && "hidden sm:flex")
+        isActive && "bg-none"
       )}
       asChild
     >
