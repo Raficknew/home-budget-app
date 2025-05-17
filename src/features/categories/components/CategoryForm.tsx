@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -26,24 +25,28 @@ import {
 } from "@/components/ui/select";
 import { CategoryIcon, CategoryIconKeys, icons } from "./CategoryIcon";
 import { createCategory, updateCategory } from "../actions/category";
+import { Spacer } from "@/components/Spacer";
+import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function CategoryForm({
-  type,
+  categoryType,
   category,
   householdId,
   onSuccess,
 }: {
-  type: CategoriesOfExpanse;
+  categoryType: CategoriesOfExpanse;
   category?: typeof CategoryTable.$inferSelect;
   householdId: string;
   onSuccess?: () => void;
 }) {
+  const t = useTranslations("Settings.categories");
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
     defaultValues: category ?? {
       name: "",
       icon: "",
-      type,
+      categoryType,
     },
   });
 
@@ -53,11 +56,12 @@ export function CategoryForm({
         data,
         category.id,
         householdId,
-        data.type as CategoriesOfExpanse
+        data.categoryType as CategoriesOfExpanse
       );
       onSuccess?.();
     } else {
       createCategory(data, householdId);
+      onSuccess?.();
     }
     form.reset();
   }
@@ -65,14 +69,21 @@ export function CategoryForm({
   return (
     <div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="flex">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-4"
+        >
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem className="grow">
                 <FormControl>
-                  <Input placeholder="Zakupy" {...field} />
+                  <Input
+                    className="bg-[#212122]"
+                    placeholder={t("placeholders.name")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -80,21 +91,21 @@ export function CategoryForm({
           />
           <FormField
             control={form.control}
-            name="type"
+            name="categoryType"
             render={({ field }) => (
-              <FormItem className="flex">
+              <FormItem className="w-full">
                 <FormControl>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
-                    <SelectTrigger className="flex">
-                      <SelectValue placeholder="Wybierz ikone" />
+                    <SelectTrigger className="w-full bg-[#212122]">
+                      <SelectValue placeholder="Wybierz nadkategorie" />
                     </SelectTrigger>
                     <SelectContent>
-                      {categoriesOfExpanse.map((category) => (
-                        <SelectItem value={category} key={category}>
-                          {category}
+                      {categoriesOfExpanse.map((type) => (
+                        <SelectItem value={type} key={type}>
+                          {t(`types.${type}`)}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -104,41 +115,42 @@ export function CategoryForm({
               </FormItem>
             )}
           />
+          <Spacer color="bg-white" />
           <FormField
             control={form.control}
             name="icon"
             render={({ field }) => (
-              <FormItem className="flex">
+              <FormItem className="w-full">
                 <FormControl>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <SelectTrigger className="flex">
-                      <SelectValue placeholder="Wybierz ikone" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <div className="grid grid-cols-5">
-                        {Object.keys(icons)
-                          .filter((icon) => icon !== "default")
-                          .map((icon) => (
-                            <SelectItem value={icon} key={icon}>
-                              <CategoryIcon
-                                size={12}
-                                categoryIconName={icon as CategoryIconKeys}
-                              />
-                            </SelectItem>
-                          ))}
-                      </div>
-                    </SelectContent>
-                  </Select>
+                  <div className="grid sm:grid-cols-10 grid-cols-5 gap-3">
+                    {Object.keys(icons)
+                      .filter((icon) => icon !== "default")
+                      .map((icon) => (
+                        <div
+                          key={icon}
+                          onClick={() => {
+                            form.setValue("icon", icon);
+                          }}
+                          className={cn(
+                            "flex justify-center p-2 rounded-lg cursor-pointer",
+                            field.value == icon ? "bg-accent" : "bg-[#212122]"
+                          )}
+                        >
+                          <CategoryIcon
+                            size={20}
+                            categoryIconName={icon as CategoryIconKeys}
+                          />
+                        </div>
+                      ))}
+                  </div>
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <Button variant="submit" disabled={form.formState.isSubmitting}>
-            {category ? "Save" : <PlusIcon />}
+
+          <Button className="w-fit self-end" variant="submit">
+            {category ? t("save") : t("submit")}
           </Button>
         </form>
       </Form>

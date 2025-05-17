@@ -9,20 +9,11 @@ import { ReactNode, useState } from "react";
 import { MemberForm } from "./MemberForm";
 import { useTranslations } from "next-intl";
 
-export function MemberEditDialog({
+export function MemberAddDialog({
   children,
-  member,
   householdId,
 }: {
   children: ReactNode;
-  member: {
-    id: string;
-    name: string;
-    user: {
-      id: string;
-      image: string | null;
-    } | null;
-  };
   householdId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,13 +23,10 @@ export function MemberEditDialog({
       {children}
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>
-            {t("edit")} {member.name}
-          </DialogTitle>
+          <DialogTitle>{t("add")}</DialogTitle>
         </DialogHeader>
         <MemberForm
           householdId={householdId}
-          member={member}
           onSuccess={() => setIsOpen(false)}
         />
       </DialogContent>

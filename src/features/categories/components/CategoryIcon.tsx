@@ -1,44 +1,49 @@
 import {
-  AirplayIcon,
-  BriefcaseBusinessIcon,
-  CarFrontIcon,
-  CoffeeIcon,
-  DumbbellIcon,
+  AirplaneTakeOff01Icon,
+  BankIcon,
+  Briefcase02Icon,
+  Car01Icon,
+  Coffee02Icon,
+  DropletIcon,
+  Dumbbell02Icon,
+  EnergyIcon,
   GiftIcon,
-  GraduationCapIcon,
-  HandCoinsIcon,
-  HeartPulseIcon,
-  HouseIcon,
-  LandmarkIcon,
-  ShieldUserIcon,
-  ShirtIcon,
-  ShoppingCartIcon,
-  SirenIcon,
-  SmartphoneIcon,
-  TreePalmIcon,
-  UtensilsIcon,
-} from "lucide-react";
+  HangerIcon,
+  HealthIcon,
+  Home05Icon,
+  MoneyBag02Icon,
+  Mortarboard02Icon,
+  Restaurant02Icon,
+  ShoppingCart01Icon,
+  SmartPhone01Icon,
+  StethoscopeIcon,
+  Tv01Icon,
+  Wallet03Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 
 export const icons = {
-  "1_rent": HouseIcon,
-  "2_loan": LandmarkIcon,
-  "3_transportation": CarFrontIcon,
-  "4_phone": SmartphoneIcon,
-  "5_insurence": ShieldUserIcon,
-  "6_groceries": ShoppingCartIcon,
-  "7_healthcare": HeartPulseIcon,
-  "8_clothing": ShirtIcon,
-  "9_eatingOut": UtensilsIcon,
-  "10_gym": DumbbellIcon,
+  "1_rent": Home05Icon,
+  "2_loan": BankIcon,
+  "3_transportation": Car01Icon,
+  "4_phone": SmartPhone01Icon,
+  "5_insurence": HealthIcon,
+  "6_groceries": ShoppingCart01Icon,
+  "7_healthcare": StethoscopeIcon,
+  "8_clothing": HangerIcon,
+  "9_eatingOut": Restaurant02Icon,
+  "10_gym": Dumbbell02Icon,
   "11_gifts": GiftIcon,
-  "12_subscriptions": AirplayIcon,
-  "13_coffee": CoffeeIcon,
-  "14_emergencyFund": SirenIcon,
-  "15_education": GraduationCapIcon,
-  "16_vacationFund": TreePalmIcon,
-  "17_dailyJob": BriefcaseBusinessIcon,
-  "18_sideHustle": HandCoinsIcon,
-  default: HouseIcon,
+  "12_subscriptions": Tv01Icon,
+  "13_coffee": Coffee02Icon,
+  "14_emergencyFund": MoneyBag02Icon,
+  "15_education": Mortarboard02Icon,
+  "16_vacationFund": AirplaneTakeOff01Icon,
+  "17_dailyJob": Briefcase02Icon,
+  "18_sideHustle": Wallet03Icon,
+  "19_electricity": EnergyIcon,
+  "20_water": DropletIcon,
+  default: Home05Icon,
 };
 
 export type CategoryIconKeys = keyof typeof icons;
@@ -52,6 +57,6 @@ export const CategoryIcon = ({
   size?: number;
   color?: string;
 }) => {
-  const Icon = icons[categoryIconName] || icons.default;
-  return <Icon size={size} color={color} />;
+  const icon = icons[categoryIconName] || icons.default;
+  return <HugeiconsIcon icon={icon} size={size} color={color} />;
 };

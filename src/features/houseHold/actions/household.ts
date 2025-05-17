@@ -29,7 +29,7 @@ export async function createHousehold(
     ownerId: session?.user.id,
   });
 
-  redirect(`/${household.id}/settings`);
+  redirect(`/${household.id}/settings/household`);
 }
 
 export async function updateHousehold(
@@ -46,7 +46,7 @@ export async function updateHousehold(
 
   await updateHouseholdDB(data, householdId);
 
-  revalidatePath(`/${householdId}/settings`);
+  revalidatePath(`/${householdId}/settings/household`);
 }
 
 export async function deleteHousehold(householdId: string) {
@@ -84,6 +84,6 @@ export async function generateLinkForHousehold(
 
   await updateLink(householdId, link);
 
-  revalidatePath(`/${householdId}/settings`);
+  revalidatePath(`/${householdId}/settings/household`);
   return { error: false, message: "Success" };
 }

@@ -36,7 +36,8 @@
     "balance": {
       "label": "Saldo"
     },
-    "submit": "Utwórz"
+    "submit": "Utwórz",
+    "save": "Zapisz"
   },
   "JoinPage": {
     "title": "Dołącz"
@@ -71,7 +72,7 @@
     "eatingOut": "Restauracje",
     "gym": "Siłownia",
     "gifts": "Prezenty",
-    "subscriptions": "Subskrybcje",
+    "subscriptions": "Subskrypcje",
     "coffee": "Kawa",
     "emergencyFund": "Oszczędności",
     "education": "Edukacja",
@@ -79,5 +80,61 @@
     "dailyJob": "Praca",
     "sideHustle": "Dodatkowa Praca",
     "balance": "Saldo"
+  },
+  "Settings": {
+    "title": "Ustawienia",
+    "household": {
+      "title": "Gospodarstwo",
+      "mobileTitle": "EDYTUJ GOSPODARSTWO",
+      "delete": "Usuń Gospodarstwo",
+      "informations": "Informacje",
+      "members": {
+        "title": "Członkowie",
+        "description": "Dodawaj, usuwaj i edytuj członków gospodarstwa",
+        "placeholder": "Maciek",
+        "add": "Dodaj członka",
+        "edit": "Edytuj",
+        "submit": "Dodaj",
+        "save": "Zapisz"
+      }
+    },
+    "account": {
+      "title": "Konto",
+      "description": "Ustaw szczegóły konta",
+      "contain": "Zawartość",
+      "preferences": "Preferencje",
+      "language": "Język",
+      "label": "Nazwa",
+      "save": "Zapisz",
+      "signOut": "Wyloguj się"
+    },
+    "categories": {
+      "title": "Kategorie",
+      "description": "Dodawaj, usuwaj i edytuj kategorie",
+      "mobileTitle": "EDYTUJ KATEGORIE",
+      "types": {
+        "fixed": "Niezbędne",
+        "fun": "Rozrywka",
+        "future you": "Przyszłość",
+        "incomes": "Dochód"
+      },
+      "placeholders": {
+        "name": "Zakupy"
+      },
+      "add": "Dodaj Kategorie",
+       "edit": "Edytuj",
+      "submit": "Dodaj",
+      "save": "Zapisz"
+    },
+    "linkSheet": {
+      "title": "Zaproś do gospodarstwa",
+      "copy": "Skopiuj link"
+    }
+  },
+  "AreYouSureDialog": {
+    "title": "Na pewno?",
+    "description": "Tej akcji nie można cofnąć",
+    "cancel": "Anuluj",
+    "proceed": "Tak"
   }
 }

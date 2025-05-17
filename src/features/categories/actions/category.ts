@@ -26,7 +26,7 @@ export async function createCategory(
   await insertCategory({
     ...data,
     householdId,
-    categoryType: data.type as CategoriesOfExpanse,
+    categoryType: data.categoryType as CategoriesOfExpanse,
   });
 
   revalidatePath(`/${householdId}/settings`);
