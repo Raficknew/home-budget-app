@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { transactionType } from "@/drizzle/schema";
+import { CategoryTable, MembersTable, transactionType } from "@/drizzle/schema";
 import { useState } from "react";
 import { z } from "zod";
 import {
@@ -44,17 +44,6 @@ const transcationFormSchema = transactionsSchema.pick({
 
 type TranscationFormSchema = z.infer<typeof transcationFormSchema>;
 
-type Member = {
-  name: string | null;
-  id: string;
-  user: { id: string; image: string | null } | null;
-};
-
-type Category = {
-  id: string;
-  name: string;
-};
-
 export function TransactionForm({
   defaultTransaction,
   members,
@@ -62,8 +51,8 @@ export function TransactionForm({
   householdId,
 }: {
   defaultTransaction: string;
-  members: Member[];
-  categories: Category[];
+  members: (typeof MembersTable.$inferSelect)[];
+  categories: (typeof CategoryTable.$inferSelect)[];
   householdId: string;
 }) {
   const ts = useTranslations("CreateTransaction");
@@ -71,7 +60,7 @@ export function TransactionForm({
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
 
   const currentMemberId = members.find(
-    (member) => member.user?.id === session.data?.user.id
+    (member) => member.userId === session.data?.user.id
   )?.id;
 
   const form = useForm<TranscationFormSchema>({

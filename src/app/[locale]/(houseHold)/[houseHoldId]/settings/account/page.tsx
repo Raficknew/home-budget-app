@@ -1,18 +1,18 @@
+import { AvatarPicture } from "@/components/AvatarPicture";
 import { LanguageSelect } from "@/components/LanguageSelect";
 import { LinkSheet } from "@/components/LinkSheet";
 import { MobileTopHeader } from "@/components/MobileTopHeader";
 import { SectionHeader } from "@/components/SectionHeader";
 import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
 import { SignOutButtonStretched } from "@/components/SignOutButton";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { env } from "@/data/env/server";
-import { assertHouseholdReadAccess } from "@/features/household/permissions/household";
+import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
-import { GlobalIcon, User02FreeIcons } from "@hugeicons/core-free-icons";
+import { GlobalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Session } from "next-auth";
+
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
@@ -57,7 +57,7 @@ export default async function HouseholdAccountSettings({
           <SectionHeader title={t("contain")} />
           <div className="bg-[#212122] p-2.5 rounded-lg">
             <SettingsNavigationBar
-              canAccessHouseholdSettings={await assertHouseholdReadAccess(
+              canAccessHouseholdSettings={await canAccessHouseholdSettings(
                 householdId
               )}
               householdId={householdId}
@@ -77,18 +77,5 @@ export default async function HouseholdAccountSettings({
         <SignOutButtonStretched />
       </div>
     </>
-  );
-}
-
-async function AvatarPicture({ session }: { session: Session | null }) {
-  return (
-    <div className="cursor-pointer flex justify-center">
-      <Avatar className="size-20">
-        <AvatarImage src={session?.user.image ?? ""} />
-        <AvatarFallback className="bg-accent">
-          <HugeiconsIcon icon={User02FreeIcons} />
-        </AvatarFallback>
-      </Avatar>
-    </div>
   );
 }

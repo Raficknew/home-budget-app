@@ -17,8 +17,7 @@ export async function updateUser(
 
   if (!success) throw new Error("Failed to update User");
 
-  if (!validateUuid(userId) || userId == "")
-    throw new Error("Failed to update User");
+  if (!validateUuid(userId)) throw new Error("Failed to update User");
 
   await updateUserDB(data, userId);
 }

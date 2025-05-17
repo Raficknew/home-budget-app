@@ -15,6 +15,7 @@ import { Button } from "@/components/ui/button";
 import { User } from "next-auth";
 import { updateUser } from "../actions/users";
 import { useTranslations } from "next-intl";
+import { notFound } from "next/navigation";
 
 export function UserForm({
   user,
@@ -28,16 +29,18 @@ export function UserForm({
       } & User)
     | undefined;
 }) {
+  if (!user?.name || !user.id || !user) notFound();
   const t = useTranslations("Settings.account");
   const form = useForm<UsersSchema>({
     resolver: zodResolver(usersSchema),
     defaultValues: {
-      name: user?.name ?? "",
+      name: user.name,
     },
   });
 
   function onSubmit(data: UsersSchema) {
-    updateUser(data, user?.id ?? "");
+    if (!user || !user.id) return;
+    updateUser(data, user.id);
   }
 
   return (

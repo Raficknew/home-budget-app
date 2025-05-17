@@ -4,7 +4,7 @@ import { Sidebar } from "@/components/Sidebar";
 import { env } from "@/data/env/server";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
-import { assertHouseholdReadAccess } from "@/features/household/permissions/household";
+import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { getHousehold } from "@/global/actions";
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -57,7 +57,7 @@ async function TopBar({
       </div>
       <div className="flex justify-between">
         <SettingsNavigationBar
-          canAccessHouseholdSettings={await assertHouseholdReadAccess(
+          canAccessHouseholdSettings={await canAccessHouseholdSettings(
             householdId
           )}
           householdId={householdId}

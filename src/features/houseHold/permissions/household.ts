@@ -13,7 +13,7 @@ export async function assertHouseholdWriteAccess(householdId: string) {
   throw "NotAllowedToWriteHouseholdExeption";
 }
 
-export async function assertHouseholdReadAccess(householdId: string) {
+export async function canAccessHouseholdSettings(householdId: string) {
   const session = await auth();
   const user = session?.user;
   const household = await getHousehold(householdId);

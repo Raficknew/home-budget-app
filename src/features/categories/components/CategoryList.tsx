@@ -2,6 +2,7 @@
 import {
   CategoriesOfExpanse,
   categoriesOfExpanse,
+  CategoryTable,
 } from "@/drizzle/schema/category";
 import { Category } from "./Category";
 import { CategoryIconKeys } from "./CategoryIcon";
@@ -21,18 +22,11 @@ import { Spacer } from "@/components/Spacer";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
 
-type Category = {
-  name: string;
-  id: string;
-  icon: string;
-  categoryType: "fixed" | "fun" | "future you" | "incomes";
-};
-
 export function CategoryList({
   categories,
   householdId,
 }: {
-  categories: Category[];
+  categories: (typeof CategoryTable.$inferSelect)[];
   householdId: string;
 }) {
   const [currentCategoryType, setCurrentCategoryType] = useState("fixed");

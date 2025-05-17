@@ -40,7 +40,7 @@ export function SettingsNavigationBar({
         />
       </div>
       {canAccessHouseholdSettings && (
-        <div className="sm:flex hidden">
+        <div>
           <NavigationBar
             title={t("household.title")}
             link={`/${householdId}/settings/household`}

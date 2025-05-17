@@ -8,13 +8,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { redirect, usePathname } from "@/i18n/navigation";
+import { cn } from "@/lib/utils";
 
 export function LanguageSelect({
   currentLocale,
-  classname,
+  className,
 }: {
   currentLocale: string;
-  classname?: string;
+  className?: string;
 }) {
   const languages = routing.locales;
   const pathname = usePathname();
@@ -28,7 +29,7 @@ export function LanguageSelect({
   }
 
   return (
-    <div className={`flex items-center gap-2 ${classname}`}>
+    <div className={cn("flex items-center gap-2", className)}>
       <Select
         defaultValue={currentLocale}
         onValueChange={(value) =>
