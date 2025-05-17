@@ -61,7 +61,6 @@ export default async function HouseholdEditPage({
                 name: household.name,
                 balance: 0,
               }}
-              inputBgColor="bg-[#161616]"
             />
           </div>
         </div>

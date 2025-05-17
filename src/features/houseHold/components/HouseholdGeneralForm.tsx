@@ -25,7 +25,6 @@ import { householdSchema, HouseholdSchema } from "../schema/household";
 export function HouseholdForm({
   currencies,
   household,
-  inputBgColor,
 }: {
   currencies: { code: string }[];
   household?: {
@@ -35,7 +34,6 @@ export function HouseholdForm({
     currencyCode: string;
     balance: number;
   };
-  inputBgColor?: string;
 }) {
   const t = useTranslations("CreateHousehold");
 
@@ -71,7 +69,7 @@ export function HouseholdForm({
               <FormLabel>{t("name.label")}</FormLabel>
               <FormControl>
                 <Input
-                  className={inputBgColor}
+                  className="dark:bg-[#161616]"
                   placeholder={t("name.placeholder")}
                   {...field}
                 />
@@ -88,7 +86,7 @@ export function HouseholdForm({
               <FormLabel>{t("description.label")}</FormLabel>
               <FormControl>
                 <Input
-                  className={inputBgColor}
+                  className="dark:bg-[#161616]"
                   placeholder={t("description.placeholder")}
                   {...field}
                 />
@@ -135,6 +133,7 @@ export function HouseholdForm({
                   <FormLabel>{t("balance.label")}</FormLabel>
                   <FormControl>
                     <Input
+                      className="dark:bg-[#161616]"
                       onClick={(e) => {
                         if (+(e.target as HTMLInputElement).value == 0) {
                           (e.target as HTMLInputElement).value = "";
