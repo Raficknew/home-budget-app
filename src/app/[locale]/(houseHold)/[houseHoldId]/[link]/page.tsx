@@ -4,6 +4,7 @@ import { HouseholdJoinButton } from "@/features/household/components/HouseholdJo
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { validate as validateUuid } from "uuid";
 
 export default async function HouseholdJoinPage({
   params,
@@ -31,6 +32,9 @@ export default async function HouseholdJoinPage({
 }
 
 const getHouseholdInviteLink = (id: string) => {
+  if (!validateUuid(id)) {
+    return null;
+  }
   return db.query.HouseholdTable.findFirst({
     where: eq(HouseholdTable.id, id),
     with: {

@@ -59,7 +59,7 @@ export function HouseholdForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grow w-full space-y-8 text-left"
+        className="grow w-full sm:space-y-8 space-y-4 text-right"
       >
         <FormField
           control={form.control}
@@ -68,7 +68,11 @@ export function HouseholdForm({
             <FormItem>
               <FormLabel>{t("name.label")}</FormLabel>
               <FormControl>
-                <Input placeholder={t("name.placeholder")} {...field} />
+                <Input
+                  className="dark:bg-[#161616]"
+                  placeholder={t("name.placeholder")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,7 +85,11 @@ export function HouseholdForm({
             <FormItem>
               <FormLabel>{t("description.label")}</FormLabel>
               <FormControl>
-                <Input placeholder={t("description.placeholder")} {...field} />
+                <Input
+                  className="dark:bg-[#161616]"
+                  placeholder={t("description.placeholder")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -125,6 +133,7 @@ export function HouseholdForm({
                   <FormLabel>{t("balance.label")}</FormLabel>
                   <FormControl>
                     <Input
+                      className="dark:bg-[#161616]"
                       onClick={(e) => {
                         if (+(e.target as HTMLInputElement).value == 0) {
                           (e.target as HTMLInputElement).value = "";
@@ -146,7 +155,7 @@ export function HouseholdForm({
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          {household ? "Zapisz" : t("submit")}
+          {household ? t("save") : t("submit")}
         </Button>
       </form>
     </Form>

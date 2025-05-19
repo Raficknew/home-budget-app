@@ -14,6 +14,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { useTranslations } from "next-intl";
 
 export function ActionButton({
   action,
@@ -24,6 +25,7 @@ export function ActionButton({
   action: () => Promise<{ error: boolean; message: string }>;
 }) {
   const [isLoading, startTransition] = useTransition();
+  const t = useTranslations("AreYouSureDialog");
 
   function performAction() {
     startTransition(async () => {
@@ -39,17 +41,15 @@ export function ActionButton({
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Jesteś pewny?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Nie można cofnąc tej akcji
-            </AlertDialogDescription>
+            <AlertDialogTitle>{t("title")}</AlertDialogTitle>
+            <AlertDialogDescription>{t("description")}</AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
+          <AlertDialogFooter className="grid grid-cols-2">
             <AlertDialogCancel className="cursor-pointer">
-              Anuluj
+              {t("cancel")}
             </AlertDialogCancel>
             <AlertDialogAction disabled={isLoading} onClick={performAction}>
-              <LoadingSwap isLoading={isLoading}>Tak</LoadingSwap>
+              <LoadingSwap isLoading={isLoading}>{t("proceed")}</LoadingSwap>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

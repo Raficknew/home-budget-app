@@ -16,7 +16,7 @@ export default async function HouseholdLayout({
 }>) {
   const { householdId } = await params;
   return (
-    <div className="pt-3">
+    <div>
       <TopBar householdId={householdId} />
       <Sidebar />
       <div className="absolute left-0 sm:left-20">{children}</div>
@@ -29,10 +29,10 @@ async function TopBar({ householdId }: { householdId: string }) {
 
   if (session == null) redirect("/sign-in");
   return (
-    <div className="fixed right-5">
+    <div className="fixed right-5 pt-3">
       <div className="absolute right-[-3px] bottom-0 z-10 bg-green-400 w-2.5 h-2.5 rounded-full p-1"></div>
 
-      <Link href={`/${householdId}/settings`}>
+      <Link href={`/${householdId}/settings/account`}>
         <Avatar>
           <AvatarImage src={session?.user.image ?? ""} />
           <AvatarFallback className="bg-accent">

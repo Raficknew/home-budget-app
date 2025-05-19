@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { PlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { membersSchema, MembersSchema } from "../schema/members";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +13,9 @@ import {
 } from "@/components/ui/form";
 import { createMember, updateMember } from "../actions/members";
 import { DialogFooter } from "@/components/ui/dialog";
-import { cn } from "@/lib/utils";
-
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useTranslations } from "next-intl";
 export function MemberForm({
   householdId,
   member,
@@ -25,6 +25,7 @@ export function MemberForm({
   member?: { id: string; name: string };
   onSuccess?: () => void;
 }) {
+  const t = useTranslations("Settings.household.members");
   const form = useForm<MembersSchema>({
     resolver: zodResolver(membersSchema),
     defaultValues: member ?? {
@@ -47,7 +48,7 @@ export function MemberForm({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className={cn("w-full", member == null && "flex")}
+          className="flex md:flex-col gap-2 w-full"
         >
           <FormField
             control={form.control}
@@ -55,23 +56,28 @@ export function MemberForm({
             render={({ field }) => (
               <FormItem className="grow">
                 <FormControl>
-                  <Input placeholder="Maciek" {...field} />
+                  <Input
+                    className="bg-[#161616]"
+                    placeholder={t("placeholder")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {member ? (
-            <DialogFooter className="mt-4">
-              <Button variant="submit" disabled={form.formState.isSubmitting}>
-                Zapisz
-              </Button>
-            </DialogFooter>
-          ) : (
+
+          <DialogFooter>
             <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <PlusIcon />
+              <p className="md:flex hidden">
+                {member ? t("save") : t("submit")}
+              </p>
+              <HugeiconsIcon
+                className="cursor-pointer sm:size-6 size-5 md:hidden"
+                icon={PlusSignIcon}
+              />
             </Button>
-          )}
+          </DialogFooter>
         </form>
       </Form>
     </div>
