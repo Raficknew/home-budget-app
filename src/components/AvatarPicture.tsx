@@ -12,7 +12,7 @@ export async function AvatarPicture({
 }) {
   return (
     <div className="cursor-pointer flex justify-center">
-      <Avatar className={`size-[${size}]`}>
+      <Avatar className={`size-${size}`}>
         <AvatarImage src={session?.user.image ?? ""} />
         <AvatarFallback className="bg-accent">
           <HugeiconsIcon icon={User02FreeIcons} />
