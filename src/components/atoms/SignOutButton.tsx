@@ -2,8 +2,9 @@
 import { Logout05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { signOut } from "next-auth/react";
-import { Button } from "./ui/button";
+
 import { useTranslations } from "next-intl";
+import { Button } from "../ui/button";
 
 export function SignOutButton() {
   return (

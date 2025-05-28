@@ -9,6 +9,7 @@ import { useState } from "react";
 export function DatePicker() {
   const [date, setDate] = useState(new Date());
   const [isOpened, setIsOpened] = useState(false);
+
   const locale = useLocale();
   let currentLocale = pl;
   switch (locale) {
