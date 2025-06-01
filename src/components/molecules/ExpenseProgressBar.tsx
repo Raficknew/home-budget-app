@@ -1,5 +1,7 @@
 "use client";
 import { useState } from "react";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 
 type Category = {
   name: string;
@@ -17,6 +19,61 @@ type Category = {
   }[];
 }[];
 
+function countPricesOfTransactionsRelatedToTheirTypes(
+  balance: number,
+  categories: Category
+) {
+  let fixed = 0;
+  let fun = 0;
+  let future_you = 0;
+  let left = 0;
+
+  categories.map((category) => {
+    switch (category.categoryType) {
+      case "fixed":
+        category.transactions.map((t) => {
+          fixed += t.price;
+        });
+        break;
+      case "fun":
+        category.transactions.map((t) => {
+          fun += t.price;
+        });
+        break;
+      case "future you":
+        category.transactions.map((t) => {
+          future_you += t.price;
+        });
+        break;
+    }
+  });
+
+  left = balance - (fixed + fun + future_you);
+
+  return { fixed, fun, future_you, left };
+}
+
+function returnChangeOption(currentCategoryType: string) {
+  const options = ["fixed", "fun", "future_you", "left"];
+
+  const currentIndex = options.indexOf(currentCategoryType);
+
+  let nextOption = "";
+  let backOption = "";
+  if (currentCategoryType == "fixed") {
+    nextOption = options[(currentIndex + 1) % options.length] ?? "";
+    backOption = "left";
+  } else if (currentCategoryType == "left") {
+    nextOption = options[0] ?? "";
+    backOption = options[(currentIndex - 1) % options.length] ?? "";
+  } else {
+    nextOption = options[(currentIndex + 1) % options.length] ?? "";
+    backOption = options[(currentIndex - 1) % options.length] ?? "";
+  }
+
+  return { nextOption, backOption };
+}
+
 export function ExpenseProgressBar({
   balance,
   categories,
@@ -26,36 +83,20 @@ export function ExpenseProgressBar({
 }) {
   const [currentCategoryType, setCurrentCategoryType] = useState("fixed");
 
-  const categoryPricesCounted =
-    countPricesOfTransactionsRelatedToTheirTypes(categories);
+  const categoryPricesCounted = countPricesOfTransactionsRelatedToTheirTypes(
+    balance,
+    categories
+  );
 
-  function countPricesOfTransactionsRelatedToTheirTypes(categories: Category) {
-    let fixed = 0;
-    let fun = 0;
-    let future_you = 0;
+  const changeCurrentType = returnChangeOption(currentCategoryType);
 
-    categories.map((category) => {
-      switch (category.categoryType) {
-        case "fixed":
-          category.transactions.map((t) => {
-            fixed += t.price;
-          });
-          break;
-        case "fun":
-          category.transactions.map((t) => {
-            fun += t.price;
-          });
-          break;
-        case "future you":
-          category.transactions.map((t) => {
-            future_you += t.price;
-          });
-          break;
-      }
-    });
+  const assigned =
+    (categoryPricesCounted[
+      currentCategoryType as keyof typeof categoryPricesCounted
+    ] /
+      balance) *
+    100;
 
-    return { fixed, fun, future_you };
-  }
   return (
     <div className="flex flex-col w-[536px] gap-3">
       <div className="flex h-5 grow bg-neutral-600 rounded-sm">
@@ -78,26 +119,34 @@ export function ExpenseProgressBar({
           }}
         ></div>
       </div>
-      <div className="w-full bg-[#161616] rounded-sm px-2">
+      <div className="flex flex-col gap-2 w-full bg-[#161616] rounded-sm px-2">
         <div className="flex justify-between">
-          <p>
-            {(categoryPricesCounted[
-              currentCategoryType as keyof typeof categoryPricesCounted
-            ] /
-              balance) *
-              100 +
-              "%"}
-          </p>
-          <div>ess</div>
+          <p>{assigned.toFixed(2) + "%"}</p>
+          <div className="flex items-center gap-1 *:rounded-full *:bg-white *:text-black *:cursor-pointer">
+            <HugeiconsIcon
+              onClick={() =>
+                setCurrentCategoryType(changeCurrentType.backOption)
+              }
+              strokeWidth={3}
+              size={20}
+              icon={ArrowLeft01Icon}
+            />
+            <HugeiconsIcon
+              onClick={() =>
+                setCurrentCategoryType(changeCurrentType.nextOption)
+              }
+              strokeWidth={3}
+              size={20}
+              icon={ArrowRight01Icon}
+            />
+          </div>
         </div>
         <div className="flex justify-between">
           {currentCategoryType}
           <p>
-            {
-              categoryPricesCounted[
-                currentCategoryType as keyof typeof categoryPricesCounted
-              ]
-            }
+            {categoryPricesCounted[
+              currentCategoryType as keyof typeof categoryPricesCounted
+            ] + " PLN"}
           </p>
         </div>
       </div>
