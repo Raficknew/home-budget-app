@@ -144,7 +144,7 @@ export function ExpenseProgressBar({
   const goalProgress = checkGoalProgress(currentCategoryType, assigned + "%");
 
   return (
-    <div className="flex flex-col w-full gap-3">
+    <div className="flex flex-col gap-3">
       <ProgressBar
         categoryPricesCounted={categoryPricesCounted}
         balance={historicalBalance}
@@ -164,7 +164,7 @@ export function ExpenseProgressBar({
               {assigned.toFixed(2) + "%"}
             </p>
             <p className="self-end text-[10px] text-white/50">
-              {goalProgress.expected && `CEL ${goalProgress.expected}`}
+              {goalProgress.expected && `${t("goal")} ${goalProgress.expected}`}
             </p>
           </div>
           <div className="flex items-center gap-1 *:rounded-full *:bg-white *:text-black *:cursor-pointer ">
