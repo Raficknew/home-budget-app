@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { capitalize } from "@/lib/formatters";
+import { useFormatPrice } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 type Category = {
   name: string;
@@ -50,7 +51,7 @@ const countPricesOfTransactionsRelatedToTheirTypes = (
     }
   });
 
-  left = balance - (fixed + fun + future_you);
+  left = balance;
 
   return { fixed, fun, future_you, left };
 };
@@ -104,10 +105,13 @@ const checkGoalProgress = (categoryType: string, value: string) => {
 export function ExpenseProgressBar({
   balance,
   categories,
+  currency,
 }: {
   balance: number;
   categories: Category;
+  currency: string;
 }) {
+  const t = useTranslations("Dashboard.ExpenseTracker");
   const [currentCategoryType, setCurrentCategoryType] = useState("fixed");
 
   const categoryPricesCounted = countPricesOfTransactionsRelatedToTheirTypes(
@@ -115,7 +119,14 @@ export function ExpenseProgressBar({
     categories
   );
 
+  const historicalBalance =
+    balance +
+    categoryPricesCounted.fixed +
+    categoryPricesCounted.fun +
+    categoryPricesCounted.future_you;
+
   const changeCurrentType = returnChangeOption(currentCategoryType);
+
   const currentCategoryTypePrice =
     categoryPricesCounted[
       currentCategoryType as keyof typeof categoryPricesCounted
@@ -125,33 +136,19 @@ export function ExpenseProgressBar({
     (categoryPricesCounted[
       currentCategoryType as keyof typeof categoryPricesCounted
     ] /
-      balance) *
+      historicalBalance) *
     100;
+
+  const formattedPrice = useFormatPrice(currentCategoryTypePrice, currency);
 
   const goalProgress = checkGoalProgress(currentCategoryType, assigned + "%");
 
   return (
-    <div className="flex flex-col w-[536px] gap-3">
-      <div className="flex h-5 grow bg-neutral-600 rounded-sm">
-        <div
-          className="bg-[#7047EB] z-10 rounded-l-sm"
-          style={{
-            width: `${(categoryPricesCounted.fixed / balance) * 100}%`,
-          }}
-        ></div>
-        <div
-          className=" bg-[#9B8DF8]"
-          style={{
-            width: `${(categoryPricesCounted.fun / balance) * 100}%`,
-          }}
-        ></div>
-        <div
-          className=" bg-[#BDB6FC]"
-          style={{
-            width: `${(categoryPricesCounted.future_you / balance) * 100}%`,
-          }}
-        ></div>
-      </div>
+    <div className="flex flex-col w-full gap-3">
+      <ProgressBar
+        categoryPricesCounted={categoryPricesCounted}
+        balance={historicalBalance}
+      />
       <div className="flex flex-col gap-2 w-full bg-[#161616] rounded-lg py-2 px-4">
         <div className="flex justify-between">
           <div className="flex gap-1">
@@ -159,7 +156,9 @@ export function ExpenseProgressBar({
               className={cn(
                 "text-lg",
                 goalProgress.progress == "IDEALLY" && "text-green-400",
-                goalProgress.progress == "TO_MUCH" && "text-red-400"
+                goalProgress.progress == "TO_MUCH" && "text-red-400",
+                goalProgress.progress == "TO_LITTLE" && "text-green-200",
+                assigned < 0 && "text-red-400"
               )}
             >
               {assigned.toFixed(2) + "%"}
@@ -189,13 +188,42 @@ export function ExpenseProgressBar({
         </div>
         <div className="flex justify-between">
           <p className="text-lg font-semibold text-[#7047EB]">
-            {capitalize(currentCategoryType)}
+            {t(`${currentCategoryType}`)}
           </p>
-          <p className="text-lg font-semibold">
-            {currentCategoryTypePrice + " PLN"}
-          </p>
+          <p className="text-lg font-semibold">{formattedPrice}</p>
         </div>
       </div>
+    </div>
+  );
+}
+
+function ProgressBar({
+  categoryPricesCounted,
+  balance,
+}: {
+  categoryPricesCounted: { fixed: number; fun: number; future_you: number };
+  balance: number;
+}) {
+  return (
+    <div className="flex h-6 grow bg-neutral-600 rounded-sm">
+      <div
+        className="bg-[#7047EB] z-10 rounded-l-sm"
+        style={{
+          width: `${(categoryPricesCounted.fixed / balance) * 100}%`,
+        }}
+      ></div>
+      <div
+        className=" bg-[#9B8DF8] z-10"
+        style={{
+          width: `${(categoryPricesCounted.fun / balance) * 100}%`,
+        }}
+      ></div>
+      <div
+        className=" bg-[#BDB6FC] z-10 rounded-r-sm"
+        style={{
+          width: `${(categoryPricesCounted.future_you / balance) * 100}%`,
+        }}
+      ></div>
     </div>
   );
 }

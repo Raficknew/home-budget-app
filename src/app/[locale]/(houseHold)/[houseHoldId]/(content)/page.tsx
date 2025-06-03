@@ -25,31 +25,36 @@ export default async function HouseholdPage({
   }
 
   return (
-    <div className="p-5">
-      <div className="flex w-full">
+    <div>
+      <div className="flex">
         <BalanceTracker
           balance={household.balance}
           currency={household.currencyCode}
           categories={household.categories}
         />
-        <TransactionDialog
-          defaultTransaction="income"
-          householdId={householdId}
+        <BalanceTracker
+          balance={household.balance}
+          currency={household.currencyCode}
+          categories={household.categories}
         />
-        <TransactionMobileDialog
-          defaultTransaction="income"
-          householdId={householdId}
-        />
-        {household.categories.map((c) => (
-          <div key={c.id}>
-            {c.transactions.map((t) => (
-              <div key={t.id}>
-                {t.name} {t.price}
-              </div>
-            ))}
-          </div>
-        ))}
       </div>
+      <TransactionDialog
+        defaultTransaction="income"
+        householdId={householdId}
+      />
+      <TransactionMobileDialog
+        defaultTransaction="income"
+        householdId={householdId}
+      />
+      {household.categories.map((c) => (
+        <div key={c.id}>
+          {c.transactions.map((t) => (
+            <div key={t.id}>
+              {t.name} {t.price}
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }

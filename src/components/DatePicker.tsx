@@ -27,7 +27,7 @@ export function DatePicker() {
   );
 
   return (
-    <div className="flex flex-col items-center z-10">
+    <div className="flex flex-col items-center z-10 ml-25">
       <div
         className="bg-card h-full w-[270px] text-center py-2 rounded-lg cursor-pointer"
         onClick={() => setIsOpened(!isOpened)}

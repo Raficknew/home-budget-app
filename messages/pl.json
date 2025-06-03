@@ -19,6 +19,15 @@
     "charts": "Wykresy",
     "settings": "Ustawienia"
   },
+  "Dashboard": {
+    "ExpenseTracker": {
+      "balance": "Saldo",
+      "fixed": "Niezbędne",
+      "fun": "Rozrywka",
+      "future_you": "Inwestycje",
+      "left": "Oszczędności"
+    }
+  },
   "CreateHousehold": {
     "title": "Utwórz nowe gospodarstwo",
     "name": {

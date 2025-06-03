@@ -39,6 +39,15 @@
     "submit": "Create",
     "save": "Save"
   },
+  "Dashboard": {
+    "ExpenseTracker": {
+      "balance": "Balance",
+      "fixed": "Fixed",
+      "fun": "Fun",
+      "future_you": "Future you",
+      "left": "Left"
+    }
+  },
   "JoinPage": {
     "title": "Join"
   },
