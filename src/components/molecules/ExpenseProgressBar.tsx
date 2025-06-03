@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { capitalize } from "@/lib/formatters";
+import { cn } from "@/lib/utils";
 
 type Category = {
   name: string;
@@ -19,10 +21,10 @@ type Category = {
   }[];
 }[];
 
-function countPricesOfTransactionsRelatedToTheirTypes(
+const countPricesOfTransactionsRelatedToTheirTypes = (
   balance: number,
   categories: Category
-) {
+) => {
   let fixed = 0;
   let fun = 0;
   let future_you = 0;
@@ -51,9 +53,9 @@ function countPricesOfTransactionsRelatedToTheirTypes(
   left = balance - (fixed + fun + future_you);
 
   return { fixed, fun, future_you, left };
-}
+};
 
-function returnChangeOption(currentCategoryType: string) {
+const returnChangeOption = (currentCategoryType: string) => {
   const options = ["fixed", "fun", "future_you", "left"];
 
   const currentIndex = options.indexOf(currentCategoryType);
@@ -72,7 +74,32 @@ function returnChangeOption(currentCategoryType: string) {
   }
 
   return { nextOption, backOption };
-}
+};
+
+const checkGoalProgress = (categoryType: string, value: string) => {
+  if (categoryType === "left") return { expected: "", progress: "" };
+
+  let expected = "";
+  let progress = "";
+
+  const goalMap = {
+    fixed: "50%",
+    fun: "30%",
+    future_you: "20%",
+  };
+
+  expected = goalMap[categoryType as keyof typeof goalMap] ?? "";
+
+  if (value > expected) {
+    progress = "TO_MUCH";
+  } else if (value === expected) {
+    progress = "IDEALLY";
+  } else {
+    progress = "TO_LITTLE";
+  }
+
+  return { expected, progress };
+};
 
 export function ExpenseProgressBar({
   balance,
@@ -89,6 +116,10 @@ export function ExpenseProgressBar({
   );
 
   const changeCurrentType = returnChangeOption(currentCategoryType);
+  const currentCategoryTypePrice =
+    categoryPricesCounted[
+      currentCategoryType as keyof typeof categoryPricesCounted
+    ];
 
   const assigned =
     (categoryPricesCounted[
@@ -96,6 +127,8 @@ export function ExpenseProgressBar({
     ] /
       balance) *
     100;
+
+  const goalProgress = checkGoalProgress(currentCategoryType, assigned + "%");
 
   return (
     <div className="flex flex-col w-[536px] gap-3">
@@ -119,16 +152,29 @@ export function ExpenseProgressBar({
           }}
         ></div>
       </div>
-      <div className="flex flex-col gap-2 w-full bg-[#161616] rounded-sm px-2">
+      <div className="flex flex-col gap-2 w-full bg-[#161616] rounded-lg py-2 px-4">
         <div className="flex justify-between">
-          <p>{assigned.toFixed(2) + "%"}</p>
-          <div className="flex items-center gap-1 *:rounded-full *:bg-white *:text-black *:cursor-pointer">
+          <div className="flex gap-1">
+            <p
+              className={cn(
+                "text-lg",
+                goalProgress.progress == "IDEALLY" && "text-green-400",
+                goalProgress.progress == "TO_MUCH" && "text-red-400"
+              )}
+            >
+              {assigned.toFixed(2) + "%"}
+            </p>
+            <p className="self-end text-[10px] text-white/50">
+              {goalProgress.expected && `CEL ${goalProgress.expected}`}
+            </p>
+          </div>
+          <div className="flex items-center gap-1 *:rounded-full *:bg-white *:text-black *:cursor-pointer ">
             <HugeiconsIcon
               onClick={() =>
                 setCurrentCategoryType(changeCurrentType.backOption)
               }
               strokeWidth={3}
-              size={20}
+              size={16}
               icon={ArrowLeft01Icon}
             />
             <HugeiconsIcon
@@ -136,17 +182,17 @@ export function ExpenseProgressBar({
                 setCurrentCategoryType(changeCurrentType.nextOption)
               }
               strokeWidth={3}
-              size={20}
+              size={16}
               icon={ArrowRight01Icon}
             />
           </div>
         </div>
         <div className="flex justify-between">
-          {currentCategoryType}
-          <p>
-            {categoryPricesCounted[
-              currentCategoryType as keyof typeof categoryPricesCounted
-            ] + " PLN"}
+          <p className="text-lg font-semibold text-[#7047EB]">
+            {capitalize(currentCategoryType)}
+          </p>
+          <p className="text-lg font-semibold">
+            {currentCategoryTypePrice + " PLN"}
           </p>
         </div>
       </div>
