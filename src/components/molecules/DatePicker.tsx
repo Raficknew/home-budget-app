@@ -8,8 +8,11 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function DatePicker() {
-  const [date, setDate] = useState(new Date());
   const [isOpened, setIsOpened] = useState(false);
+  const [date] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState<number | null>(
+    new Date().getMonth()
+  );
   const [year, setYear] = useState<number | null>(new Date().getFullYear());
   const router = useRouter();
 
@@ -41,10 +44,11 @@ export function DatePicker() {
     date.setFullYear(year);
   };
 
-  const handleDateChange = (month: Date) => {
+  const handleDateChange = (month: number) => {
     const searchParams = new URLSearchParams();
 
-    setDate(month);
+    setCurrentMonth(month);
+    date.setMonth(month);
     searchParams.set("date", date.toISOString());
     router.push(`?${searchParams}`);
   };
@@ -80,11 +84,13 @@ export function DatePicker() {
                 key={month.getMonth()}
                 className={cn(
                   "cursor-pointer px-2 py-1 text-sm rounded-full",
-                  month.getMonth() === date.getMonth() &&
-                    month.getFullYear() === date.getFullYear() &&
+                  month.getMonth() === currentMonth &&
+                    month.getFullYear() === year &&
                     "bg-foreground/10"
                 )}
-                onClick={() => handleDateChange(month)}
+                onClick={() =>
+                  month != date && handleDateChange(month.getMonth())
+                }
               >
                 {capitalize(format(month, "MMMM", { locale: currentLocale }))}
               </div>

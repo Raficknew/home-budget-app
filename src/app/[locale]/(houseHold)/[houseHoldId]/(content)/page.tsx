@@ -14,11 +14,15 @@ import { validate as validateUuid } from "uuid";
 
 export default async function HouseholdPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ householdId: string }>;
+  searchParams: Promise<{ date: string }>;
 }) {
   const { householdId } = await params;
-  const household = await getHousehold(householdId, new Date());
+  const { date } = await searchParams;
+  const parsedDate = date ? new Date(date) : new Date();
+  const household = await getHousehold(householdId, parsedDate);
 
   if (household == null) {
     notFound();
