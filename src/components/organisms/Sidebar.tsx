@@ -12,7 +12,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { SignOutButton } from "./atoms/SignOutButton";
+import { SignOutButton } from "../atoms/SignOutButton";
 
 export function Sidebar() {
   const { locale, householdId } = useParams();

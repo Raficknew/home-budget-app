@@ -1,6 +1,6 @@
 import { Wallet05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ExpenseProgressBar } from "./molecules/ExpenseProgressBar";
+import { ExpenseProgressBar } from "./ExpenseProgressBar";
 import { useFormatPrice } from "@/lib/formatters";
 import { useTranslations } from "next-intl";
 

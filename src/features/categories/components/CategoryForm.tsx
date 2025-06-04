@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { CategoryIcon, CategoryIconKeys, icons } from "./CategoryIcon";
 import { createCategory, updateCategory } from "../actions/category";
-import { Spacer } from "@/components/Spacer";
+import { Spacer } from "@/components/atoms/Spacer";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 

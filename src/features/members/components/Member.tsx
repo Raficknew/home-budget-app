@@ -1,6 +1,6 @@
 "use client";
 import { deleteMember } from "../actions/members";
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/atoms/ActionButton";
 import { MemberEditDialog } from "./MemberEditDialog";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";

@@ -1,4 +1,4 @@
-import { MobileOverlay } from "@/components/MobileOverlay";
+import { MobileOverlay } from "@/components/atoms/MobileOverlay";
 import { TransactionForm } from "./TransactionsForm";
 import { getCategories, getMembers } from "@/global/functions";
 

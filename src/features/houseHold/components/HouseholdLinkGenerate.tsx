@@ -1,6 +1,6 @@
 "use client";
 import { generateLinkForHousehold } from "../actions/household";
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/atoms/ActionButton";
 import { ArrowReloadHorizontalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 

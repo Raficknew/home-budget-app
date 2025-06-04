@@ -1,7 +1,7 @@
-import { ActionButton } from "@/components/ActionButton";
-import { MobileTopHeader } from "@/components/MobileTopHeader";
-import { SectionHeader } from "@/components/SectionHeader";
-import { Spacer } from "@/components/Spacer";
+import { ActionButton } from "@/components/atoms/ActionButton";
+import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
+import { SectionHeader } from "@/components/molecules/SectionHeader";
+import { Spacer } from "@/components/atoms/Spacer";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";

@@ -1,5 +1,5 @@
 "use client";
-import { ActionButton } from "@/components/ActionButton";
+import { ActionButton } from "@/components/atoms/ActionButton";
 import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
 import { deleteCategory } from "../actions/category";
 import { CategoryTable } from "@/drizzle/schema";

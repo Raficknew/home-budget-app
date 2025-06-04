@@ -1,4 +1,4 @@
-import { BalanceTracker } from "@/components/BalanceTracker";
+import { BalanceTracker } from "@/components/molecules/BalanceTracker";
 import { db } from "@/drizzle";
 import {
   CategoryTable,

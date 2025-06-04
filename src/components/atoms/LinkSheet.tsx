@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 
 export function LinkSheet({

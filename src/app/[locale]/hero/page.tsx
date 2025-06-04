@@ -1,4 +1,4 @@
-import { LanguageSelect } from "@/components/LanguageSelect";
+import { LanguageSelect } from "@/components/atoms/LanguageSelect";
 import { Button } from "@/components/ui/button";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { Spacer } from "@/components/Spacer";
+import { Spacer } from "@/components/atoms/Spacer";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
 

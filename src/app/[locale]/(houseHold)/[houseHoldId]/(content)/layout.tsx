@@ -1,10 +1,10 @@
-import { Sidebar } from "@/components/Sidebar";
+import { Sidebar } from "@/components/organisms/Sidebar";
 import { ReactNode } from "react";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { AvatarPicture } from "@/components/AvatarPicture";
-import { DatePicker } from "@/components/DatePicker";
+import { AvatarPicture } from "@/components/atoms/AvatarPicture";
+import { DatePicker } from "@/components/molecules/DatePicker";
 
 export default async function HouseholdLayout({
   children,

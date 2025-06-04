@@ -1,10 +1,10 @@
 import { SignOutButtonStretched } from "@/components/atoms/SignOutButton";
-import { AvatarPicture } from "@/components/AvatarPicture";
-import { LanguageSelect } from "@/components/LanguageSelect";
-import { LinkSheet } from "@/components/LinkSheet";
-import { MobileTopHeader } from "@/components/MobileTopHeader";
-import { SectionHeader } from "@/components/SectionHeader";
-import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
+import { AvatarPicture } from "@/components/atoms/AvatarPicture";
+import { LanguageSelect } from "@/components/atoms/LanguageSelect";
+import { LinkSheet } from "@/components/atoms/LinkSheet";
+import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
+import { SectionHeader } from "@/components/molecules/SectionHeader";
+import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { env } from "@/data/env/server";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
