@@ -20,15 +20,52 @@ type Category = {
   }[];
 }[];
 
+const countPricesOfTransactionsRelatedToTheirTypes = (categories: Category) => {
+  let fixed = 0;
+  let fun = 0;
+  let future_you = 0;
+  let incomes = 0;
+
+  categories.map((category) => {
+    switch (category.categoryType) {
+      case "fixed":
+        category.transactions.map((t) => {
+          fixed += t.price;
+        });
+        break;
+      case "fun":
+        category.transactions.map((t) => {
+          fun += t.price;
+        });
+        break;
+      case "future you":
+        category.transactions.map((t) => {
+          future_you += t.price;
+        });
+        break;
+      case "incomes":
+        category.transactions.map((t) => {
+          incomes += t.price;
+        });
+        break;
+    }
+  });
+
+  return { fixed, fun, future_you, incomes };
+};
+
 export function BalanceTracker({
-  balance,
   currency,
   categories,
 }: {
-  balance: number;
   currency: string;
   categories: Category;
 }) {
+  const prices = countPricesOfTransactionsRelatedToTheirTypes(categories);
+  const balance =
+    prices.incomes - (prices.fixed + prices.fun + prices.future_you);
+  const totalInTransactions =
+    prices.fixed + prices.fun + prices.future_you + prices.incomes;
   const formattedPrice = useFormatPrice(balance, currency);
   const t = useTranslations("Dashboard.ExpenseTracker");
   return (
@@ -39,8 +76,8 @@ export function BalanceTracker({
       </div>
       <h2 className="font-semibold text-2xl">{formattedPrice}</h2>
       <ExpenseProgressBar
-        balance={balance}
-        categories={categories}
+        totalInTransactions={totalInTransactions}
+        categoriesCounted={prices}
         currency={currency}
       />
     </div>

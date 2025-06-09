@@ -32,12 +32,10 @@ export default async function HouseholdPage({
     <div>
       <div className="flex">
         <BalanceTracker
-          balance={household.balance}
           currency={household.currencyCode}
           categories={household.categories}
         />
         <BalanceTracker
-          balance={household.balance}
           currency={household.currencyCode}
           categories={household.categories}
         />

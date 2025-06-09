@@ -6,58 +6,8 @@ import { useFormatPrice } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
-type Category = {
-  name: string;
-  id: string;
-  icon: string;
-  categoryType: "fixed" | "fun" | "future you" | "incomes";
-  createdAt: Date;
-  updatedAt: Date;
-  householdId: string;
-  transactions: {
-    name: string;
-    id: string;
-    type: "income" | "expense";
-    price: number;
-  }[];
-}[];
-
-const countPricesOfTransactionsRelatedToTheirTypes = (
-  balance: number,
-  categories: Category
-) => {
-  let fixed = 0;
-  let fun = 0;
-  let future_you = 0;
-  let left = 0;
-
-  categories.map((category) => {
-    switch (category.categoryType) {
-      case "fixed":
-        category.transactions.map((t) => {
-          fixed += t.price;
-        });
-        break;
-      case "fun":
-        category.transactions.map((t) => {
-          fun += t.price;
-        });
-        break;
-      case "future you":
-        category.transactions.map((t) => {
-          future_you += t.price;
-        });
-        break;
-    }
-  });
-
-  left = balance;
-
-  return { fixed, fun, future_you, left };
-};
-
 const returnChangeOption = (currentCategoryType: string) => {
-  const options = ["fixed", "fun", "future_you", "left"];
+  const options = ["fixed", "fun", "future_you"];
 
   const currentIndex = options.indexOf(currentCategoryType);
 
@@ -65,8 +15,8 @@ const returnChangeOption = (currentCategoryType: string) => {
   let backOption = "";
   if (currentCategoryType == "fixed") {
     nextOption = options[(currentIndex + 1) % options.length] ?? "";
-    backOption = "left";
-  } else if (currentCategoryType == "left") {
+    backOption = "future_you";
+  } else if (currentCategoryType == "future_you") {
     nextOption = options[0] ?? "";
     backOption = options[(currentIndex - 1) % options.length] ?? "";
   } else {
@@ -78,8 +28,6 @@ const returnChangeOption = (currentCategoryType: string) => {
 };
 
 const checkGoalProgress = (categoryType: string, value: string) => {
-  if (categoryType === "left") return { expected: "", progress: "" };
-
   let expected = "";
   let progress = "";
 
@@ -103,41 +51,28 @@ const checkGoalProgress = (categoryType: string, value: string) => {
 };
 
 export function ExpenseProgressBar({
-  balance,
-  categories,
+  totalInTransactions,
+  categoriesCounted,
   currency,
 }: {
-  balance: number;
-  categories: Category;
+  totalInTransactions: number;
+  categoriesCounted: {
+    fixed: number;
+    fun: number;
+    future_you: number;
+  };
   currency: string;
 }) {
   const t = useTranslations("Dashboard.ExpenseTracker");
-  const [currentCategoryType, setCurrentCategoryType] = useState("fixed");
-
-  const categoryPricesCounted = countPricesOfTransactionsRelatedToTheirTypes(
-    balance,
-    categories
-  );
-
-  const historicalBalance =
-    balance +
-    categoryPricesCounted.fixed +
-    categoryPricesCounted.fun +
-    categoryPricesCounted.future_you;
+  const [currentCategoryType, setCurrentCategoryType] = useState<
+    "fixed" | "fun" | "future_you"
+  >("fixed");
 
   const changeCurrentType = returnChangeOption(currentCategoryType);
 
-  const currentCategoryTypePrice =
-    categoryPricesCounted[
-      currentCategoryType as keyof typeof categoryPricesCounted
-    ];
+  const currentCategoryTypePrice = categoriesCounted[currentCategoryType];
 
-  const assigned =
-    (categoryPricesCounted[
-      currentCategoryType as keyof typeof categoryPricesCounted
-    ] /
-      historicalBalance) *
-    100;
+  const assigned = (currentCategoryTypePrice / totalInTransactions) * 100;
 
   const formattedPrice = useFormatPrice(currentCategoryTypePrice, currency);
 
@@ -146,8 +81,8 @@ export function ExpenseProgressBar({
   return (
     <div className="flex flex-col gap-3">
       <ProgressBar
-        categoryPricesCounted={categoryPricesCounted}
-        balance={historicalBalance}
+        categoriesCounted={categoriesCounted}
+        balance={totalInTransactions}
       />
       <div className="flex flex-col gap-2 w-full bg-[#161616] rounded-lg py-2 px-4">
         <div className="flex justify-between">
@@ -161,7 +96,7 @@ export function ExpenseProgressBar({
                 assigned < 0 && "text-red-400"
               )}
             >
-              {assigned.toFixed(2) + "%"}
+              {(assigned ? assigned.toFixed(2) : "0") + "%"}
             </p>
             <p className="self-end text-[10px] text-white/50">
               {goalProgress.expected && `${t("goal")} ${goalProgress.expected}`}
@@ -170,7 +105,9 @@ export function ExpenseProgressBar({
           <div className="flex items-center gap-1 *:rounded-full *:bg-white *:text-black *:cursor-pointer ">
             <HugeiconsIcon
               onClick={() =>
-                setCurrentCategoryType(changeCurrentType.backOption)
+                setCurrentCategoryType(
+                  changeCurrentType.backOption as "fixed" | "fun" | "future_you"
+                )
               }
               strokeWidth={3}
               size={16}
@@ -178,7 +115,9 @@ export function ExpenseProgressBar({
             />
             <HugeiconsIcon
               onClick={() =>
-                setCurrentCategoryType(changeCurrentType.nextOption)
+                setCurrentCategoryType(
+                  changeCurrentType.nextOption as "fixed" | "fun" | "future_you"
+                )
               }
               strokeWidth={3}
               size={16}
@@ -198,10 +137,10 @@ export function ExpenseProgressBar({
 }
 
 function ProgressBar({
-  categoryPricesCounted,
+  categoriesCounted,
   balance,
 }: {
-  categoryPricesCounted: { fixed: number; fun: number; future_you: number };
+  categoriesCounted: { fixed: number; fun: number; future_you: number };
   balance: number;
 }) {
   return (
@@ -209,19 +148,19 @@ function ProgressBar({
       <div
         className="bg-[#7047EB] z-10 rounded-l-sm"
         style={{
-          width: `${(categoryPricesCounted.fixed / balance) * 100}%`,
+          width: `${(categoriesCounted.fixed / balance) * 100}%`,
         }}
       ></div>
       <div
         className=" bg-[#9B8DF8] z-10"
         style={{
-          width: `${(categoryPricesCounted.fun / balance) * 100}%`,
+          width: `${(categoriesCounted.fun / balance) * 100}%`,
         }}
       ></div>
       <div
         className=" bg-[#BDB6FC] z-10 rounded-r-sm"
         style={{
-          width: `${(categoryPricesCounted.future_you / balance) * 100}%`,
+          width: `${(categoriesCounted.future_you / balance) * 100}%`,
         }}
       ></div>
     </div>
