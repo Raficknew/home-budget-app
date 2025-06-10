@@ -4,16 +4,23 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { pl, enUS } from "date-fns/locale";
 import { useLocale } from "next-intl";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 export function DatePicker() {
+  let defaultDate: Date = new Date();
+  const defaultDateString = useSearchParams().get("date");
+
+  if (defaultDateString != null) {
+    defaultDate = new Date(defaultDateString);
+  }
+
   const [isOpened, setIsOpened] = useState(false);
-  const [date] = useState(new Date());
+  const [date] = useState(defaultDate);
   const [currentMonth, setCurrentMonth] = useState<number | null>(
-    new Date().getMonth()
+    defaultDate.getMonth()
   );
-  const [year, setYear] = useState<number | null>(new Date().getFullYear());
+  const [year, setYear] = useState<number | null>(defaultDate.getFullYear());
   const router = useRouter();
 
   const currentYear = new Date().getFullYear();
@@ -42,6 +49,7 @@ export function DatePicker() {
   const handleYearChange = (year: number) => {
     setYear(year);
     date.setFullYear(year);
+    setCurrentMonth(null);
   };
 
   const handleDateChange = (month: number) => {
@@ -60,11 +68,13 @@ export function DatePicker() {
         onClick={() => setIsOpened(!isOpened)}
       >
         <p className="font-semibold">
-          {capitalize(format(date, "MMMM yyyy", { locale: currentLocale }))}
+          {currentMonth
+            ? capitalize(format(date, "MMMM yyyy", { locale: currentLocale }))
+            : capitalize(format(date, "yyyy", { locale: currentLocale }))}
         </p>
       </div>
       {isOpened && (
-        <div className="fixed top-11 grid grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg">
+        <div className="fixed top-11 grid grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
           {!year &&
             years.map((callendarYear) => (
               <div
@@ -97,7 +107,10 @@ export function DatePicker() {
             ))}
           <div
             className="absolute left-2 cursor-pointer"
-            onClick={() => setYear(null)}
+            onClick={() => {
+              setYear(null);
+              setCurrentMonth(null);
+            }}
           >
             x
           </div>

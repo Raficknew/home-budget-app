@@ -72,7 +72,10 @@ export function ExpenseProgressBar({
 
   const currentCategoryTypePrice = categoriesCounted[currentCategoryType];
 
-  const assigned = (currentCategoryTypePrice / totalInTransactions) * 100;
+  const assigned =
+    totalInTransactions > 0
+      ? (currentCategoryTypePrice / totalInTransactions) * 100
+      : 0;
 
   const formattedPrice = useFormatPrice(currentCategoryTypePrice, currency);
 
@@ -143,24 +146,41 @@ function ProgressBar({
   categoriesCounted: { fixed: number; fun: number; future_you: number };
   balance: number;
 }) {
+  const fixedPercent =
+    balance > 0 ? (categoriesCounted.fixed / balance) * 100 : 0;
+  const funPercent = balance > 0 ? (categoriesCounted.fun / balance) * 100 : 0;
+  const futureYouPercent =
+    balance > 0 ? (categoriesCounted.future_you / balance) * 100 : 0;
+
   return (
     <div className="flex h-6 grow bg-neutral-600 rounded-sm">
       <div
-        className="bg-[#7047EB] z-10 rounded-l-sm"
+        className={cn(
+          "bg-[#7047EB] z-10 rounded-l-sm",
+          fixedPercent == 100 && "rounded-sm"
+        )}
         style={{
-          width: `${(categoriesCounted.fixed / balance) * 100}%`,
+          width: `${fixedPercent}%`,
         }}
       ></div>
       <div
-        className=" bg-[#9B8DF8] z-10"
+        className={cn(
+          " bg-[#9B8DF8] z-10",
+          fixedPercent == 0 && "rounded-l-sm",
+          funPercent == 100 && "rounded-sm"
+        )}
         style={{
-          width: `${(categoriesCounted.fun / balance) * 100}%`,
+          width: `${funPercent}%`,
         }}
       ></div>
       <div
-        className=" bg-[#BDB6FC] z-10 rounded-r-sm"
+        className={cn(
+          " bg-[#BDB6FC] z-10 rounded-r-sm",
+          fixedPercent == 0 && funPercent == 0 && "rounded-l-sm",
+          futureYouPercent == 100 && "rounded-sm"
+        )}
         style={{
-          width: `${(categoriesCounted.future_you / balance) * 100}%`,
+          width: `${futureYouPercent}%`,
         }}
       ></div>
     </div>
