@@ -38,11 +38,15 @@ export default async function HouseholdPage({
 
   return (
     <div>
-      <div className="flex gap-2">
-        <div className="w-2/5">
+      <div className="flex gap-2 h-[280px]">
+        <div className="w-2/4">
           <BalanceTracker currency={household.currencyCode} prices={prices} />
         </div>
-        <ExpensesLineChart prices={prices} />
+
+        <ExpensesLineChart
+          maxValue={prices.totalInTransactions}
+          date={parsedDate}
+        />
       </div>
       <TransactionDialog
         defaultTransaction="income"

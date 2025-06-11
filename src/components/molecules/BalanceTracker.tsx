@@ -15,7 +15,7 @@ export function BalanceTracker({
   const formattedPrice = useFormatPrice(prices.balance, currency);
   const t = useTranslations("Dashboard.ExpenseTracker");
   return (
-    <div className="flex flex-col w-full gap-7 bg-card p-5 rounded-lg">
+    <div className="flex flex-col w-full gap-7 bg-card p-5 rounded-lg h-full">
       <div className="flex gap-2 items-center">
         <HugeiconsIcon icon={Wallet05Icon} />
         <h4 className="text-xl">{t("balance")}</h4>
