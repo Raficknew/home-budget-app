@@ -55,6 +55,8 @@ export function DatePicker() {
   const handleDateChange = (month: number) => {
     const searchParams = new URLSearchParams();
 
+    if (currentMonth == month) return;
+
     setCurrentMonth(month);
     date.setMonth(month);
     searchParams.set("date", date.toISOString());

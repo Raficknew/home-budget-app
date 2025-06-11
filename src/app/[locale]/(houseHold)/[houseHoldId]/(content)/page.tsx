@@ -1,4 +1,5 @@
 import { BalanceTracker } from "@/components/molecules/BalanceTracker";
+import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
 import { db } from "@/drizzle";
 import {
   CategoryTable,
@@ -7,6 +8,7 @@ import {
 } from "@/drizzle/schema";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
 import { TransactionMobileDialog } from "@/features/transactions/components/TransactionMobileDialog";
+import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -24,21 +26,23 @@ export default async function HouseholdPage({
   const parsedDate = date ? new Date(date) : new Date();
   const household = await getHousehold(householdId, parsedDate);
 
+  if (household == null) notFound();
+
+  const prices = await countPricesOfTransactionsRelatedToTheirTypes(
+    household?.categories
+  );
+
   if (household == null) {
     notFound();
   }
 
   return (
     <div>
-      <div className="flex">
-        <BalanceTracker
-          currency={household.currencyCode}
-          categories={household.categories}
-        />
-        <BalanceTracker
-          currency={household.currencyCode}
-          categories={household.categories}
-        />
+      <div className="flex gap-2">
+        <div className="w-2/5">
+          <BalanceTracker currency={household.currencyCode} prices={prices} />
+        </div>
+        <ExpensesLineChart prices={prices} />
       </div>
       <TransactionDialog
         defaultTransaction="income"
