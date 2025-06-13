@@ -39,10 +39,8 @@ export default async function HouseholdPage({
 
   return (
     <div>
-      <div className="flex gap-2 h-[280px]">
-        <div className="w-2/4">
-          <BalanceTracker currency={household.currencyCode} prices={prices} />
-        </div>
+      <div className="flex gap-2 h-[280px] flex-col 2xl:flex-row">
+        <BalanceTracker currency={household.currencyCode} prices={prices} />
 
         <Suspense>
           <ExpensesLineChart
@@ -52,23 +50,25 @@ export default async function HouseholdPage({
           />
         </Suspense>
       </div>
-      <TransactionDialog
-        defaultTransaction="income"
-        householdId={householdId}
-      />
-      <TransactionMobileDialog
-        defaultTransaction="income"
-        householdId={householdId}
-      />
-      {household.categories.map((c) => (
-        <div key={c.id}>
-          {c.transactions.map((t) => (
-            <div key={t.id}>
-              {t.name} {t.price}
-            </div>
-          ))}
-        </div>
-      ))}
+      <div>
+        <TransactionDialog
+          defaultTransaction="income"
+          householdId={householdId}
+        />
+        <TransactionMobileDialog
+          defaultTransaction="income"
+          householdId={householdId}
+        />
+        {household.categories.map((c) => (
+          <div key={c.id}>
+            {c.transactions.map((t) => (
+              <div key={t.id}>
+                {t.name} {t.price}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
