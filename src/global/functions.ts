@@ -2,6 +2,7 @@ import { db } from "@/drizzle";
 import { CategoryTable, CurrencyTable, MembersTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { v4 as uuidGenerate } from "uuid";
+import { CategoryWithTransactions } from "./types";
 
 export const getCurrencies = () => {
   return db.selectDistinct().from(CurrencyTable);
@@ -31,24 +32,8 @@ export const generateRandomColor = (): string => {
   return `#${randomColor.padStart(6, "0")}`;
 };
 
-type Category = {
-  name: string;
-  id: string;
-  icon: string;
-  categoryType: "fixed" | "fun" | "future you" | "incomes";
-  createdAt: Date;
-  updatedAt: Date;
-  householdId: string;
-  transactions: {
-    name: string;
-    id: string;
-    type: "income" | "expense";
-    price: number;
-  }[];
-}[];
-
 export const countPricesOfTransactionsRelatedToTheirTypes = (
-  categories: Category
+  categories: CategoryWithTransactions
 ) => {
   let fixed = 0;
   let fun = 0;

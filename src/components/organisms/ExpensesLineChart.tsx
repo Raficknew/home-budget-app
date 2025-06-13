@@ -1,4 +1,5 @@
 "use client";
+import { CategoryWithTransactions } from "@/global/types";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +11,7 @@ import {
   Legend,
   Filler,
 } from "chart.js";
+import { endOfMonth } from "date-fns";
 import { Line } from "react-chartjs-2";
 
 ChartJS.register(
@@ -34,54 +36,65 @@ ChartJS.register(
   Filler
 );
 
-function getDataForChart() {
-  const days = getDaysFromMonth();
-  const values = mergeMonthsExpensesToDays();
+function getDataForChart(date: Date, categories: CategoryWithTransactions) {
+  const days = getDaysFromMonth(date);
+  const values = mergeMonthExpensesToDays(days, categories);
 
   return { days, values };
 }
 
-function mergeMonthsExpensesToDays() {
-  return null;
+function mergeMonthExpensesToDays(
+  days: string[],
+  categories: CategoryWithTransactions
+) {
+  const expensesToDays = Object.fromEntries(days.map((day) => [day, 0]));
+  const sortedDays = Object.keys(expensesToDays).sort(
+    (a, b) => Number(a) - Number(b)
+  );
+  const allTransactions = categories.flatMap((c) => c.transactions);
+
+  allTransactions.map((transaction) => {
+    const day = transaction.date.getDate().toString().padStart(2, "0");
+    if (
+      day !== undefined &&
+      expensesToDays[day] !== undefined &&
+      transaction.type != "income"
+    ) {
+      expensesToDays[day] += transaction.price;
+    }
+  });
+
+  return sortedDays.map((day) => expensesToDays[day]);
 }
 
-function getDaysFromMonth() {
-  return null;
+function getDaysFromMonth(date: Date) {
+  const numberOfLastDay = endOfMonth(date).getDate();
+  return Array.from({ length: numberOfLastDay }, (_, i) =>
+    String(i + 1).padStart(2, "0")
+  );
 }
 
 export function ExpensesLineChart({
   maxValue,
   date,
+  categories,
 }: {
   maxValue: number;
   date: Date;
+  categories: CategoryWithTransactions;
 }) {
-  const labels = Array.from({ length: 30 }, (_, i) =>
-    String(i + 1).padStart(2, "0")
-  );
+  const dataForChart = getDataForChart(date, categories);
 
-  console.log(date.getMonth());
-
-  const datasets = Array.from({ length: 30 }, () =>
-    Math.floor(Math.random() * 7001)
-  );
   const data = {
-    labels: labels,
+    labels: dataForChart.days,
     datasets: [
       {
         label: "Wydatki",
-        data: datasets,
+        data: dataForChart.values,
         fill: false,
         borderColor: "#F83B3B",
         tension: 0.2,
       },
-      // {
-      //   label: "Wpływy",
-      //   data: datasets,
-      //   fill: false,
-      //   borderColor: "#00000",
-      //   tension: 0.3,
-      // },
     ],
   };
 

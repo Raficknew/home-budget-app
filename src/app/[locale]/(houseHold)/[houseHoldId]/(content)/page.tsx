@@ -12,6 +12,7 @@ import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, eq, gte, lte } from "drizzle-orm";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { validate as validateUuid } from "uuid";
 
 export default async function HouseholdPage({
@@ -43,10 +44,13 @@ export default async function HouseholdPage({
           <BalanceTracker currency={household.currencyCode} prices={prices} />
         </div>
 
-        <ExpensesLineChart
-          maxValue={prices.totalInTransactions}
-          date={parsedDate}
-        />
+        <Suspense>
+          <ExpensesLineChart
+            maxValue={prices.totalInTransactions}
+            date={parsedDate}
+            categories={household.categories}
+          />
+        </Suspense>
       </div>
       <TransactionDialog
         defaultTransaction="income"
@@ -89,7 +93,13 @@ function getHousehold(id: string, date: Date) {
               gte(TransactionTable.date, firstDayOfMonth),
               lte(TransactionTable.date, lastDayOfMonth)
             ),
-            columns: { id: true, name: true, price: true, type: true },
+            columns: {
+              id: true,
+              name: true,
+              price: true,
+              type: true,
+              date: true,
+            },
           },
         },
       },

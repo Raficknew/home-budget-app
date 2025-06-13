@@ -27,17 +27,17 @@ const returnChangeOption = (currentCategoryType: string) => {
   return { nextOption, backOption };
 };
 
-const checkGoalProgress = (categoryType: string, value: string) => {
-  let expected = "";
+const checkGoalProgress = (categoryType: string, value: number) => {
+  let expected = 0;
   let progress = "";
 
   const goalMap = {
-    fixed: "50%",
-    fun: "30%",
-    future_you: "20%",
+    fixed: 50,
+    fun: 30,
+    future_you: 20,
   };
 
-  expected = goalMap[categoryType as keyof typeof goalMap] ?? "";
+  expected = goalMap[categoryType as keyof typeof goalMap] ?? 0;
 
   if (value > expected) {
     progress = "TO_MUCH";
@@ -79,7 +79,7 @@ export function ExpenseProgressBar({
 
   const formattedPrice = useFormatPrice(currentCategoryTypePrice, currency);
 
-  const goalProgress = checkGoalProgress(currentCategoryType, assigned + "%");
+  const goalProgress = checkGoalProgress(currentCategoryType, assigned);
 
   return (
     <div className="flex flex-col gap-3">
