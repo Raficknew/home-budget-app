@@ -15,10 +15,10 @@ export default async function HouseholdLayout({
 }>) {
   const { householdId } = await params;
   return (
-    <div>
+    <div className="w-screen h-screen overflow-hidden">
       <TopBar householdId={householdId} />
       <Sidebar />
-      <div className="sm:pl-25 px-5">{children}</div>
+      <div className="sm:pl-22 px-2 h-full">{children}</div>
     </div>
   );
 }
