@@ -121,7 +121,7 @@ export function ExpensesLineChart({
   };
 
   return (
-    <div className="w-full bg-card rounded-lg hidden md:flex ">
+    <div className="2xl:w-5/6 w-full min-h-[280px] bg-card rounded-lg hidden md:block ">
       <Line
         options={{
           ...options,

@@ -41,7 +41,6 @@ export default async function HouseholdPage({
     <div>
       <div className="flex gap-2 flex-col 2xl:flex-row">
         <BalanceTracker currency={household.currencyCode} prices={prices} />
-
         <Suspense>
           <ExpensesLineChart
             maxValue={prices.totalInTransactions}
