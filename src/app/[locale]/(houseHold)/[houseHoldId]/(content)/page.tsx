@@ -1,13 +1,12 @@
 import { BalanceTracker } from "@/components/molecules/BalanceTracker";
 import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
+import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
 import { db } from "@/drizzle";
 import {
   CategoryTable,
   HouseholdTable,
   TransactionTable,
 } from "@/drizzle/schema";
-import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
-import { TransactionMobileDialog } from "@/features/transactions/components/TransactionMobileDialog";
 import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, eq, gte, lte } from "drizzle-orm";
@@ -38,8 +37,8 @@ export default async function HouseholdPage({
   }
 
   return (
-    <div>
-      <div className="flex gap-2 flex-col 2xl:flex-row">
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 2xl:flex-row">
         <BalanceTracker currency={household.currencyCode} prices={prices} />
         <Suspense>
           <ExpensesLineChart
@@ -49,7 +48,15 @@ export default async function HouseholdPage({
           />
         </Suspense>
       </div>
-      <div>xdd</div>
+      <div className="flex flex-col 2xl:flex-row gap-2">
+        <FinancialSummaryChart
+          title="Przychód"
+          householdId={household.id}
+          defaultTransaction="income"
+          maxValue={prices.incomes}
+          categories={household.categories}
+        />
+      </div>
     </div>
   );
 }
