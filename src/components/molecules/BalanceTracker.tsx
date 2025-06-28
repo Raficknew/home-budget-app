@@ -1,9 +1,9 @@
 import { Wallet05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { ExpenseProgressBar } from "./ExpenseProgressBar";
 import { useFormatPrice } from "@/lib/formatters";
 import { useTranslations } from "next-intl";
 import { Prices } from "@/global/types";
+import { ExpenseProgressBar } from "../organisms/ExpenseProgressBar";
 
 export function BalanceTracker({
   currency,

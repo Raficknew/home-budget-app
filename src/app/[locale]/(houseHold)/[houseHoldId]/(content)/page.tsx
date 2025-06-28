@@ -42,19 +42,32 @@ export default async function HouseholdPage({
         <BalanceTracker currency={household.currencyCode} prices={prices} />
         <Suspense>
           <ExpensesLineChart
-            maxValue={prices.totalInTransactions}
+            maxValue={prices.totalInExpenses}
             date={parsedDate}
             categories={household.categories}
           />
         </Suspense>
       </div>
-      <div className="flex flex-col 2xl:flex-row gap-2">
+      <div className="flex flex-col gap-2 2xl:flex-row">
         <FinancialSummaryChart
           title="Przychód"
           householdId={household.id}
           defaultTransaction="income"
           maxValue={prices.incomes}
-          categories={household.categories}
+          categories={household.categories.filter(
+            (c) => c.categoryType == "incomes"
+          )}
+          gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
+        />
+        <FinancialSummaryChart
+          title="Wydatki"
+          householdId={household.id}
+          defaultTransaction="expense"
+          maxValue={prices.totalInExpenses}
+          categories={household.categories.filter(
+            (c) => c.categoryType != "incomes"
+          )}
+          gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
         />
       </div>
     </div>
@@ -88,6 +101,7 @@ function getHousehold(id: string, date: Date) {
               type: true,
               date: true,
             },
+            with: { members: { columns: { memberId: true } } },
           },
         },
       },

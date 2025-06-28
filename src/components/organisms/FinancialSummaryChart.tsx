@@ -1,7 +1,7 @@
 import { CategoryWithTransactions } from "@/global/types";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
 import { getMembers } from "@/global/functions";
-import { TransactionBarChart } from "./TransactionBarChart";
+import { TransactionBarChart } from "../molecules/TransactionBarChart";
 
 export async function FinancialSummaryChart({
   maxValue,
@@ -9,33 +9,43 @@ export async function FinancialSummaryChart({
   defaultTransaction,
   title,
   householdId,
+  gradient,
 }: {
   maxValue: number;
   categories: CategoryWithTransactions;
   defaultTransaction: string;
   title: string;
   householdId: string;
+  gradient: string;
 }) {
   const members = await getMembers(householdId);
   return (
-    <div className="flex bg-sidebar rounded-lg p-4 justify-between">
-      <div>
+    <div className="flex relative bg-card rounded-lg p-4 gap-10 justify-between 2xl:w-1/2 w-full h-[300px]">
+      <div className="w-full z-10">
         <p className="text-2xl font-light">{title}</p>
-        <p className="text-xl font-medium">{maxValue} PLN</p>
+        <p className="text-3xl font-medium">{maxValue} PLN</p>
       </div>
-      <div>
+      <div className="z-10 hidden md:block">
         <TransactionBarChart
+          title={title}
           categories={categories}
           maxValue={maxValue}
           members={members}
         />
       </div>
-      <div>
+      <div className="flex items-start w-full justify-end z-10">
         <TransactionDialog
           householdId={householdId}
           defaultTransaction={defaultTransaction}
         />
       </div>
+      <div
+        className="absolute inset-0 z-1 w-full h-full"
+        style={{
+          background: gradient,
+          opacity: 1,
+        }}
+      ></div>
     </div>
   );
 }

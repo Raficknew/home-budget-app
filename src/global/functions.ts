@@ -67,6 +67,15 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
 
   const balance = incomes - (fixed + fun + future_you);
   const totalInTransactions = fixed + fun + future_you + incomes;
+  const totalInExpenses = fixed + fun + future_you;
 
-  return { fixed, fun, future_you, incomes, balance, totalInTransactions };
+  return {
+    fixed,
+    fun,
+    future_you,
+    incomes,
+    balance,
+    totalInTransactions,
+    totalInExpenses,
+  };
 };

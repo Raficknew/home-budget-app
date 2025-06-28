@@ -25,17 +25,6 @@ ChartJS.register(
   Filler
 );
 
-ChartJS.register(
-  CategoryScale,
-  LineElement,
-  LinearScale,
-  PointElement,
-  Title,
-  Tooltip,
-  Legend,
-  Filler
-);
-
 function getDataForChart(date: Date, categories: CategoryWithTransactions) {
   const days = getDaysFromMonth(date);
   const values = mergeMonthExpensesToDays(days, categories);
@@ -99,6 +88,8 @@ export function ExpensesLineChart({
   };
 
   const options = {
+    responsive: true,
+    maintainAspectRatio: false,
     scales: {
       y: {
         title: {
@@ -122,14 +113,7 @@ export function ExpensesLineChart({
 
   return (
     <div className="2xl:w-5/6 w-full min-h-[280px] bg-card rounded-lg hidden md:block ">
-      <Line
-        options={{
-          ...options,
-          responsive: true,
-          maintainAspectRatio: false,
-        }}
-        data={data}
-      />
+      <Line options={options} data={data} />
     </div>
   );
 }
