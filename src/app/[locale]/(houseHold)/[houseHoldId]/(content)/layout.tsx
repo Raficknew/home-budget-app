@@ -18,7 +18,7 @@ export default async function HouseholdLayout({
     <div className="w-screen h-screen overflow-hidden">
       <TopBar householdId={householdId} />
       <Sidebar />
-      <div className="sm:pl-22 pr-3 h-full">{children}</div>
+      <div className="sm:pl-22 px-3 h-full">{children}</div>
     </div>
   );
 }
