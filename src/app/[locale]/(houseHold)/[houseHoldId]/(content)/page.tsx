@@ -10,6 +10,7 @@ import {
 import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
 import { endOfMonth, startOfMonth } from "date-fns";
 import { and, eq, gte, lte } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { validate as validateUuid } from "uuid";
@@ -25,6 +26,7 @@ export default async function HouseholdPage({
   const { date } = await searchParams;
   const parsedDate = date ? new Date(date) : new Date();
   const household = await getHousehold(householdId, parsedDate);
+  const t = await getTranslations("Dashboard.charts");
 
   if (household == null) notFound();
 
@@ -45,12 +47,13 @@ export default async function HouseholdPage({
             maxValue={prices.totalInExpenses}
             date={parsedDate}
             categories={household.categories}
+            title={t("expenses")}
           />
         </Suspense>
       </div>
       <div className="flex flex-col gap-2 2xl:flex-row">
         <FinancialSummaryChart
-          title="Przychód"
+          title={t("incomes")}
           householdId={household.id}
           defaultTransaction="income"
           maxValue={prices.incomes}
@@ -60,7 +63,7 @@ export default async function HouseholdPage({
           gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
         />
         <FinancialSummaryChart
-          title="Wydatki"
+          title={t("expenses")}
           householdId={household.id}
           defaultTransaction="expense"
           maxValue={prices.totalInExpenses}

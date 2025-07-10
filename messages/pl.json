@@ -20,6 +20,11 @@
     "settings": "Ustawienia"
   },
   "Dashboard": {
+    "charts": {
+      "expenses": "Wydatki",
+      "incomes": "Wpływy",
+      "add": "Dodaj" 
+    },
     "ExpenseTracker": {
       "balance": "Saldo",
       "fixed": "Niezbędne",

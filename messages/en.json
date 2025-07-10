@@ -40,6 +40,11 @@
     "save": "Save"
   },
   "Dashboard": {
+    "charts": {
+      "expenses": "Expenses",
+      "incomes": "Incomes",
+      "add": "Add" 
+    },
     "ExpenseTracker": {
       "balance": "Balance",
       "fixed": "Fixed",

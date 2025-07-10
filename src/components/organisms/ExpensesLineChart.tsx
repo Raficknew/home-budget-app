@@ -67,10 +67,12 @@ export function ExpensesLineChart({
   maxValue,
   date,
   categories,
+  title,
 }: {
   maxValue: number;
   date: Date;
   categories: CategoryWithTransactions;
+  title: string;
 }) {
   const dataForChart = getDataForChart(date, categories);
 
@@ -78,7 +80,7 @@ export function ExpensesLineChart({
     labels: dataForChart.days,
     datasets: [
       {
-        label: "Wydatki",
+        label: title,
         data: dataForChart.values,
         fill: false,
         borderColor: "#F83B3B",

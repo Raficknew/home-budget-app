@@ -5,6 +5,7 @@ import {
   HouseholdTable,
   InviteTable,
   MembersTable,
+  TransactionTable,
 } from "@/drizzle/schema";
 import { createUuid, generateRandomColor } from "@/global/functions";
 import { auth } from "@/lib/auth";
@@ -172,12 +173,34 @@ export async function insertHousehold(
     },
   ];
 
-  const [newCategories] = await db
+  const newCategories = await db
     .insert(CategoryTable)
     .values(defaultCategories)
     .returning();
 
-  if (newCategories == null) throw new Error("Failed to create category");
+  if (!newCategories || newCategories.length === 0)
+    throw new Error("Failed to create category");
+
+  if (data.balance > 0) {
+    const incomeCategory = newCategories.find(
+      (cat) => cat.categoryType === "incomes"
+    );
+
+    if (!incomeCategory)
+      throw new Error("No income category found for initial transaction");
+
+    const inicialTransaction = await db.insert(TransactionTable).values({
+      categoryId: incomeCategory.id,
+      date: new Date(),
+      name: "inicial",
+      price: data.balance,
+      type: "income",
+      balanceAfterTransaction: data.balance,
+    });
+
+    if (inicialTransaction == null)
+      throw new Error("Failed to insert Transaction");
+  }
 
   return newHousehold;
 }

@@ -75,6 +75,17 @@ export function TransactionForm({
     (member) => member.user?.id === session.data?.user.id
   )?.id;
 
+  const incomeCategories = categories.filter(
+    (category) => category.categoryType == "incomes"
+  );
+
+  const expenseCategories = categories.filter(
+    (category) => category.categoryType != "incomes"
+  );
+
+  const currentCategories =
+    transaction == "income" ? incomeCategories : expenseCategories;
+
   const form = useForm<TranscationFormSchema>({
     resolver: zodResolver(transcationFormSchema),
     defaultValues: {
@@ -226,7 +237,7 @@ export function TransactionForm({
                     <SelectValue placeholder={ts("category.placeholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {currentCategories.map((category) => (
                       <SelectItem value={category.id} key={category.id}>
                         {category.name}
                       </SelectItem>
