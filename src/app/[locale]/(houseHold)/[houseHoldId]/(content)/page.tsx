@@ -1,10 +1,12 @@
 import { BalanceTracker } from "@/components/molecules/BalanceTracker";
+import { RecentTransactionTable } from "@/components/molecules/RecentTransactionTable";
 import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
 import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
 import { db } from "@/drizzle";
 import {
   CategoryTable,
   HouseholdTable,
+  MembersTable,
   TransactionTable,
 } from "@/drizzle/schema";
 import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
@@ -73,6 +75,11 @@ export default async function HouseholdPage({
           gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
         />
       </div>
+      <RecentTransactionTable
+        categories={household.categories}
+        members={household.members}
+        currency={household.currencyCode}
+      />
     </div>
   );
 }
@@ -107,6 +114,10 @@ function getHousehold(id: string, date: Date) {
             with: { members: { columns: { memberId: true } } },
           },
         },
+      },
+      members: {
+        where: eq(MembersTable.householdId, id),
+        with: { user: true },
       },
     },
   });

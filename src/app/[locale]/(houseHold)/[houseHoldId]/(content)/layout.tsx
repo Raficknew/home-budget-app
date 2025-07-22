@@ -15,7 +15,7 @@ export default async function HouseholdLayout({
 }>) {
   const { householdId } = await params;
   return (
-    <div className="w-screen h-screen overflow-hidden">
+    <div className="w-screen h-screen overflow-x-hidden">
       <TopBar householdId={householdId} />
       <Sidebar />
       <div className="sm:pl-22 px-3 h-full">{children}</div>

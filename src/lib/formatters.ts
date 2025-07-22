@@ -9,3 +9,13 @@ export function useFormatPrice(price: number, currency: string) {
 
   return format.number(price, { style: "currency", currency: currency });
 }
+
+export function FormatDate(date: Date) {
+  const format = useFormatter();
+
+  return format.dateTime(date, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
