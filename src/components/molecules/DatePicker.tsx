@@ -85,7 +85,7 @@ export function DatePicker() {
         </p>
       </div>
       {isOpened && (
-        <div className="fixed top-11 grid grid-cols-3 sm:grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
+        <div className="fixed top-13 left-0 sm:w-auto sm:left-auto w-full grid grid-cols-3 sm:grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
           {!year &&
             years.map((callendarYear) => (
               <div
