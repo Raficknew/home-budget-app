@@ -60,7 +60,7 @@ export function RecentTransactionTable({
   const recentTransactions = sortedTransactions.slice(0, 10);
 
   return (
-    <div className="w-full bg-sidebar p-4 rounded-lg flex flex-col gap-4">
+    <div className="w-full bg-sidebar p-4 rounded-lg flex flex-col gap-4 mb-20 sm:mb-2">
       <div className="flex items-center gap-2">
         <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
         <p className="text-2xl font-light">Ostatnie Transakcje</p>

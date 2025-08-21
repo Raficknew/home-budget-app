@@ -1,6 +1,8 @@
 "use client";
 import { capitalize } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
+import { Calendar02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import { pl, enUS } from "date-fns/locale";
 import { useLocale } from "next-intl";
@@ -64,19 +66,26 @@ export function DatePicker() {
   };
 
   return (
-    <div className="flex flex-col items-center z-10 ml-25">
+    <div className="flex flex-col items-end sm:items-center z-20 sm:ml-25">
       <div
-        className="bg-card h-full w-[270px] text-center py-2 rounded-lg cursor-pointer"
+        className="sm:bg-card bg-accent flex items-center justify-center h-full sm:w-[270px] text-center sm:py-2 rounded-lg cursor-pointer"
         onClick={() => setIsOpened(!isOpened)}
       >
-        <p className="font-semibold">
+        <p className="font-semibold hidden sm:block">
           {currentMonth
             ? capitalize(format(date, "MMMM yyyy", { locale: currentLocale }))
             : capitalize(format(date, "yyyy", { locale: currentLocale }))}
         </p>
+        <p className="sm:hidden p-2">
+          <HugeiconsIcon
+            icon={Calendar02Icon}
+            className="size-7"
+            strokeWidth={2}
+          />
+        </p>
       </div>
       {isOpened && (
-        <div className="fixed top-11 grid grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
+        <div className="fixed top-11 grid grid-cols-3 sm:grid-cols-4 gap-3 text-center bg-card p-5 rounded-lg drop-shadow-xl">
           {!year &&
             years.map((callendarYear) => (
               <div

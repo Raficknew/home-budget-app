@@ -47,7 +47,7 @@ export default async function HouseholdAccountSettings({
           <div className="md:bg-transparent bg-[#212122] p-2.5 rounded-lg w-full">
             <UserForm user={session?.user} />
           </div>
-          <Suspense fallback={<div className="bg-gray-600 size-5"></div>}>
+          <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
             <div>
               <AvatarPicture session={session} />
             </div>

@@ -29,7 +29,7 @@ async function TopBar({ householdId }: { householdId: string }) {
   if (session == null) redirect("/sign-in");
 
   return (
-    <div className="flex w-full justify-between px-5 py-3">
+    <div className="flex w-full sm:justify-between justify-end gap-2 sm:gap-0 px-5 py-3">
       <div className="h-px w-px"></div>
       <DatePicker />
       <div>
