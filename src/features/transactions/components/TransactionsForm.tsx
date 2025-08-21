@@ -123,6 +123,7 @@ export function TransactionForm({
                       }}
                       min={0}
                       type="number"
+                      step="any"
                       {...field}
                     />
                   </FormControl>
