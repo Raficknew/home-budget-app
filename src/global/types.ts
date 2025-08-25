@@ -21,8 +21,6 @@ export type CategoryWithTransactions = {
     id: string;
     type: "income" | "expense";
     price: number;
-    members: {
-      memberId: string;
-    }[];
+    memberId: string;
   }[];
 }[];

@@ -25,14 +25,9 @@ function assignTransactionPricesToMembers(
 
   categories.forEach((category) => {
     category.transactions.forEach((transaction) => {
-      for (const member of transaction.members) {
-        const memberId = member.memberId;
-        if (
-          dataMap[memberId] !== undefined &&
-          transaction.price !== undefined
-        ) {
-          dataMap[memberId] += transaction.price;
-        }
+      const memberId = transaction.memberId;
+      if (dataMap[memberId] !== undefined && transaction.price !== undefined) {
+        dataMap[memberId] += transaction.price;
       }
     });
   });

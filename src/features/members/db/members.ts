@@ -1,20 +1,17 @@
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
-import { generateRandomColor } from "@/global/functions";
 import { and, eq } from "drizzle-orm";
 
 export async function insertMember(
   { userId, name }: { userId?: string; name: string },
   householdId: string
 ) {
-  const randomColor = generateRandomColor();
   const [newMember] = await db
     .insert(MembersTable)
     .values({
       householdId,
       userId: userId ?? null,
       name,
-      color: randomColor,
     })
     .returning();
 

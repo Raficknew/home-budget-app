@@ -23,11 +23,14 @@ export async function createHousehold(
 
   if (!success) throw new Error("Failed to create Household");
 
-  const household = await insertHousehold({
-    ...data,
-    description: data.description != "" ? data.description : null,
-    ownerId: session?.user.id,
-  });
+  const household = await insertHousehold(
+    {
+      ...data,
+      description: data.description != "" ? data.description : null,
+      ownerId: session?.user.id,
+    },
+    data.balance
+  );
 
   redirect(`/${household.id}/settings/household`);
 }

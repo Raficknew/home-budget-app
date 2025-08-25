@@ -7,7 +7,7 @@ import {
   MembersTable,
   TransactionTable,
 } from "@/drizzle/schema";
-import { createUuid, generateRandomColor } from "@/global/functions";
+import { createUuid } from "@/global/functions";
 import { auth } from "@/lib/auth";
 import { and, eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
@@ -16,7 +16,8 @@ import { assertHouseholdWriteAccess } from "../permissions/household";
 import { getTranslations } from "next-intl/server";
 
 export async function insertHousehold(
-  data: typeof HouseholdTable.$inferInsert
+  data: typeof HouseholdTable.$inferInsert,
+  balance: number
 ) {
   const session = await auth();
 
@@ -29,15 +30,12 @@ export async function insertHousehold(
 
   if (newHousehold == null) throw new Error("failed to create household");
 
-  const randomColor = generateRandomColor();
-
   const [newMember] = await db
     .insert(MembersTable)
     .values({
       name: session.user.name!,
       householdId: newHousehold.id,
       userId: newHousehold.ownerId,
-      color: randomColor,
     })
     .returning();
 
@@ -181,7 +179,7 @@ export async function insertHousehold(
   if (!newCategories || newCategories.length === 0)
     throw new Error("Failed to create category");
 
-  if (data.balance > 0) {
+  if (balance > 0) {
     const incomeCategory = newCategories.find(
       (cat) => cat.categoryType === "incomes"
     );
@@ -192,10 +190,10 @@ export async function insertHousehold(
     const inicialTransaction = await db.insert(TransactionTable).values({
       categoryId: incomeCategory.id,
       date: new Date(),
-      name: "inicial",
-      price: data.balance,
+      memberId: newMember.id,
+      name: "",
+      price: balance,
       type: "income",
-      balanceAfterTransaction: data.balance,
     });
 
     if (inicialTransaction == null)
@@ -267,19 +265,4 @@ export async function updateLink(householdId: string, link: string) {
   if (updatedLink == null) throw new Error("Failed to generate link");
 
   return updatedLink;
-}
-
-export async function updateHouseholdBalance(
-  householdId: string,
-  balance: number
-) {
-  const [updatedBalance] = await db
-    .update(HouseholdTable)
-    .set({ balance })
-    .where(eq(HouseholdTable.id, householdId))
-    .returning();
-
-  if (updatedBalance == null) throw new Error("Failed to generate link");
-
-  return updatedBalance;
 }

@@ -39,7 +39,7 @@ const transcationFormSchema = transactionsSchema.pick({
   date: true,
   name: true,
   price: true,
-  membersIds: true,
+  memberId: true,
 });
 
 type TranscationFormSchema = z.infer<typeof transcationFormSchema>;
@@ -91,7 +91,7 @@ export function TransactionForm({
     defaultValues: {
       price: 0,
       name: "",
-      membersIds: currentMemberId ?? undefined,
+      memberId: currentMemberId ?? undefined,
       date: new Date(),
       categoryId: undefined,
     },
@@ -116,15 +116,20 @@ export function TransactionForm({
                   <FormLabel>{ts("price")}</FormLabel>
                   <FormControl>
                     <Input
-                      onClick={(e) => {
-                        if (+(e.target as HTMLInputElement).value == 0) {
-                          (e.target as HTMLInputElement).value = "";
-                        }
-                      }}
                       min={0}
                       type="number"
-                      step="any"
+                      step="0.01"
                       {...field}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                      }}
+                      onBlur={(e) => {
+                        const value = e.target.value.replace(",", ".");
+                        e.target.value = Number(value).toFixed(2);
+                        field.onChange(Number(e.target.value));
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -170,7 +175,7 @@ export function TransactionForm({
           <div className="w-full">
             <FormField
               control={form.control}
-              name="membersIds"
+              name="memberId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{ts("member")}</FormLabel>

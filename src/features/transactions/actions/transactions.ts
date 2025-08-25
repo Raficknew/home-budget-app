@@ -11,7 +11,6 @@ import { HouseholdTable, TransactionType } from "@/drizzle/schema";
 import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
-import { updateHouseholdBalance } from "@/features/household/db/household";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
@@ -29,30 +28,20 @@ export async function createTransaction(
 
   const household = await db.query.HouseholdTable.findFirst({
     where: eq(HouseholdTable.id, householdId),
-    columns: { balance: true },
   });
 
   if (!household) {
     throw new Error("Household not found");
   }
 
-  const balanceAfterTransaction =
-    data.type == "income"
-      ? household.balance + data.price
-      : household.balance - data.price;
-
-  await updateHouseholdBalance(householdId, balanceAfterTransaction);
-  await insertTransaction(
-    {
-      name: data.name,
-      categoryId: data.categoryId,
-      date: data.date,
-      price: data.price,
-      type: data.type as TransactionType,
-      balanceAfterTransaction,
-    },
-    data.membersIds
-  );
+  await insertTransaction({
+    name: data.name,
+    categoryId: data.categoryId,
+    date: data.date,
+    price: data.price,
+    type: data.type as TransactionType,
+    memberId: data.memberId,
+  });
 
   const locale = await getLocale();
 

@@ -13,7 +13,7 @@ import { FormatDate, useFormatPrice } from "@/lib/formatters";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 function FormatPrice(price: number, currency: string, type: string) {
-  const formattedPrice = useFormatPrice(price, "PLN");
+  const formattedPrice = useFormatPrice(price, currency);
 
   if (type == "expense") {
     return <div className="text-red-400">-{formattedPrice}</div>;
@@ -29,7 +29,6 @@ export function RecentTransactionTable({
 }: {
   categories: CategoryWithTransactions;
   members: {
-    color: string;
     id: string;
     name: string;
     householdId: string;
@@ -83,7 +82,7 @@ export function RecentTransactionTable({
               <TableCell>{FormatDate(transaction.date)}</TableCell>
               <TableCell>
                 {(() => {
-                  const memberId = transaction.members[0]?.memberId;
+                  const memberId = transaction.memberId;
                   const member = members.find((m) => m.id === memberId);
                   return member ? (
                     <div className="flex items-center gap-2">

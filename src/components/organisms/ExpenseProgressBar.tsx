@@ -2,9 +2,9 @@
 import { useState } from "react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { useFormatPrice } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { Price } from "../atoms/Price";
 
 const returnChangeOption = (currentCategoryType: string) => {
   const options = ["fixed", "fun", "future_you"];
@@ -77,8 +77,6 @@ export function ExpenseProgressBar({
       ? (currentCategoryTypePrice / totalInTransactions) * 100
       : 0;
 
-  const formattedPrice = useFormatPrice(currentCategoryTypePrice, currency);
-
   const goalProgress = checkGoalProgress(currentCategoryType, assigned);
 
   return (
@@ -129,10 +127,21 @@ export function ExpenseProgressBar({
           </div>
         </div>
         <div className="flex justify-between">
-          <p className="text-lg font-semibold text-[#7047EB]">
+          <p
+            className={cn(
+              "text-lg font-semibold",
+              currentCategoryType == "fixed" && "text-[#7047EB]",
+              currentCategoryType == "fun" && "text-[#9B8DF8]",
+              currentCategoryType == "future_you" && "text-[#BDB6FC]"
+            )}
+          >
             {t(`${currentCategoryType}`)}
           </p>
-          <p className="text-lg font-semibold">{formattedPrice}</p>
+          <Price
+            className="text-lg font-semibold"
+            currency={currency}
+            price={currentCategoryTypePrice}
+          />
         </div>
       </div>
     </div>
