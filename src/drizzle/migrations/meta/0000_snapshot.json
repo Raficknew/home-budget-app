@@ -1,5 +1,5 @@
 {
-  "id": "d5b45826-bff9-4c83-a89a-f64b8783d10d",
+  "id": "f87e4b6d-8d63-45a2-b69f-4acef4eff9fb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -106,12 +106,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "color": {
-          "name": "color",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp with time zone",
@@ -197,12 +191,6 @@
           "primaryKey": false,
           "notNull": true
         },
-        "balance": {
-          "name": "balance",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true
-        },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp with time zone",
@@ -253,80 +241,6 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.transaction_members": {
-      "name": "transaction_members",
-      "schema": "",
-      "columns": {
-        "transactionId": {
-          "name": "transactionId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "memberId": {
-          "name": "memberId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        },
-        "updatedAt": {
-          "name": "updatedAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "transaction_members_transactionId_transactions_id_fk": {
-          "name": "transaction_members_transactionId_transactions_id_fk",
-          "tableFrom": "transaction_members",
-          "tableTo": "transactions",
-          "columnsFrom": [
-            "transactionId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "transaction_members_memberId_members_id_fk": {
-          "name": "transaction_members_memberId_members_id_fk",
-          "tableFrom": "transaction_members",
-          "tableTo": "members",
-          "columnsFrom": [
-            "memberId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "transaction_members_transactionId_memberId_pk": {
-          "name": "transaction_members_transactionId_memberId_pk",
-          "columns": [
-            "transactionId",
-            "memberId"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.transactions": {
       "name": "transactions",
       "schema": "",
@@ -357,21 +271,21 @@
           "primaryKey": false,
           "notNull": true
         },
+        "memberId": {
+          "name": "memberId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
         "price": {
           "name": "price",
-          "type": "integer",
+          "type": "double precision",
           "primaryKey": false,
           "notNull": true
         },
         "date": {
           "name": "date",
           "type": "timestamp",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "balanceAfterTransaction": {
-          "name": "balanceAfterTransaction",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true
         },
@@ -398,6 +312,19 @@
           "tableTo": "categories",
           "columnsFrom": [
             "categoryId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "transactions_memberId_members_id_fk": {
+          "name": "transactions_memberId_members_id_fk",
+          "tableFrom": "transactions",
+          "tableTo": "members",
+          "columnsFrom": [
+            "memberId"
           ],
           "columnsTo": [
             "id"

@@ -1,7 +1,7 @@
 import { pgEnum, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
-import { HouseholdTable } from "./household";
+import { HouseholdTable } from "./houseHold";
 import { TransactionTable } from "./transactions";
 
 export const categoriesOfExpanse = [

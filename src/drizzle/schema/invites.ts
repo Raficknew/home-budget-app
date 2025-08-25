@@ -1,5 +1,5 @@
 import { pgTable, uuid } from "drizzle-orm/pg-core";
-import { HouseholdTable } from "./household";
+import { HouseholdTable } from "./houseHold";
 import { relations } from "drizzle-orm";
 
 export const InviteTable = pgTable("invite_table", {

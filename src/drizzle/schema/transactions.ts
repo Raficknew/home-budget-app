@@ -1,15 +1,15 @@
 import {
-  integer,
   pgEnum,
   pgTable,
   text,
   timestamp,
   uuid,
+  doublePrecision,
 } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
 import { CategoryTable } from "./category";
-import { TransactionMembersTable } from "./transactionMembers";
+import { MembersTable } from "./members";
 
 export const transactionType = ["income", "expense"] as const;
 export type TransactionType = (typeof transactionType)[number];
@@ -22,20 +22,25 @@ export const TransactionTable = pgTable("transactions", {
   categoryId: uuid()
     .notNull()
     .references(() => CategoryTable.id, { onDelete: "cascade" }),
-  price: integer().notNull(),
+  memberId: uuid()
+    .notNull()
+    .references(() => MembersTable.id, { onDelete: "cascade" }),
+  price: doublePrecision().notNull(),
   date: timestamp().notNull(),
-  balanceAfterTransaction: integer().notNull(),
   createdAt,
   updatedAt,
 });
 
 export const TransactionRelationshoips = relations(
   TransactionTable,
-  ({ one, many }) => ({
+  ({ one }) => ({
     category: one(CategoryTable, {
       fields: [TransactionTable.categoryId],
       references: [CategoryTable.id],
     }),
-    members: many(TransactionMembersTable),
+    member: one(MembersTable, {
+      fields: [TransactionTable.memberId],
+      references: [MembersTable.id],
+    }),
   })
 );
