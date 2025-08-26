@@ -4,13 +4,13 @@ export const capitalize = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export function useFormatPrice(price: number, currency: string) {
+export function useFormattedPrice(price: number, currency: string) {
   const format = useFormatter();
 
   return format.number(price, { style: "currency", currency: currency });
 }
 
-export function FormatDate(date: Date) {
+export function useFormattedDate(date: Date) {
   const format = useFormatter();
 
   return format.dateTime(date, {

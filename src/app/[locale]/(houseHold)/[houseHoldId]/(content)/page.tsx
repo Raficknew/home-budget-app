@@ -63,6 +63,7 @@ export default async function HouseholdPage({
             (c) => c.categoryType == "incomes"
           )}
           gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
+          currency={household.currencyCode}
         />
         <FinancialSummaryChart
           title={t("expenses")}
@@ -73,6 +74,7 @@ export default async function HouseholdPage({
             (c) => c.categoryType != "incomes"
           )}
           gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
+          currency={household.currencyCode}
         />
       </div>
       <RecentTransactionTable

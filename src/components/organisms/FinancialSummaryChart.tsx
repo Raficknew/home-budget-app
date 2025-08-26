@@ -11,6 +11,7 @@ export async function FinancialSummaryChart({
   title,
   householdId,
   gradient,
+  currency,
 }: {
   maxValue: number;
   categories: CategoryWithTransactions;
@@ -18,13 +19,18 @@ export async function FinancialSummaryChart({
   title: string;
   householdId: string;
   gradient: string;
+  currency: string;
 }) {
   const members = await getMembers(householdId);
   return (
     <div className="flex relative bg-card rounded-lg md:p-4 gap-10 justify-between 2xl:w-1/2 w-full md:h-[300px] h-[150px]">
       <div className="w-full z-10 ml-4 mt-4 md:m-0">
         <p className="text-2xl font-light">{title}</p>
-        <Price className="text-3xl font-medium" price={10} currency="PLN" />
+        <Price
+          className="text-3xl font-medium"
+          price={10}
+          currency={currency}
+        />
       </div>
       <div className="z-10 hidden md:block">
         <TransactionBarChart

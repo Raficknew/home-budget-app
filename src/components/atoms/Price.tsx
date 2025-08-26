@@ -1,4 +1,4 @@
-import { useFormatPrice } from "@/lib/formatters";
+import { useFormattedPrice } from "@/lib/formatters";
 
 export function Price({
   price,
@@ -9,7 +9,7 @@ export function Price({
   currency: string;
   className?: string;
 }) {
-  const formattedPrice = useFormatPrice(price, currency);
+  const formattedPrice = useFormattedPrice(price, currency);
 
   return <p className={className}>{formattedPrice}</p>;
 }

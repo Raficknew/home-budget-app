@@ -40,11 +40,11 @@ const checkGoalProgress = (categoryType: string, value: number) => {
   expected = goalMap[categoryType as keyof typeof goalMap] ?? 0;
 
   if (value > expected) {
-    progress = "TO_MUCH";
+    progress = "TOO_MUCH";
   } else if (value === expected) {
     progress = "IDEALLY";
   } else {
-    progress = "TO_LITTLE";
+    progress = "TOO_LITTLE";
   }
 
   return { expected, progress };
@@ -92,8 +92,8 @@ export function ExpenseProgressBar({
               className={cn(
                 "text-lg",
                 goalProgress.progress == "IDEALLY" && "text-green-400",
-                goalProgress.progress == "TO_MUCH" && "text-red-400",
-                goalProgress.progress == "TO_LITTLE" && "text-green-200",
+                goalProgress.progress == "TOO_MUCH" && "text-red-400",
+                goalProgress.progress == "TOO_LITTLE" && "text-green-200",
                 assigned < 0 && "text-red-400"
               )}
             >

@@ -24,3 +24,10 @@ export type CategoryWithTransactions = {
     memberId: string;
   }[];
 }[];
+
+export type Category = {
+  name: string;
+  id: string;
+  icon: string;
+  categoryType: "fixed" | "fun" | "future you" | "incomes";
+};

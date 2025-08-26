@@ -33,6 +33,8 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
+import { Member } from "@/features/members/components/Member";
+import { Category } from "@/global/types";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
@@ -51,20 +53,8 @@ export function TransactionForm({
   householdId,
 }: {
   defaultTransaction: string;
-  members: {
-    name: string;
-    id: string;
-    user: {
-      id: string;
-      image: string | null;
-    } | null;
-  }[];
-  categories: {
-    name: string;
-    id: string;
-    icon: string;
-    categoryType: "fixed" | "fun" | "future you" | "incomes";
-  }[];
+  members: Member[];
+  categories: Category[];
   householdId: string;
 }) {
   const ts = useTranslations("CreateTransaction");

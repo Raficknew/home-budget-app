@@ -1,18 +1,18 @@
 import { Wallet05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useTranslations } from "next-intl";
 import { Prices } from "@/global/types";
 import { ExpenseProgressBar } from "../organisms/ExpenseProgressBar";
 import { Price } from "../atoms/Price";
+import { getTranslations } from "next-intl/server";
 
-export function BalanceTracker({
+export async function BalanceTracker({
   currency,
   prices,
 }: {
   currency: string;
   prices: Prices;
 }) {
-  const t = useTranslations("Dashboard.ExpenseTracker");
+  const t = await getTranslations("Dashboard.ExpenseTracker");
   return (
     <div className="flex flex-col 2xl:w-1/6 w-full gap-7 bg-card p-5 rounded-lg h-[280px]">
       <div className="flex gap-2 items-center">

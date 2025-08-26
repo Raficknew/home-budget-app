@@ -4,6 +4,11 @@ import { auth } from "@/lib/auth";
 export async function assertHouseholdWriteAccess(householdId: string) {
   const session = await auth();
   const user = session?.user;
+
+  if (!user) {
+    throw "UserNotFound";
+  }
+
   const household = await getHousehold(householdId);
 
   const isOwner = user && user.id === household?.ownerId;

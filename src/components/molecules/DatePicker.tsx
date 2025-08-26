@@ -1,7 +1,7 @@
 "use client";
 import { capitalize } from "@/lib/formatters";
 import { cn } from "@/lib/utils";
-import { Calendar02Icon } from "@hugeicons/core-free-icons";
+import { Calendar02Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { format } from "date-fns";
 import { pl, enUS } from "date-fns/locale";
@@ -18,7 +18,7 @@ export function DatePicker() {
   }
 
   const [isOpened, setIsOpened] = useState(false);
-  const [date] = useState(defaultDate);
+  const [date, setDate] = useState(defaultDate);
   const [currentMonth, setCurrentMonth] = useState<number | null>(
     defaultDate.getMonth()
   );
@@ -48,20 +48,21 @@ export function DatePicker() {
     (_, i) => new Date(date.getFullYear(), i, 1)
   );
 
-  const handleYearChange = (year: number) => {
-    setYear(year);
-    date.setFullYear(year);
+  const handleYearChange = (newYear: number) => {
+    setYear(newYear);
+    setDate(new Date(newYear, currentMonth ?? 0, 1));
     setCurrentMonth(null);
   };
 
   const handleDateChange = (month: number) => {
-    const searchParams = new URLSearchParams();
-
-    if (currentMonth == month) return;
+    if (currentMonth === month) return;
 
     setCurrentMonth(month);
-    date.setMonth(month);
-    searchParams.set("date", date.toISOString());
+    const newDate = new Date(year ?? date.getFullYear(), month, 1);
+    setDate(newDate);
+
+    const searchParams = new URLSearchParams();
+    searchParams.set("date", newDate.toISOString());
     router.push(`?${searchParams}`);
   };
 
@@ -100,30 +101,34 @@ export function DatePicker() {
             ))}
 
           {year &&
-            months.map((month) => (
-              <div
-                key={month.getMonth()}
-                className={cn(
-                  "cursor-pointer px-2 py-1 text-sm rounded-full",
-                  month.getMonth() === currentMonth &&
-                    month.getFullYear() === year &&
-                    "bg-foreground/10"
-                )}
-                onClick={() =>
-                  month != date && handleDateChange(month.getMonth())
-                }
-              >
-                {capitalize(format(month, "MMMM", { locale: currentLocale }))}
-              </div>
-            ))}
+            months.map((month) => {
+              const isCurrentMonth =
+                month.getMonth() === currentMonth &&
+                month.getFullYear() === year;
+
+              return (
+                <div
+                  key={month.getMonth()}
+                  className={cn(
+                    "cursor-pointer px-2 py-1 text-sm rounded-full",
+                    isCurrentMonth && "bg-foreground/10"
+                  )}
+                  onClick={() =>
+                    month != date && handleDateChange(month.getMonth())
+                  }
+                >
+                  {capitalize(format(month, "MMMM", { locale: currentLocale }))}
+                </div>
+              );
+            })}
           <div
-            className="absolute left-2 cursor-pointer"
+            className="absolute left-2 top-2 cursor-pointer"
             onClick={() => {
               setYear(null);
               setCurrentMonth(null);
             }}
           >
-            x
+            <HugeiconsIcon strokeWidth={2} icon={Cancel01Icon} size={14} />
           </div>
         </div>
       )}

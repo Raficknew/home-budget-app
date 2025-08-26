@@ -30,45 +30,32 @@ export const createUuid = (): string => {
 export const countPricesOfTransactionsRelatedToTheirTypes = (
   categories: CategoryWithTransactions
 ) => {
-  let fixed = 0;
-  let fun = 0;
-  let future_you = 0;
-  let incomes = 0;
+  const sums = {
+    fixed: 0,
+    fun: 0,
+    future_you: 0,
+    incomes: 0,
+  };
 
-  categories.map((category) => {
-    switch (category.categoryType) {
-      case "fixed":
-        category.transactions.map((t) => {
-          fixed += t.price;
-        });
-        break;
-      case "fun":
-        category.transactions.map((t) => {
-          fun += t.price;
-        });
-        break;
-      case "future you":
-        category.transactions.map((t) => {
-          future_you += t.price;
-        });
-        break;
-      case "incomes":
-        category.transactions.map((t) => {
-          incomes += t.price;
-        });
-        break;
+  categories.forEach((category) => {
+    const typeKey =
+      category.categoryType === "future you"
+        ? "future_you"
+        : category.categoryType;
+    if (sums.hasOwnProperty(typeKey)) {
+      category.transactions.forEach((t) => {
+        sums[typeKey] += t.price;
+      });
     }
   });
 
-  const balance = incomes - (fixed + fun + future_you);
-  const totalInTransactions = fixed + fun + future_you + incomes;
-  const totalInExpenses = fixed + fun + future_you;
+  const balance = sums.incomes - (sums.fixed + sums.fun + sums.future_you);
+  const totalInTransactions =
+    sums.fixed + sums.fun + sums.future_you + sums.incomes;
+  const totalInExpenses = sums.fixed + sums.fun + sums.future_you;
 
   return {
-    fixed,
-    fun,
-    future_you,
-    incomes,
+    ...sums,
     balance,
     totalInTransactions,
     totalInExpenses,

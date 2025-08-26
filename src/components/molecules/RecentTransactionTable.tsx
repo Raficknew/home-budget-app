@@ -9,11 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CategoryWithTransactions } from "@/global/types";
-import { FormatDate, useFormatPrice } from "@/lib/formatters";
+import { useFormattedDate, useFormattedPrice } from "@/lib/formatters";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Member } from "@/features/members/components/Member";
 
 function FormatPrice(price: number, currency: string, type: string) {
-  const formattedPrice = useFormatPrice(price, currency);
+  const formattedPrice = useFormattedPrice(price, currency);
 
   if (type == "expense") {
     return <div className="text-red-400">-{formattedPrice}</div>;
@@ -28,21 +29,7 @@ export function RecentTransactionTable({
   currency,
 }: {
   categories: CategoryWithTransactions;
-  members: {
-    id: string;
-    name: string;
-    householdId: string;
-    createdAt: Date;
-    updatedAt: Date;
-    userId: string | null;
-    user: {
-      name: string | null;
-      id: string;
-      email: string | null;
-      emailVerified: Date | null;
-      image: string | null;
-    } | null;
-  }[];
+  members: Member[];
   currency: string;
 }) {
   const allTransactions = categories.flatMap((cat) =>
@@ -57,6 +44,8 @@ export function RecentTransactionTable({
   );
 
   const recentTransactions = sortedTransactions.slice(0, 10);
+
+  const format = useFormattedDate;
 
   return (
     <div className="w-full bg-sidebar p-4 rounded-lg flex flex-col gap-4 mb-20 sm:mb-2">
@@ -79,7 +68,7 @@ export function RecentTransactionTable({
           {recentTransactions.map((transaction) => (
             <TableRow key={transaction.id}>
               <TableCell className="font-medium">{transaction.name}</TableCell>
-              <TableCell>{FormatDate(transaction.date)}</TableCell>
+              <TableCell>{format(transaction.date)}</TableCell>
               <TableCell>
                 {(() => {
                   const memberId = transaction.memberId;
