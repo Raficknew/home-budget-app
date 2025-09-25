@@ -1,4 +1,4 @@
-import { HouseholdForm } from "@/features/houseHold/components/HouseholdGeneralForm";
+import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { getCurrencies } from "@/global/functions";
 import { getTranslations } from "next-intl/server";
 

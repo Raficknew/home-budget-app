@@ -11,21 +11,21 @@ import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
 import { GlobalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { canAccessHouseholdSettings } from "@/features/houseHold/permissions/household";
+import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
+
 
 export default async function HouseholdAccountSettings({
   params,
 }: {
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
 }) {
   const locale = await getLocale();
   const session = await auth();
-  const { houseHoldId } = await params;
-  const household = await getHousehold(houseHoldId);
+  const { householdId } = await params;
+  const household = await getHousehold(householdId);
   const t = await getTranslations("Settings.account");
 
   if (!household) notFound();
@@ -35,7 +35,7 @@ export default async function HouseholdAccountSettings({
       <MobileTopHeader title={t("title")}>
         <LinkSheet
           url={env.FRONTEND_URL}
-          householdId={houseHoldId}
+          householdId={householdId}
           link={household.invite?.link ?? ""}
         />
       </MobileTopHeader>
@@ -49,7 +49,7 @@ export default async function HouseholdAccountSettings({
           </div>
           <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
             <div>
-              <AvatarPicture session={session} />
+              <AvatarPicture image={session?.user.image ?? ""} />
             </div>
           </Suspense>
         </div>
@@ -58,9 +58,9 @@ export default async function HouseholdAccountSettings({
           <div className="bg-[#212122] p-2.5 rounded-lg">
             <SettingsNavigationBar
               canAccessHouseholdSettings={await canAccessHouseholdSettings(
-                houseHoldId
+                householdId
               )}
-              householdId={houseHoldId}
+              householdId={householdId}
             />
           </div>
         </div>

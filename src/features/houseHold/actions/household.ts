@@ -2,11 +2,7 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import {
-  deleteHousehold as deleteHouseholdDB,
-  insertHousehold,
-  updateLink,
-} from "../db/household";
+import { insertHousehold, updateLink, deleteHousehold as deleteHouseholdDB } from "../db/household";
 import { HouseholdSchema, householdSchema } from "../schema/household";
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";

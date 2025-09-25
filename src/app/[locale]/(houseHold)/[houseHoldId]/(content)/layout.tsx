@@ -11,12 +11,12 @@ export default async function HouseholdLayout({
   params,
 }: Readonly<{
   children: ReactNode;
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
 }>) {
-  const { houseHoldId } = await params;
+  const { householdId } = await params;
   return (
     <div>
-      <TopBar householdId={houseHoldId} />
+      <TopBar householdId={householdId} />
       <Sidebar />
       <div className="sm:pl-22 px-3 h-full">{children}</div>
     </div>
@@ -35,7 +35,7 @@ async function TopBar({ householdId }: { householdId: string }) {
       <div>
         <Link href={`/${householdId}/settings/account`} className="relative">
           <div className="absolute right-0 bottom-0 z-10 bg-green-400 w-2.5 h-2.5 rounded-full p-1"></div>
-          <AvatarPicture size={10} session={session} />
+          <AvatarPicture size={10} image={session.user.image ?? ""} />
         </Link>
       </div>
     </div>

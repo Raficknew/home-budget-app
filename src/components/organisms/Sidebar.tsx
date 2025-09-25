@@ -15,29 +15,29 @@ import { cn } from "@/lib/utils";
 import { SignOutButton } from "../atoms/SignOutButton";
 
 export function Sidebar() {
-  const { locale, houseHoldId } = useParams();
+  const { locale, householdId } = useParams();
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
 
   const routes = [
     {
       title: t("dashboard"),
-      url: `/${locale}/${houseHoldId}`,
+      url: `/${locale}/${householdId}`,
       icon: DashboardSquare03Icon,
     },
     {
       title: t("categories"),
-      url: `/${locale}/${houseHoldId}/categories`,
+      url: `/${locale}/${householdId}/categories`,
       icon: ArrowDataTransferHorizontalIcon,
     },
     {
       title: t("goals"),
-      url: `/${locale}/${houseHoldId}/goals`,
+      url: `/${locale}/${householdId}/goals`,
       icon: Target01Icon,
     },
     {
       title: t("charts"),
-      url: `/${locale}/${houseHoldId}/charts`,
+      url: `/${locale}/${householdId}/charts`,
       icon: Activity01Icon,
     },
   ];
@@ -74,7 +74,7 @@ export function Sidebar() {
       <div className="self-center hidden sm:flex sm:flex-col gap-5">
         <Route
           currentRoute={currentRoute ?? ""}
-          url={`/${locale}/${houseHoldId}/settings/account`}
+          url={`/${locale}/${householdId}/settings/account`}
           icon={Settings01Icon}
         />
         <SignOutButton />

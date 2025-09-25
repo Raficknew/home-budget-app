@@ -3,7 +3,6 @@ import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { Spacer } from "@/components/atoms/Spacer";
 import { DialogTrigger } from "@/components/ui/dialog";
-
 import { Member } from "@/features/members/components/Member";
 import { MemberAddDialog } from "@/features/members/components/MemberAddDialog";
 import { MemberForm } from "@/features/members/components/MemberForm";
@@ -13,22 +12,22 @@ import { Delete02Icon, PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { assertHouseholdWriteAccess } from "@/features/houseHold/permissions/household";
-import { deleteHousehold } from "@/features/houseHold/actions/household";
-import { HouseholdForm } from "@/features/houseHold/components/HouseholdGeneralForm";
+import { deleteHousehold } from "@/features/household/actions/household";
+import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
+import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 
 export default async function HouseholdEditPage({
   params,
 }: {
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
 }) {
-  const { houseHoldId } = await params;
-  const household = await getHousehold(houseHoldId);
+  const { householdId } = await params;
+  const household = await getHousehold(householdId);
   const currencies = await getCurrencies();
-  const members = await getMembers(houseHoldId);
+  const members = await getMembers(householdId);
   const t = await getTranslations("Settings.household");
 
-  if (household == null || (await assertHouseholdWriteAccess(houseHoldId)))
+  if (household == null || (await assertHouseholdWriteAccess(householdId)))
     notFound();
 
   return (
@@ -36,7 +35,7 @@ export default async function HouseholdEditPage({
       <MobileTopHeader title={t("mobileTitle")}>
         <ActionButton
           variant="ghostDestructive"
-          action={deleteHousehold.bind(null, houseHoldId)}
+          action={deleteHousehold.bind(null, householdId)}
           requireAreYouSure
         >
           <HugeiconsIcon
@@ -72,18 +71,18 @@ export default async function HouseholdEditPage({
             description={t("members.description")}
           />
           <div className="md:hidden">
-            <MemberForm householdId={houseHoldId} />
+            <MemberForm householdId={householdId} />
           </div>
           <div className="grid md:grid-cols-4 xl:grid-cols-8 gap-2">
             {members.map((member) => (
               <Member
                 key={member.id}
                 member={member}
-                householdId={houseHoldId}
+                householdId={householdId}
               />
             ))}
             {members.length !== 8 && (
-              <MemberAddDialog householdId={houseHoldId}>
+              <MemberAddDialog householdId={householdId}>
                 <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
                   <HugeiconsIcon
                     className="size-12 text-accent"

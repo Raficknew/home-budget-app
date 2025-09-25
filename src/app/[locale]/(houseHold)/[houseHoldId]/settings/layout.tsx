@@ -2,9 +2,9 @@ import { ActionButton } from "@/components/atoms/ActionButton";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { Sidebar } from "@/components/organisms/Sidebar";
 import { env } from "@/data/env/server";
-import { deleteHousehold } from "@/features/houseHold/actions/household";
-import { HouseholdLinkGenerate } from "@/features/houseHold/components/HouseholdLinkGenerate";
-import { canAccessHouseholdSettings } from "@/features/houseHold/permissions/household";
+import { deleteHousehold } from "@/features/household/actions/household";
+import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
+import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { getHousehold } from "@/global/actions";
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -17,10 +17,10 @@ export default async function HouseholdSettingsLayout({
   params,
 }: Readonly<{
   children: ReactNode;
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
 }>) {
-  const { houseHoldId } = await params;
-  const household = await getHousehold(houseHoldId);
+  const { householdId } = await params;
+  const household = await getHousehold(householdId);
 
   if (!household) notFound();
 
@@ -28,7 +28,7 @@ export default async function HouseholdSettingsLayout({
     <>
       <Sidebar />
       <div className="flex flex-col h-screen gap-3 sm:pl-22 sm:pr-4 py-3 w-full">
-        <TopBar householdId={houseHoldId} link={household.invite?.link ?? ""} />
+        <TopBar householdId={householdId} link={household.invite?.link ?? ""} />
         <div className="sm:bg-sidebar w-full h-full rounded-xl p-5 flex flex-col items-center ">
           <div className="w-full sm:w-3/4 pb-[80px] sm:pb-0">{children}</div>
         </div>

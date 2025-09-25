@@ -2,38 +2,32 @@ import { BalanceTracker } from "@/components/molecules/BalanceTracker";
 import { RecentTransactionTable } from "@/components/molecules/RecentTransactionTable";
 import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
 import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
-import { db } from "@/drizzle";
-import {
-  CategoryTable,
-  HouseholdTable,
-  MembersTable,
-  TransactionTable,
-} from "@/drizzle/schema";
-import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
-import { endOfMonth, startOfMonth } from "date-fns";
-import { and, eq, gte, lte } from "drizzle-orm";
+import { countPricesOfTransactionsRelatedToTheirTypes, getCategoriesWithTransactions, getHousehold } from "@/global/functions";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
-import { validate as validateUuid } from "uuid";
+
 
 export default async function HouseholdPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ houseHoldId: string }>;
+  params: Promise<{ householdId: string }>;
   searchParams: Promise<{ date: string }>;
 }) {
-  const { houseHoldId } = await params;
-  const { date } = await searchParams;
-  const parsedDate = date ? new Date(date) : new Date();
-  const household = await getHousehold(houseHoldId, parsedDate);
-  const t = await getTranslations("Dashboard.charts");
+  const { householdId } = await params;
+  const household = await getHousehold(householdId);
 
   if (household == null) notFound();
 
+  const { date } = await searchParams;
+  const parsedDate = date ? new Date(date) : new Date();
+  const categories = await getCategoriesWithTransactions(householdId, parsedDate) || [];
+  const t = await getTranslations("Dashboard.charts");
+
+
   const prices = countPricesOfTransactionsRelatedToTheirTypes(
-    household?.categories
+    categories 
   );
 
   if (household == null) {
@@ -48,7 +42,7 @@ export default async function HouseholdPage({
           <ExpensesLineChart
             maxValue={prices.totalInExpenses}
             date={parsedDate}
-            categories={household.categories}
+            categories={categories}
             title={t("expenses")}
           />
         </Suspense>
@@ -59,7 +53,7 @@ export default async function HouseholdPage({
           householdId={household.id}
           defaultTransaction="income"
           maxValue={prices.incomes}
-          categories={household.categories.filter(
+          categories={categories.filter(
             (c) => c.categoryType == "incomes"
           )}
           gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
@@ -70,7 +64,7 @@ export default async function HouseholdPage({
           householdId={household.id}
           defaultTransaction="expense"
           maxValue={prices.totalInExpenses}
-          categories={household.categories.filter(
+          categories={categories.filter(
             (c) => c.categoryType != "incomes"
           )}
           gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
@@ -78,7 +72,7 @@ export default async function HouseholdPage({
         />
       </div>
       <RecentTransactionTable
-        categories={household.categories}
+        categories={categories}
         members={household.members}
         currency={household.currencyCode}
       />
@@ -86,41 +80,3 @@ export default async function HouseholdPage({
   );
 }
 
-function getHousehold(id: string, date: Date) {
-  if (!validateUuid(id) && date == null) {
-    return null;
-  }
-
-  const firstDayOfMonth = startOfMonth(date);
-  const lastDayOfMonth = endOfMonth(date);
-
-  return db.query.HouseholdTable.findFirst({
-    where: eq(HouseholdTable.id, id),
-    with: {
-      currency: { columns: { code: true } },
-      categories: {
-        where: eq(CategoryTable.householdId, id),
-        with: {
-          transactions: {
-            where: and(
-              gte(TransactionTable.date, firstDayOfMonth),
-              lte(TransactionTable.date, lastDayOfMonth)
-            ),
-            columns: {
-              id: true,
-              name: true,
-              price: true,
-              type: true,
-              date: true,
-              memberId: true,
-            },
-          },
-        },
-      },
-      members: {
-        where: eq(MembersTable.householdId, id),
-        with: { user: true },
-      },
-    },
-  });
-}
