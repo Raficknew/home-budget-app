@@ -8,7 +8,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
+import { HouseholdLinkGenerate } from "@/features/houseHold/components/HouseholdLinkGenerate";
 import { Button } from "../ui/button";
 import { useTranslations } from "next-intl";
 

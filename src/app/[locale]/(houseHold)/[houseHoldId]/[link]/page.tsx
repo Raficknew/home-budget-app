@@ -1,6 +1,7 @@
 import { db } from "@/drizzle";
 import { HouseholdTable } from "@/drizzle/schema";
-import { HouseholdJoinButton } from "@/features/household/components/HouseholdJoinButton";
+import { HouseholdJoinButton } from "@/features/houseHold/components/HouseholdJoinButton";
+
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -9,11 +10,12 @@ import { validate as validateUuid } from "uuid";
 export default async function HouseholdJoinPage({
   params,
 }: {
-  params: Promise<{ householdId: string; link: string }>;
+  params: Promise<{ houseHoldId: string; link: string }>;
 }) {
-  const { householdId, link } = await params;
-  const householdLink = await getHouseholdInviteLink(householdId);
+  const { houseHoldId, link } = await params;
+  const householdLink = await getHouseholdInviteLink(houseHoldId);
   const session = await auth();
+
 
   if (
     householdLink == null ||
@@ -26,7 +28,7 @@ export default async function HouseholdJoinPage({
 
   return (
     <div className="flex h-screen justify-center items-center">
-      <HouseholdJoinButton householdId={householdId} userId={session.user.id} />
+      <HouseholdJoinButton householdId={houseHoldId} userId={session.user.id} />
     </div>
   );
 }

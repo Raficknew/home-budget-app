@@ -11,12 +11,12 @@ export default async function HouseholdLayout({
   params,
 }: Readonly<{
   children: ReactNode;
-  params: Promise<{ householdId: string }>;
+  params: Promise<{ houseHoldId: string }>;
 }>) {
-  const { householdId } = await params;
+  const { houseHoldId } = await params;
   return (
     <div>
-      <TopBar householdId={householdId} />
+      <TopBar householdId={houseHoldId} />
       <Sidebar />
       <div className="sm:pl-22 px-3 h-full">{children}</div>
     </div>

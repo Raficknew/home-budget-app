@@ -10,7 +10,7 @@ import { revalidatePath } from "next/cache";
 import { HouseholdTable, TransactionType } from "@/drizzle/schema";
 import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
-import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
+import { assertHouseholdWriteAccess } from "@/features/houseHold/permissions/household";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,

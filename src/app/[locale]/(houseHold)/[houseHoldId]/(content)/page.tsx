@@ -21,18 +21,18 @@ export default async function HouseholdPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ householdId: string }>;
+  params: Promise<{ houseHoldId: string }>;
   searchParams: Promise<{ date: string }>;
 }) {
-  const { householdId } = await params;
+  const { houseHoldId } = await params;
   const { date } = await searchParams;
   const parsedDate = date ? new Date(date) : new Date();
-  const household = await getHousehold(householdId, parsedDate);
+  const household = await getHousehold(houseHoldId, parsedDate);
   const t = await getTranslations("Dashboard.charts");
 
   if (household == null) notFound();
 
-  const prices = await countPricesOfTransactionsRelatedToTheirTypes(
+  const prices = countPricesOfTransactionsRelatedToTheirTypes(
     household?.categories
   );
 

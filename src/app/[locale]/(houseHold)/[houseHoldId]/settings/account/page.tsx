@@ -6,7 +6,6 @@ import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { env } from "@/data/env/server";
-import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
@@ -16,16 +15,17 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { canAccessHouseholdSettings } from "@/features/houseHold/permissions/household";
 
 export default async function HouseholdAccountSettings({
   params,
 }: {
-  params: Promise<{ householdId: string }>;
+  params: Promise<{ houseHoldId: string }>;
 }) {
   const locale = await getLocale();
   const session = await auth();
-  const { householdId } = await params;
-  const household = await getHousehold(householdId);
+  const { houseHoldId } = await params;
+  const household = await getHousehold(houseHoldId);
   const t = await getTranslations("Settings.account");
 
   if (!household) notFound();
@@ -35,7 +35,7 @@ export default async function HouseholdAccountSettings({
       <MobileTopHeader title={t("title")}>
         <LinkSheet
           url={env.FRONTEND_URL}
-          householdId={householdId}
+          householdId={houseHoldId}
           link={household.invite?.link ?? ""}
         />
       </MobileTopHeader>
@@ -58,9 +58,9 @@ export default async function HouseholdAccountSettings({
           <div className="bg-[#212122] p-2.5 rounded-lg">
             <SettingsNavigationBar
               canAccessHouseholdSettings={await canAccessHouseholdSettings(
-                householdId
+                houseHoldId
               )}
-              householdId={householdId}
+              householdId={houseHoldId}
             />
           </div>
         </div>

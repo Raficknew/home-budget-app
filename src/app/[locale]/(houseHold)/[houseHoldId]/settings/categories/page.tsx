@@ -7,10 +7,10 @@ import { getTranslations } from "next-intl/server";
 export default async function HouseholdCategorySettingsPage({
   params,
 }: {
-  params: Promise<{ householdId: string }>;
+  params: Promise<{ houseHoldId: string }>;
 }) {
-  const { householdId } = await params;
-  const categories = await getCategories(householdId);
+  const { houseHoldId } = await params;
+  const categories = await getCategories(houseHoldId);
   const t = await getTranslations("Settings.categories");
 
   return (
@@ -20,7 +20,7 @@ export default async function HouseholdCategorySettingsPage({
       </MobileTopHeader>
       <div className="flex flex-col sm:gap-10 gap-4">
         <SectionHeader title={t("title")} description={t("description")} />
-        <CategoryList categories={categories} householdId={householdId} />
+        <CategoryList categories={categories} householdId={houseHoldId} />
       </div>
     </>
   );

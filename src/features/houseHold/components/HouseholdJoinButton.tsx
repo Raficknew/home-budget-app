@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { joinHousehold } from "../actions/household";
 
+
 export function HouseholdJoinButton({
   householdId,
   userId,
