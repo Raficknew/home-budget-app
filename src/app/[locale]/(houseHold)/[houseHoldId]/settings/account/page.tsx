@@ -1,5 +1,5 @@
 import { SignOutButtonStretched } from "@/components/atoms/SignOutButton";
-import { AvatarPicture } from "@/components/atoms/AvatarPicture";
+import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { LanguageSelect } from "@/components/atoms/LanguageSelect";
 import { LinkSheet } from "@/components/atoms/LinkSheet";
 import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
@@ -49,7 +49,7 @@ export default async function HouseholdAccountSettings({
           </div>
           <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
             <div>
-              <AvatarPicture image={session?.user.image ?? ""} />
+              <UserAvatar size={80} image={session?.user.image ?? ""} />
             </div>
           </Suspense>
         </div>

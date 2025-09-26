@@ -4,7 +4,7 @@ import { HouseholdTable,
 import { and, eq, gte, lte } from "drizzle-orm";
 import { v4 as uuidGenerate } from "uuid";
 import { validate as validateUuid } from "uuid";
-import { CategoryWithTransactions } from "./types";
+import { CategoryWithTransactions } from "@/global/types";
 import { endOfMonth, startOfMonth } from "date-fns";
 
 export function getHousehold(id: string) {

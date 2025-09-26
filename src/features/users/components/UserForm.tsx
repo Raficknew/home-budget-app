@@ -1,6 +1,6 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { usersSchema, UsersSchema } from "../schema/users";
+import { usersSchema, UsersSchema } from "@/features/users/schema/users";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User } from "next-auth";
-import { updateUser } from "../actions/users";
+import { updateUser } from "@/features/users/actions/users";
 import { useTranslations } from "next-intl";
 import { notFound } from "next/navigation";
 

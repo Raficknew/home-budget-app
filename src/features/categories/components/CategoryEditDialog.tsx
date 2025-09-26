@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
-import { CategoryForm } from "./CategoryForm";
+import { CategoryForm } from "@/features/categories/components/CategoryForm";
 import { CategoriesOfExpanse, CategoryTable } from "@/drizzle/schema";
 import { useTranslations } from "next-intl";
 

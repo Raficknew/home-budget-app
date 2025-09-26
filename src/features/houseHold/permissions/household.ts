@@ -11,6 +11,10 @@ export async function assertHouseholdWriteAccess(householdId: string) {
 
   const household = await getHousehold(householdId);
 
+  if (!household) {
+    throw "HouseholdNotFound";
+  }
+
   const isOwner = user && user.id === household?.ownerId;
   const isMember = user && household?.members.find((u) => u.userId == user.id);
 

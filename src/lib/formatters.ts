@@ -4,18 +4,26 @@ export const capitalize = (str: string): string => {
   return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
-export function useFormattedPrice(price: number, currency: string) {
+export function useFormattedPrice() {
   const format = useFormatter();
 
-  return format.number(price, { style: "currency", currency: currency });
+  const formatPrice = (price: number, currency: string) => {
+    return format.number(price, { style: "currency", currency: currency });
+  };
+
+  return { formatPrice };
 }
 
-export function useFormattedDate(date: Date) {
+export function useFormattedDate() {
   const format = useFormatter();
 
-  return format.dateTime(date, {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
+  const formatDate = (date: Date) => {
+    return format.dateTime(date, {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  };
+
+  return { formatDate };
 }

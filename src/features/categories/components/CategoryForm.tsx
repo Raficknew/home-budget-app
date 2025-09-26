@@ -10,7 +10,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { categorySchema, CategorySchema } from "../schema/category";
+import { categorySchema, CategorySchema } from "@/features/categories/schema/category";
 import {
   categoriesOfExpanse,
   CategoriesOfExpanse,
@@ -23,8 +23,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryIcon, CategoryIconKeys, icons } from "./CategoryIcon";
-import { createCategory, updateCategory } from "../actions/category";
+import { CategoryIcon, CategoryIconKeys, icons } from "@/features/categories/components/CategoryIcon";
+import { createCategory, updateCategory } from "@/features/categories/actions/category";
 import { Spacer } from "@/components/atoms/Spacer";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";

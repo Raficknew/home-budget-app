@@ -151,5 +151,16 @@
     "description": "This action cannot be undone",
     "cancel": "Cancel",
     "proceed": "Yes"
+  },
+  "TransactionTable": {
+    "latest": "Latest Transactions",
+    "name": "Name",
+    "date": "Date",
+    "member": "Member",
+    "category": "Category",
+    "type": "Type",
+    "income": "Income",
+    "expense": "Expense",
+    "price": "Price"
   }
 }

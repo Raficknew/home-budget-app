@@ -20,10 +20,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { transactionsSchema } from "../schema/transactions";
+import { transactionsSchema } from "@/features/transactions/schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { createTransaction } from "../actions/transactions";
+import { createTransaction } from "@/features/transactions/actions/transactions";
 import { useTranslations } from "next-intl";
 import {
   Popover,

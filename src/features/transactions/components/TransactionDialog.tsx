@@ -1,6 +1,6 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
-import { TransactionForm } from "./TransactionsForm";
+import { TransactionForm } from "@/features/transactions/components/TransactionsForm";
 import { getMembers, getCategories } from "@/global/functions";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";

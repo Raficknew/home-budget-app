@@ -151,5 +151,16 @@
     "description": "Tej akcji nie można cofnąć",
     "cancel": "Anuluj",
     "proceed": "Tak"
+  },
+  "TransactionTable": {
+    "latest": "Najnowsze transakcje",
+    "name": "Nazwa",
+    "date": "Data",
+    "member": "Użytkownik",
+    "category": "Kategoria",
+    "type": "Typ",
+    "income": "Przychód",
+    "expense": "Wydatek",
+    "price": "Kwota"
   }
 }

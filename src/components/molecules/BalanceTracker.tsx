@@ -1,8 +1,8 @@
 import { Wallet05Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Prices } from "@/global/types";
-import { ExpenseProgressBar } from "../organisms/ExpenseProgressBar";
-import { Price } from "../atoms/Price";
+import { ExpenseProgressBar } from "@/components/organisms/ExpenseProgressBar";
+import { Price } from "@/components/atoms/Price";
 import { getTranslations } from "next-intl/server";
 
 export async function BalanceTracker({

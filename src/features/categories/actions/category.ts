@@ -5,11 +5,11 @@ import { validate as validateUuid } from "uuid";
 import {
   deleteCategory as deleteCategoryDB,
   insertCategory,
-} from "../db/categories";
-import { categorySchema } from "../schema/category";
+} from "@/features/categories/db/categories";
+import { categorySchema } from "@/features/categories/schema/category";
 import { z } from "zod";
 import { CategoriesOfExpanse } from "@/drizzle/schema";
-import { updateCategory as updateCategoryDB } from "../db/categories";
+import { updateCategory as updateCategoryDB } from "@/features/categories/db/categories";
 
 export async function createCategory(
   unsafeData: z.infer<typeof categorySchema>,

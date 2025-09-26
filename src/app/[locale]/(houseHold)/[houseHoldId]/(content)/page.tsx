@@ -25,14 +25,9 @@ export default async function HouseholdPage({
   const categories = await getCategoriesWithTransactions(householdId, parsedDate) || [];
   const t = await getTranslations("Dashboard.charts");
 
-
   const prices = countPricesOfTransactionsRelatedToTheirTypes(
     categories 
   );
-
-  if (household == null) {
-    notFound();
-  }
 
   return (
     <div className="flex flex-col gap-2">

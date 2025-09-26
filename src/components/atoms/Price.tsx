@@ -9,7 +9,7 @@ export function Price({
   currency: string;
   className?: string;
 }) {
-  const formattedPrice = useFormattedPrice(price, currency);
+  const { formatPrice } = useFormattedPrice();
 
-  return <p className={className}>{formattedPrice}</p>;
+  return <p className={className}>{formatPrice(price, currency)}</p>;
 }

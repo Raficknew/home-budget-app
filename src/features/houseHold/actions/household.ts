@@ -2,11 +2,11 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { insertHousehold, updateLink, deleteHousehold as deleteHouseholdDB } from "../db/household";
-import { HouseholdSchema, householdSchema } from "../schema/household";
+import { insertHousehold, updateLink, deleteHousehold as deleteHouseholdDB } from "@/features/household/db/household";
+import { HouseholdSchema, householdSchema } from "@/features/household/schema/household";
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
-import { updateHousehold as updateHouseholdDB } from "../db/household";
+import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>

@@ -4,26 +4,14 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
-import { Price } from "../atoms/Price";
+import { Price } from "@/components/atoms/Price";
 
 const returnChangeOption = (currentCategoryType: string) => {
   const options = ["fixed", "fun", "future_you"];
-
   const currentIndex = options.indexOf(currentCategoryType);
-
-  let nextOption = "";
-  let backOption = "";
-  if (currentCategoryType == "fixed") {
-    nextOption = options[(currentIndex + 1) % options.length] ?? "";
-    backOption = "future_you";
-  } else if (currentCategoryType == "future_you") {
-    nextOption = options[0] ?? "";
-    backOption = options[(currentIndex - 1) % options.length] ?? "";
-  } else {
-    nextOption = options[(currentIndex + 1) % options.length] ?? "";
-    backOption = options[(currentIndex - 1) % options.length] ?? "";
-  }
-
+  const nextOption = options[(currentIndex + 1) % options.length];
+  const backOption =
+    options[(currentIndex - 1 + options.length) % options.length];
   return { nextOption, backOption };
 };
 
@@ -41,7 +29,7 @@ const checkGoalProgress = (categoryType: string, value: number) => {
 
   if (value > expected) {
     progress = "TOO_MUCH";
-  } else if (value === expected) {
+  } else if (value >= expected - 10) {
     progress = "IDEALLY";
   } else {
     progress = "TOO_LITTLE";
@@ -93,14 +81,15 @@ export function ExpenseProgressBar({
                 "text-lg",
                 goalProgress.progress == "IDEALLY" && "text-green-400",
                 goalProgress.progress == "TOO_MUCH" && "text-red-400",
-                goalProgress.progress == "TOO_LITTLE" && "text-green-200",
+                goalProgress.progress == "TOO_LITTLE" && "text-gray-300",
                 assigned < 0 && "text-red-400"
               )}
             >
               {(assigned ? assigned.toFixed(2) : "0") + "%"}
             </p>
             <p className="self-end text-[10px] text-white/50">
-              {goalProgress.expected && `${t("goal")} ${goalProgress.expected}`}
+              {goalProgress.expected &&
+                `${t("goal")} ${goalProgress.expected}%`}
             </p>
           </div>
           <div className="flex items-center gap-1 *:rounded-full *:bg-white *:text-black *:cursor-pointer ">

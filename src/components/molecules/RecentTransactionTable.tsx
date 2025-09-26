@@ -1,4 +1,4 @@
-import { ScratchCardIcon, User03FreeIcons } from "@hugeicons/core-free-icons";
+import { ScratchCardIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Table,
@@ -9,19 +9,11 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CategoryWithTransactions } from "@/global/types";
-import { useFormattedDate, useFormattedPrice } from "@/lib/formatters";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useFormattedDate } from "@/lib/formatters";
 import { Member } from "@/features/members/components/Member";
-
-function FormatPrice(price: number, currency: string, type: string) {
-  const formattedPrice = useFormattedPrice(price, currency);
-
-  if (type == "expense") {
-    return <div className="text-red-400">-{formattedPrice}</div>;
-  }
-
-  return <div className="text-green-400">+{formattedPrice}</div>;
-}
+import { UserAvatar } from "../atoms/UserAvatar";
+import { useTranslations } from "next-intl";
+import { Price } from "../atoms/Price";
 
 export function RecentTransactionTable({
   categories,
@@ -45,42 +37,39 @@ export function RecentTransactionTable({
 
   const recentTransactions = sortedTransactions.slice(0, 10);
 
-  const format = useFormattedDate;
+  const { formatDate } = useFormattedDate();
+
+  const t = useTranslations("TransactionTable");
 
   return (
     <div className="w-full bg-sidebar p-4 rounded-lg flex flex-col gap-4 mb-20 sm:mb-2">
       <div className="flex items-center gap-2">
         <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
-        <p className="text-2xl font-light">Ostatnie Transakcje</p>
+        <p className="text-2xl font-light">{t("latest")}</p>
       </div>
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[100px]">Nazwa</TableHead>
-            <TableHead>Data</TableHead>
-            <TableHead>Użytkownik</TableHead>
-            <TableHead>Kategoria</TableHead>
-            <TableHead>Typ</TableHead>
-            <TableHead className="text-right">Kwota</TableHead>
+            <TableHead className="w-[100px]">{t("name")}</TableHead>
+            <TableHead>{t("date")}</TableHead>
+            <TableHead>{t("member")}</TableHead>
+            <TableHead>{t("category")}</TableHead>
+            <TableHead>{t("type")}</TableHead>
+            <TableHead className="text-right">{t("price")}</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {recentTransactions.map((transaction) => (
             <TableRow key={transaction.id}>
               <TableCell className="font-medium">{transaction.name}</TableCell>
-              <TableCell>{format(transaction.date)}</TableCell>
+              <TableCell>{formatDate(transaction.date)}</TableCell>
               <TableCell>
                 {(() => {
                   const memberId = transaction.memberId;
                   const member = members.find((m) => m.id === memberId);
                   return member ? (
                     <div className="flex items-center gap-2">
-                      <Avatar>
-                        <AvatarImage src={member.user?.image ?? ""} />
-                        <AvatarFallback className="bg-accent">
-                          <HugeiconsIcon icon={User03FreeIcons} />
-                        </AvatarFallback>
-                      </Avatar>
+                      <UserAvatar image={member.user?.image ?? ""} size={30} />
                       {member.name}
                     </div>
                   ) : (
@@ -89,9 +78,24 @@ export function RecentTransactionTable({
                 })()}
               </TableCell>
               <TableCell>{transaction.categoryName}</TableCell>
-              <TableCell>{transaction.type}</TableCell>
+              <TableCell>{t(transaction.type)}</TableCell>
               <TableCell className="text-right">
-                {FormatPrice(transaction.price, currency, transaction.type)}
+                {(() => {
+                  const isIncome = transaction.type === "income";
+                  const sign = isIncome ? "+" : "-";
+                  const color = isIncome ? "text-green-400" : "text-red-400";
+
+                  return (
+                    <div className={color}>
+                      <span className="inline-block">{sign}</span>
+                      <Price
+                        className="inline-block"
+                        currency={currency}
+                        price={transaction.price}
+                      />
+                    </div>
+                  );
+                })()}
               </TableCell>
             </TableRow>
           ))}

@@ -1,7 +1,6 @@
 import { db } from "@/drizzle";
 import { HouseholdTable } from "@/drizzle/schema";
 import { HouseholdJoinButton } from "@/features/household/components/HouseholdJoinButton";
-
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
@@ -15,7 +14,6 @@ export default async function HouseholdJoinPage({
   const { householdId, link } = await params;
   const householdLink = await getHouseholdInviteLink(householdId);
   const session = await auth();
-
 
   if (
     householdLink == null ||

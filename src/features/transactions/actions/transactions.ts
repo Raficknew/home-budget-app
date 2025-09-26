@@ -1,11 +1,11 @@
 "use server";
 
 import { z } from "zod";
-import { transactionsSchema } from "../schema/transactions";
+import { transactionsSchema } from "@/features/transactions/schema/transactions";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
-import { insertTransaction } from "../db/transactions";
+import { insertTransaction } from "@/features/transactions/db/transactions";
 import { revalidatePath } from "next/cache";
 import { HouseholdTable, TransactionType } from "@/drizzle/schema";
 import { db } from "@/drizzle";

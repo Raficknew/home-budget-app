@@ -18,7 +18,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   adapter: DrizzleAdapter(db),
   providers: [Google],
   callbacks: {
-    session({ session, token, user }) {
+    session({ session, user }) {
       return {
         ...session,
         user: {

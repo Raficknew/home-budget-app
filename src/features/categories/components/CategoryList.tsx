@@ -4,11 +4,11 @@ import {
   categoriesOfExpanse,
   CategoryTable,
 } from "@/drizzle/schema/category";
-import { Category } from "./Category";
-import { CategoryIconKeys } from "./CategoryIcon";
+import { Category } from "@/features/categories/components/Category";
+import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { CategoryForm } from "./CategoryForm";
+import { CategoryForm } from "@/features/categories/components/CategoryForm";
 import {
   Dialog,
   DialogContent,

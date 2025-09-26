@@ -1,8 +1,8 @@
 "use server";
 import { auth } from "@/lib/auth";
-import { usersSchema } from "../schema/users";
+import { usersSchema } from "@/features/users/schema/users";
 import { z } from "zod";
-import { updateUser as updateUserDB } from "../db/users";
+import { updateUser as updateUserDB } from "@/features/users/db/users";
 import { validate as validateUuid } from "uuid";
 
 export async function updateUser(

@@ -13,7 +13,7 @@ import { and, eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 import { getLocale, getTranslations } from "next-intl/server";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
-import { HouseholdSchema } from "../schema/household";
+import { HouseholdSchema } from "@/features/household/schema/household";
 
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
@@ -187,18 +187,18 @@ export async function insertHousehold(
     if (!incomeCategory)
       throw new Error("No income category found for initial transaction");
 
-    const locale = await getLocale()
+    const locale = await getLocale();
 
-    const inicialTransaction = await db.insert(TransactionTable).values({
+    const initialTransaction = await db.insert(TransactionTable).values({
       categoryId: incomeCategory.id,
       date: new Date(),
       memberId: newMember.id,
-      name: locale === 'en' ? 'Initial Balance' : 'Saldo Początkowe',
+      name: locale === "en" ? "Initial Balance" : "Saldo Początkowe",
       price: balance,
       type: "income",
     });
 
-    if (inicialTransaction == null)
+    if (initialTransaction == null)
       throw new Error("Failed to insert Transaction");
   }
 

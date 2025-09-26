@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
-import { joinHousehold } from "../actions/household";
+import { joinHousehold } from "@/features/household/actions/household";
 
 
 export function HouseholdJoinButton({

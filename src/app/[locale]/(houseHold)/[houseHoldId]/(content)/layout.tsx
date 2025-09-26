@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { AvatarPicture } from "@/components/atoms/AvatarPicture";
+import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { DatePicker } from "@/components/molecules/DatePicker";
 
 export default async function HouseholdLayout({
@@ -35,7 +35,7 @@ async function TopBar({ householdId }: { householdId: string }) {
       <div>
         <Link href={`/${householdId}/settings/account`} className="relative">
           <div className="absolute right-0 bottom-0 z-10 bg-green-400 w-2.5 h-2.5 rounded-full p-1"></div>
-          <AvatarPicture size={10} image={session.user.image ?? ""} />
+          <UserAvatar image={session.user.image ?? ""} />
         </Link>
       </div>
     </div>
