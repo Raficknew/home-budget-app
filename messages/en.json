@@ -6,13 +6,13 @@
     "google": "Sign in with Google"
   },
   "HomePage": {
-    "welcome": "Hello!",
-    "or": "OR",
+    "welcome": "Hi",
+    "or": "or",
     "createHousehold": "Create new household",
     "chooseHousehold": "Choose your household",
     "user": "User"
   },
-   "Sidebar": {
+  "Sidebar": {
     "dashboard": "Dashboard",
     "categories": "Categories",
     "goals": "Goals",
@@ -43,7 +43,7 @@
     "charts": {
       "expenses": "Expenses",
       "incomes": "Incomes",
-      "add": "Add" 
+      "add": "Add"
     },
     "ExpenseTracker": {
       "balance": "Balance",

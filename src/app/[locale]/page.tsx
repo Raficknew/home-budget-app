@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
 import { auth } from "@/lib/auth";
+import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { eq } from "drizzle-orm";
-import { HomeIcon, PlusIcon } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
+import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -16,7 +17,14 @@ export default async function HomePage() {
   if (session?.user.id == null) redirect(`${locale}/hero`);
 
   return (
-    <div className="flex justify-center h-screen w-full items-center">
+    <div className="flex justify-center h-screen w-full items-center px-2">
+      <Image
+        className="fixed top-8 sm:left-8"
+        src="/images/HozzyLogo.svg"
+        alt="logo"
+        width={90}
+        height={90}
+      />
       <Suspense>
         <UserHouseholdList
           locale={locale}
@@ -42,46 +50,38 @@ async function UserHouseholdList({
   const households = await getUserHouseholds(user.id);
 
   return (
-    <div className="flex flex-col justify-center grow items-center max-w-[400px] bg-card p-6 text-center rounded-sm gap-y-5 max-h-[480px] border-foreground border ">
-      <div className="flex gap-2 pb-18">
-        <h1 className="font-light text-2xl">{t("welcome")}</h1>
-        <p className="font-semibold text-2xl ">{user.name ?? t("user")}</p>
+    <div className="flex flex-col items-center gap-5 w-[450px]">
+      <div className="flex gap-1 *:text-3xl">
+        <p className="font-semibold">{t("welcome")},</p>
+        <p className="font-normal">{user.name ?? t("user")}!</p>
       </div>
       {households.length > 0 && (
-        <div className="self-stretch">
-          <div className="flex flex-col gap-2 text-left">
-            <h4 className="pl-1">{t("chooseHousehold")}</h4>
+        <div className="w-full flex flex-col gap-5">
+          <p className="font-normal self-center">{t("chooseHousehold")}</p>
+          <div className="flex flex-col gap-2">
             {households.map(({ household }) => (
-              <Link href={`/${locale}/${household.id}`} key={household.id}>
-                <div className="flex justify-between items-center bg-background py-2 px-3 rounded-lg self-stretch hover:shadow hover:shadow-accent">
-                  <div className="flex items-center gap-2">
-                    <HomeIcon size={20} strokeWidth={1.15} color="#0EF6CC" />
-                    <p>{household.name}</p>
-                  </div>
+              <Link key={household.id} href={`/${locale}/${household.id}`}>
+                <div className="flex gap-2 bg-accent rounded-lg px-3 py-2">
+                  <HugeiconsIcon strokeWidth={2} icon={Home12Icon} />
+                  <p className="font-semibold">{household.name}</p>
                 </div>
               </Link>
             ))}
-            <div className="flex items-center gap-5 mt-5">
-              <div className="h-px bg-foreground w-full"></div>
-              {t("or")}
-              <div className="h-px bg-foreground w-full"></div>
-            </div>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="h-px bg-foreground/90 w-full"></div>
+            <p className="font-normal text-foreground/90">{t("or")}</p>
+            <div className="h-px bg-foreground/90 w-full"></div>
           </div>
         </div>
       )}
-      <div
-        className="flex flex-col items-center gap-2 pb-18
-      "
-      >
-        <h4>{t("createHousehold")}</h4>
-        <Button
-          className="rounded-full size-10 bg-background hover:bg-background hover:shadow hover:shadow-accent"
-          asChild
-        >
-          <Link href={`/${locale}/create`}>
-            <PlusIcon className="text-accent" />
-          </Link>
-        </Button>
+      <div className="flex flex-col items-center gap-2">
+        <p>{t("createHousehold")}</p>
+        <Link href={`/${locale}/create`}>
+          <div className="bg-accent p-2 rounded-full">
+            <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
+          </div>
+        </Link>
       </div>
     </div>
   );

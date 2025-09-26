@@ -9,10 +9,7 @@ import {
 } from "@/features/members/db/members";
 import { validate as validateUuid } from "uuid";
 import { deleteMember as deleteMemberDB } from "@/features/members/db/members";
-import {
-  assertMemberDeleteAbility,
-  assertMemberWriteAccess,
-} from "@/features/members/permissions/members";
+import { assertMemberWriteAccess } from "@/features/members/permissions/members";
 
 export async function createMember(
   unsafeData: z.infer<typeof membersSchema>,
@@ -41,8 +38,7 @@ export async function deleteMember(memberId: string, householdId: string) {
   if (
     !validateUuid(householdId) ||
     !validateUuid(memberId) ||
-    (await assertMemberWriteAccess(householdId)) ||
-    (await assertMemberDeleteAbility(householdId))
+    (await assertMemberWriteAccess(householdId))
   ) {
     return { error: true, message: "Failed to delete member" };
   }

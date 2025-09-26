@@ -9,8 +9,9 @@ import { getHousehold } from "@/global/actions";
 import { Delete02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { ReactNode } from "react";
+import { auth } from "@/lib/auth";
 
 export default async function HouseholdSettingsLayout({
   children,
@@ -19,10 +20,20 @@ export default async function HouseholdSettingsLayout({
   children: ReactNode;
   params: Promise<{ householdId: string }>;
 }>) {
+  const session = await auth();
+
+  if (session == null) redirect(`/sign-in`);
+
   const { householdId } = await params;
   const household = await getHousehold(householdId);
 
   if (!household) notFound();
+
+  if (
+    household == null ||
+    !household?.members.find((member) => member.userId === session.user.id)
+  )
+    redirect(`/`);
 
   return (
     <>
