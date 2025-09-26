@@ -1,21 +1,21 @@
-import { AvatarPicture } from "@/components/AvatarPicture";
-import { LanguageSelect } from "@/components/LanguageSelect";
-import { LinkSheet } from "@/components/LinkSheet";
-import { MobileTopHeader } from "@/components/MobileTopHeader";
-import { SectionHeader } from "@/components/SectionHeader";
-import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
-import { SignOutButtonStretched } from "@/components/SignOutButton";
+import { SignOutButtonStretched } from "@/components/atoms/SignOutButton";
+import { UserAvatar } from "@/components/atoms/UserAvatar";
+import { LanguageSelect } from "@/components/atoms/LanguageSelect";
+import { LinkSheet } from "@/components/atoms/LinkSheet";
+import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
+import { SectionHeader } from "@/components/molecules/SectionHeader";
+import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
 import { env } from "@/data/env/server";
-import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
 import { UserForm } from "@/features/users/components/UserForm";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
 import { GlobalIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
+
 
 export default async function HouseholdAccountSettings({
   params,
@@ -47,9 +47,9 @@ export default async function HouseholdAccountSettings({
           <div className="md:bg-transparent bg-[#212122] p-2.5 rounded-lg w-full">
             <UserForm user={session?.user} />
           </div>
-          <Suspense fallback={<div className="bg-gray-600 size-5"></div>}>
+          <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
             <div>
-              <AvatarPicture session={session} />
+              <UserAvatar size={80} image={session?.user.image ?? ""} />
             </div>
           </Suspense>
         </div>

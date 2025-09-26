@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { membersSchema, MembersSchema } from "../schema/members";
+import { membersSchema, MembersSchema } from "@/features/members/schema/members";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -11,7 +11,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { createMember, updateMember } from "../actions/members";
+import { createMember, updateMember } from "@/features/members/actions/members";
 import { DialogFooter } from "@/components/ui/dialog";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";

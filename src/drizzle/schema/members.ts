@@ -1,7 +1,7 @@
 import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt, id, updatedAt } from "../schemaHelpers";
 import { relations } from "drizzle-orm";
-import { HouseholdTable } from "./household";
+import { HouseholdTable } from "./houseHold";
 import { users } from "./user";
 
 export const MembersTable = pgTable("members", {
@@ -11,7 +11,6 @@ export const MembersTable = pgTable("members", {
   householdId: uuid()
     .notNull()
     .references(() => HouseholdTable.id, { onDelete: "cascade" }),
-  color: text().notNull(),
   createdAt,
   updatedAt,
 });

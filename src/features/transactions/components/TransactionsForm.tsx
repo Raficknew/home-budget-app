@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryTable, MembersTable, transactionType } from "@/drizzle/schema";
+import { transactionType } from "@/drizzle/schema";
 import { useState } from "react";
 import { z } from "zod";
 import {
@@ -20,10 +20,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { transactionsSchema } from "../schema/transactions";
+import { transactionsSchema } from "@/features/transactions/schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { createTransaction } from "../actions/transactions";
+import { createTransaction } from "@/features/transactions/actions/transactions";
 import { useTranslations } from "next-intl";
 import {
   Popover,
@@ -33,13 +33,15 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
+import { Member } from "@/features/members/components/Member";
+import { Category } from "@/global/types";
 
 const transcationFormSchema = transactionsSchema.pick({
   categoryId: true,
   date: true,
   name: true,
   price: true,
-  membersIds: true,
+  memberId: true,
 });
 
 type TranscationFormSchema = z.infer<typeof transcationFormSchema>;
@@ -51,8 +53,8 @@ export function TransactionForm({
   householdId,
 }: {
   defaultTransaction: string;
-  members: (typeof MembersTable.$inferSelect)[];
-  categories: (typeof CategoryTable.$inferSelect)[];
+  members: Member[];
+  categories: Category[];
   householdId: string;
 }) {
   const ts = useTranslations("CreateTransaction");
@@ -60,15 +62,26 @@ export function TransactionForm({
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
 
   const currentMemberId = members.find(
-    (member) => member.userId === session.data?.user.id
+    (member) => member.user?.id === session.data?.user.id
   )?.id;
+
+  const incomeCategories = categories.filter(
+    (category) => category.categoryType == "incomes"
+  );
+
+  const expenseCategories = categories.filter(
+    (category) => category.categoryType != "incomes"
+  );
+
+  const currentCategories =
+    transaction == "income" ? incomeCategories : expenseCategories;
 
   const form = useForm<TranscationFormSchema>({
     resolver: zodResolver(transcationFormSchema),
     defaultValues: {
       price: 0,
       name: "",
-      membersIds: currentMemberId ?? undefined,
+      memberId: currentMemberId ?? undefined,
       date: new Date(),
       categoryId: undefined,
     },
@@ -93,14 +106,20 @@ export function TransactionForm({
                   <FormLabel>{ts("price")}</FormLabel>
                   <FormControl>
                     <Input
-                      onClick={(e) => {
-                        if (+(e.target as HTMLInputElement).value == 0) {
-                          (e.target as HTMLInputElement).value = "";
-                        }
-                      }}
                       min={0}
                       type="number"
+                      step="0.01"
                       {...field}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                      }}
+                      onBlur={(e) => {
+                        const value = e.target.value.replace(",", ".");
+                        e.target.value = Number(value).toFixed(2);
+                        field.onChange(Number(e.target.value));
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -146,7 +165,7 @@ export function TransactionForm({
           <div className="w-full">
             <FormField
               control={form.control}
-              name="membersIds"
+              name="memberId"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>{ts("member")}</FormLabel>
@@ -214,7 +233,7 @@ export function TransactionForm({
                     <SelectValue placeholder={ts("category.placeholder")} />
                   </SelectTrigger>
                   <SelectContent>
-                    {categories.map((category) => (
+                    {currentCategories.map((category) => (
                       <SelectItem value={category.id} key={category.id}>
                         {category.name}
                       </SelectItem>

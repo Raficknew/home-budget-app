@@ -12,7 +12,7 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { SignOutButton } from "./SignOutButton";
+import { SignOutButton } from "@/components/atoms/SignOutButton";
 
 export function Sidebar() {
   const { locale, householdId } = useParams();
@@ -42,7 +42,7 @@ export function Sidebar() {
     },
   ];
   return (
-    <div className="fixed z-10 sm:left-0 sm:rounded-none rounded-t-2xl bottom-0 bg-sidebar sm:h-full w-full sm:w-fit h-fit p-5 flex flex-row sm:flex-col justify-evenly sm:justify-between">
+    <div className="fixed z-10 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 bg-sidebar w-full sm:w-auto h-fit p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between">
       <div className="flex flex-col gap-10 items-center">
         <div className="hidden sm:block">
           <Image

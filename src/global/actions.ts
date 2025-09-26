@@ -13,6 +13,7 @@ export const getHousehold = (id: string) => {
     with: {
       invite: { columns: { link: true } },
       currency: true,
+      members: true,
       categories: {
         with: {
           transactions: { columns: { id: true, name: true, price: true } },

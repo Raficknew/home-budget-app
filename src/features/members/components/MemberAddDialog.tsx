@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
-import { MemberForm } from "./MemberForm";
+import { MemberForm } from "@/features/members/components/MemberForm";
 import { useTranslations } from "next-intl";
 
 export function MemberAddDialog({

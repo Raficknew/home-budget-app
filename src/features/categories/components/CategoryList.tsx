@@ -4,11 +4,11 @@ import {
   categoriesOfExpanse,
   CategoryTable,
 } from "@/drizzle/schema/category";
-import { Category } from "./Category";
-import { CategoryIconKeys } from "./CategoryIcon";
+import { Category } from "@/features/categories/components/Category";
+import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { CategoryForm } from "./CategoryForm";
+import { CategoryForm } from "@/features/categories/components/CategoryForm";
 import {
   Dialog,
   DialogContent,
@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/dialog";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
-import { Spacer } from "@/components/Spacer";
+import { Spacer } from "@/components/atoms/Spacer";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
 

@@ -19,8 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
-import { createHousehold, updateHousehold } from "../actions/household";
-import { householdSchema, HouseholdSchema } from "../schema/household";
+import { createHousehold, updateHousehold } from "@/features/household/actions/household";
+import { householdSchema, HouseholdSchema } from "@/features/household/schema/household";
+
 
 export function HouseholdForm({
   currencies,

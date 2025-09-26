@@ -5,17 +5,19 @@ import {
   HouseholdTable,
   InviteTable,
   MembersTable,
+  TransactionTable,
 } from "@/drizzle/schema";
-import { createUuid, generateRandomColor } from "@/global/functions";
+import { createUuid } from "@/global/functions";
 import { auth } from "@/lib/auth";
 import { and, eq } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
-import { HouseholdSchema } from "../schema/household";
-import { assertHouseholdWriteAccess } from "../permissions/household";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
+import { HouseholdSchema } from "@/features/household/schema/household";
 
 export async function insertHousehold(
-  data: typeof HouseholdTable.$inferInsert
+  data: typeof HouseholdTable.$inferInsert,
+  balance: number
 ) {
   const session = await auth();
 
@@ -28,15 +30,12 @@ export async function insertHousehold(
 
   if (newHousehold == null) throw new Error("failed to create household");
 
-  const randomColor = generateRandomColor();
-
   const [newMember] = await db
     .insert(MembersTable)
     .values({
       name: session.user.name!,
       householdId: newHousehold.id,
       userId: newHousehold.ownerId,
-      color: randomColor,
     })
     .returning();
 
@@ -172,12 +171,36 @@ export async function insertHousehold(
     },
   ];
 
-  const [newCategories] = await db
+  const newCategories = await db
     .insert(CategoryTable)
     .values(defaultCategories)
     .returning();
 
-  if (newCategories == null) throw new Error("Failed to create category");
+  if (!newCategories || newCategories.length === 0)
+    throw new Error("Failed to create category");
+
+  if (balance > 0) {
+    const incomeCategory = newCategories.find(
+      (cat) => cat.categoryType === "incomes"
+    );
+
+    if (!incomeCategory)
+      throw new Error("No income category found for initial transaction");
+
+    const locale = await getLocale();
+
+    const initialTransaction = await db.insert(TransactionTable).values({
+      categoryId: incomeCategory.id,
+      date: new Date(),
+      memberId: newMember.id,
+      name: locale === "en" ? "Initial Balance" : "Saldo Początkowe",
+      price: balance,
+      type: "income",
+    });
+
+    if (initialTransaction == null)
+      throw new Error("Failed to insert Transaction");
+  }
 
   return newHousehold;
 }
@@ -244,19 +267,4 @@ export async function updateLink(householdId: string, link: string) {
   if (updatedLink == null) throw new Error("Failed to generate link");
 
   return updatedLink;
-}
-
-export async function updateHouseholdBalance(
-  householdId: string,
-  balance: number
-) {
-  const [updatedBalance] = await db
-    .update(HouseholdTable)
-    .set({ balance })
-    .where(eq(HouseholdTable.id, householdId))
-    .returning();
-
-  if (updatedBalance == null) throw new Error("Failed to generate link");
-
-  return updatedBalance;
 }

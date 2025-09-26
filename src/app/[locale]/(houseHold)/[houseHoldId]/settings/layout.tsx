@@ -1,6 +1,6 @@
-import { ActionButton } from "@/components/ActionButton";
-import { SettingsNavigationBar } from "@/components/SettingsNavigationBar";
-import { Sidebar } from "@/components/Sidebar";
+import { ActionButton } from "@/components/atoms/ActionButton";
+import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
+import { Sidebar } from "@/components/organisms/Sidebar";
 import { env } from "@/data/env/server";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";

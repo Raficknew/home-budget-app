@@ -1,66 +1,77 @@
-import { db } from "@/drizzle";
-import { HouseholdTable } from "@/drizzle/schema";
-import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
-import { TransactionMobileDialog } from "@/features/transactions/components/TransactionMobileDialog";
-import { eq } from "drizzle-orm";
+import { BalanceTracker } from "@/components/molecules/BalanceTracker";
+import { RecentTransactionTable } from "@/components/molecules/RecentTransactionTable";
+import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
+import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
+import { countPricesOfTransactionsRelatedToTheirTypes, getCategoriesWithTransactions, getHousehold } from "@/global/functions";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { validate as validateUuid } from "uuid";
+import { Suspense } from "react";
+
 
 export default async function HouseholdPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ householdId: string }>;
+  searchParams: Promise<{ date: string }>;
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
 
-  if (household == null) {
-    notFound();
-  }
+  if (household == null) notFound();
+
+  const { date } = await searchParams;
+  const parsedDate = date ? new Date(date) : new Date();
+  const categories = await getCategoriesWithTransactions(householdId, parsedDate) || [];
+  const t = await getTranslations("Dashboard.charts");
+
+  const prices = countPricesOfTransactionsRelatedToTheirTypes(
+    categories 
+  );
 
   return (
-    <div>
-      <p>Balance: {household.balance}</p>
-      <div>
-        <TransactionDialog
-          defaultTransaction="expense"
-          householdId={householdId}
+    <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 2xl:flex-row">
+        <BalanceTracker currency={household.currencyCode} prices={prices} />
+        <Suspense>
+          <ExpensesLineChart
+            maxValue={prices.totalInExpenses}
+            date={parsedDate}
+            categories={categories}
+            title={t("expenses")}
+          />
+        </Suspense>
+      </div>
+      <div className="flex flex-col gap-2 2xl:flex-row">
+        <FinancialSummaryChart
+          title={t("incomes")}
+          householdId={household.id}
+          defaultTransaction="income"
+          maxValue={prices.incomes}
+          categories={categories.filter(
+            (c) => c.categoryType == "incomes"
+          )}
+          gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
+          currency={household.currencyCode}
         />
-        <TransactionMobileDialog
+        <FinancialSummaryChart
+          title={t("expenses")}
+          householdId={household.id}
           defaultTransaction="expense"
-          householdId={householdId}
+          maxValue={prices.totalInExpenses}
+          categories={categories.filter(
+            (c) => c.categoryType != "incomes"
+          )}
+          gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
+          currency={household.currencyCode}
         />
       </div>
-      {household.categories.map((category) => (
-        <div key={category.id}>
-          {category.name}
-          <div>
-            {category.transactions.map((t) => (
-              <div key={t.id}>
-                {t.name} {t.price}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
+      <RecentTransactionTable
+        categories={categories}
+        members={household.members}
+        currency={household.currencyCode}
+      />
     </div>
   );
 }
 
-function getHousehold(id: string) {
-  if (!validateUuid(id)) {
-    return null;
-  }
-
-  return db.query.HouseholdTable.findFirst({
-    where: eq(HouseholdTable.id, id),
-    with: {
-      currency: { columns: { code: true } },
-      categories: {
-        with: {
-          transactions: { columns: { id: true, name: true, price: true } },
-        },
-      },
-    },
-  });
-}

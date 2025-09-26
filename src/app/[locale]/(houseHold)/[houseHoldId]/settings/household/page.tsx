@@ -1,11 +1,8 @@
-import { ActionButton } from "@/components/ActionButton";
-import { MobileTopHeader } from "@/components/MobileTopHeader";
-import { SectionHeader } from "@/components/SectionHeader";
-import { Spacer } from "@/components/Spacer";
+import { ActionButton } from "@/components/atoms/ActionButton";
+import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
+import { SectionHeader } from "@/components/molecules/SectionHeader";
+import { Spacer } from "@/components/atoms/Spacer";
 import { DialogTrigger } from "@/components/ui/dialog";
-import { deleteHousehold } from "@/features/household/actions/household";
-import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
-import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { Member } from "@/features/members/components/Member";
 import { MemberAddDialog } from "@/features/members/components/MemberAddDialog";
 import { MemberForm } from "@/features/members/components/MemberForm";
@@ -15,6 +12,9 @@ import { Delete02Icon, PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { deleteHousehold } from "@/features/household/actions/household";
+import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
+import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 
 export default async function HouseholdEditPage({
   params,
