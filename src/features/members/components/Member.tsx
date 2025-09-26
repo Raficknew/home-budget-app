@@ -23,9 +23,11 @@ export type Member = {
 export function Member({
   member,
   householdId,
+  ownerId,
 }: {
   member: Member;
   householdId: string;
+  ownerId: string;
 }) {
   return (
     <div className="flex md:flex-col md:justify-center justify-between items-center sm:bg-[#161616] bg-sidebar md:px-5 md:py-4 pl-3 py-2 rounded-xl gap-4 drop-shadow-lg">
@@ -51,16 +53,18 @@ export function Member({
           </DialogTrigger>
         </MemberEditDialog>
 
-        <ActionButton
-          action={() => deleteMember(member.id, householdId)}
-          requireAreYouSure
-          variant="ghostDestructive"
-        >
-          <HugeiconsIcon
-            className="cursor-pointer md:size-6 size-5"
-            icon={Cancel01Icon}
-          />
-        </ActionButton>
+        {ownerId !== member.user?.id && (
+          <ActionButton
+            action={() => deleteMember(member.id, householdId)}
+            requireAreYouSure
+            variant="ghostDestructive"
+          >
+            <HugeiconsIcon
+              className="cursor-pointer md:size-6 size-5"
+              icon={Cancel01Icon}
+            />
+          </ActionButton>
+        )}
       </div>
     </div>
   );

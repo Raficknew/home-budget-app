@@ -44,10 +44,8 @@ export function ActionButton({
             <AlertDialogTitle>{t("title")}</AlertDialogTitle>
             <AlertDialogDescription>{t("description")}</AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter className="grid grid-cols-2">
-            <AlertDialogCancel className="cursor-pointer">
-              {t("cancel")}
-            </AlertDialogCancel>
+          <AlertDialogFooter>
+            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
             <AlertDialogAction disabled={isLoading} onClick={performAction}>
               <LoadingSwap isLoading={isLoading}>{t("proceed")}</LoadingSwap>
             </AlertDialogAction>
