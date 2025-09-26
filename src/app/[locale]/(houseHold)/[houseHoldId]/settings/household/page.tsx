@@ -79,6 +79,7 @@ export default async function HouseholdEditPage({
                 key={member.id}
                 member={member}
                 householdId={householdId}
+                ownerId={household.ownerId}
               />
             ))}
             {members.length !== 8 && (

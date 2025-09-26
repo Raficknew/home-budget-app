@@ -2,8 +2,15 @@
 import { z } from "zod";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { insertHousehold, updateLink, deleteHousehold as deleteHouseholdDB } from "@/features/household/db/household";
-import { HouseholdSchema, householdSchema } from "@/features/household/schema/household";
+import {
+  insertHousehold,
+  updateLink,
+  deleteHousehold as deleteHouseholdDB,
+} from "@/features/household/db/household";
+import {
+  HouseholdSchema,
+  householdSchema,
+} from "@/features/household/schema/household";
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
 import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
@@ -22,6 +29,7 @@ export async function createHousehold(
   const household = await insertHousehold(
     {
       ...data,
+      name: data.name.charAt(0).toUpperCase() + data.name.slice(1),
       description: data.description != "" ? data.description : null,
       ownerId: session?.user.id,
     },

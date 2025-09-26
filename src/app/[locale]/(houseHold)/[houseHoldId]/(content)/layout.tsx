@@ -1,10 +1,11 @@
 import { Sidebar } from "@/components/organisms/Sidebar";
 import { ReactNode } from "react";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { DatePicker } from "@/components/molecules/DatePicker";
+import { getHousehold } from "@/global/functions";
 
 export default async function HouseholdLayout({
   children,
@@ -13,7 +14,21 @@ export default async function HouseholdLayout({
   children: ReactNode;
   params: Promise<{ householdId: string }>;
 }>) {
+  const session = await auth();
+
+  if (session == null) redirect(`/sign-in`);
+
   const { householdId } = await params;
+  const household = await getHousehold(householdId);
+
+  if (!household) notFound();
+
+  if (
+    household == null ||
+    !household?.members.find((member) => member.userId === session.user.id)
+  )
+    redirect(`/`);
+
   return (
     <div>
       <TopBar householdId={householdId} />

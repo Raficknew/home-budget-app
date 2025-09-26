@@ -6,10 +6,10 @@
     "google": "Zaloguj się z Google"
   },
   "HomePage": {
-    "welcome": "Witaj!",
-    "or": "LUB",
+    "welcome": "Hej",
+    "or": "lub",
     "createHousehold": "Utwórz nowe gospodarstwo",
-    "chooseHousehold": "Wybierz gospodarstwo",
+    "chooseHousehold": "Wybierz swoje gospodarstwo",
     "user": "Użytkownik"
   },
   "Sidebar": {
@@ -23,7 +23,7 @@
     "charts": {
       "expenses": "Wydatki",
       "incomes": "Wpływy",
-      "add": "Dodaj" 
+      "add": "Dodaj"
     },
     "ExpenseTracker": {
       "balance": "Saldo",
@@ -43,7 +43,7 @@
     "description": {
       "label": "Opis",
       "placeholder": "Próbujemy osczędzić na lepsze życie"
-    }, 
+    },
     "currency": {
       "label": "Waluta",
       "placeholder": "Wybierz walutę"
@@ -137,7 +137,7 @@
         "name": "Zakupy"
       },
       "add": "Dodaj Kategorie",
-       "edit": "Edytuj",
+      "edit": "Edytuj",
       "submit": "Dodaj",
       "save": "Zapisz"
     },
@@ -150,7 +150,7 @@
     "title": "Na pewno?",
     "description": "Tej akcji nie można cofnąć",
     "cancel": "Anuluj",
-    "proceed": "Tak"
+    "proceed": "Potwierdź"
   },
   "TransactionTable": {
     "latest": "Najnowsze transakcje",
