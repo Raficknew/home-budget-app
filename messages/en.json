@@ -21,6 +21,7 @@
   },
   "CreateHousehold": {
     "title": "Create new Household",
+    "subtitle": "The first step to financial control: fill in your household details",
     "name": {
       "label": "Name",
       "placeholder": "Smith's House"

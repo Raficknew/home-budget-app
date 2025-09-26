@@ -19,9 +19,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useTranslations } from "next-intl";
-import { createHousehold, updateHousehold } from "@/features/household/actions/household";
-import { householdSchema, HouseholdSchema } from "@/features/household/schema/household";
-
+import {
+  createHousehold,
+  updateHousehold,
+} from "@/features/household/actions/household";
+import {
+  householdSchema,
+  HouseholdSchema,
+} from "@/features/household/schema/household";
+import { cn } from "@/lib/utils";
 
 export function HouseholdForm({
   currencies,
@@ -60,7 +66,7 @@ export function HouseholdForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="grow w-full sm:space-y-8 space-y-4 text-right"
+        className="grow w-full space-y-4 text-right"
       >
         <FormField
           control={form.control}
@@ -70,7 +76,7 @@ export function HouseholdForm({
               <FormLabel>{t("name.label")}</FormLabel>
               <FormControl>
                 <Input
-                  className="dark:bg-[#161616]"
+                  className={household && "bg-[#161616]"}
                   placeholder={t("name.placeholder")}
                   {...field}
                 />
@@ -87,7 +93,7 @@ export function HouseholdForm({
               <FormLabel>{t("description.label")}</FormLabel>
               <FormControl>
                 <Input
-                  className="dark:bg-[#161616]"
+                  className={household && "bg-[#161616]"}
                   placeholder={t("description.placeholder")}
                   {...field}
                 />
@@ -98,19 +104,19 @@ export function HouseholdForm({
         />
 
         {household == null && (
-          <>
+          <div className="flex flex-col sm:flex-row gap-4">
             <FormField
               control={form.control}
               name="currencyCode"
               render={({ field }) => (
-                <FormItem className="flex">
+                <FormItem className="w-full sm:w-[150px]">
                   <FormLabel>{t("currency.label")}</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger className="w-full sm:w-[150px]">
                         <SelectValue placeholder={t("currency.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
@@ -130,11 +136,10 @@ export function HouseholdForm({
               control={form.control}
               name="balance"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="w-full">
                   <FormLabel>{t("balance.label")}</FormLabel>
                   <FormControl>
                     <Input
-                      className="dark:bg-[#161616]"
                       onClick={(e) => {
                         if (+(e.target as HTMLInputElement).value == 0) {
                           (e.target as HTMLInputElement).value = "";
@@ -149,10 +154,11 @@ export function HouseholdForm({
                 </FormItem>
               )}
             />
-          </>
+          </div>
         )}
         <Button
           variant="submit"
+          className={cn("mt-2", household ? "" : "w-full")}
           type="submit"
           disabled={form.formState.isSubmitting}
         >

@@ -36,6 +36,7 @@
   },
   "CreateHousehold": {
     "title": "Utwórz nowe gospodarstwo",
+    "subtitle": "Pierwszy krok do kontroli finansów: uzupełnij dane swojego gospodarstwa",
     "name": {
       "label": "Nazwa",
       "placeholder": "Dom Kowalskich"
