@@ -12,6 +12,10 @@
     "chooseHousehold": "Wybierz swoje gospodarstwo",
     "user": "Użytkownik"
   },
+  "JoinPage": {
+    "title": "Zaproszono Cię do gospodarstwa",
+    "join": "Dołącz"
+  },
   "Sidebar": {
     "dashboard": "Dashboard",
     "categories": "Kategorie",
@@ -54,9 +58,6 @@
     },
     "submit": "Utwórz",
     "save": "Zapisz"
-  },
-  "JoinPage": {
-    "title": "Dołącz"
   },
   "CreateTransaction": {
     "price": "Kwota",

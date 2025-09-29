@@ -109,14 +109,14 @@ export function HouseholdForm({
               control={form.control}
               name="currencyCode"
               render={({ field }) => (
-                <FormItem className="w-full sm:w-[150px]">
+                <FormItem className="w-full sm:w-[155px]">
                   <FormLabel>{t("currency.label")}</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
                     >
-                      <SelectTrigger className="w-full sm:w-[150px]">
+                      <SelectTrigger className="w-full sm:w-[155px]">
                         <SelectValue placeholder={t("currency.placeholder")} />
                       </SelectTrigger>
                       <SelectContent>
@@ -140,14 +140,20 @@ export function HouseholdForm({
                   <FormLabel>{t("balance.label")}</FormLabel>
                   <FormControl>
                     <Input
-                      onClick={(e) => {
-                        if (+(e.target as HTMLInputElement).value == 0) {
-                          (e.target as HTMLInputElement).value = "";
-                        }
-                      }}
                       min={0}
                       type="number"
+                      step="0.01"
                       {...field}
+                      onFocus={(e) => {
+                        if (e.target.value === "0") {
+                          e.target.value = "";
+                        }
+                      }}
+                      onBlur={(e) => {
+                        const value = e.target.value.replace(",", ".");
+                        e.target.value = Number(value).toFixed(2);
+                        field.onChange(Number(e.target.value));
+                      }}
                     />
                   </FormControl>
                   <FormMessage />

@@ -12,6 +12,10 @@
     "chooseHousehold": "Choose your household",
     "user": "User"
   },
+  "JoinPage": {
+    "title": "You have been invited to",
+    "join": "Join"
+  },
   "Sidebar": {
     "dashboard": "Dashboard",
     "categories": "Categories",
@@ -54,9 +58,6 @@
       "left": "Left",
       "goal": "GOAL"
     }
-  },
-  "JoinPage": {
-    "title": "Join"
   },
   "CreateTransaction": {
     "price": "Price",

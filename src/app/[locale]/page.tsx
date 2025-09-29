@@ -1,3 +1,4 @@
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
 import { auth } from "@/lib/auth";
@@ -5,7 +6,6 @@ import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { eq } from "drizzle-orm";
 import { getLocale, getTranslations } from "next-intl/server";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -18,13 +18,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex justify-center h-screen w-full items-center px-2">
-      <Image
-        className="fixed top-8 sm:left-8"
-        src="/images/HozzyLogo.svg"
-        alt="logo"
-        width={90}
-        height={90}
-      />
+      <HozzyLogo />
       <Suspense>
         <UserHouseholdList
           locale={locale}
