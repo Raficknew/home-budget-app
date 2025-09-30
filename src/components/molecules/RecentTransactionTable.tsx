@@ -42,7 +42,7 @@ export function RecentTransactionTable({
   const t = useTranslations("TransactionTable");
 
   return (
-    <div className="w-full bg-sidebar p-4 rounded-lg flex flex-col gap-4 mb-20 sm:mb-2">
+    <div className="flex flex-col p-4 bg-sidebar rounded-lg h-full">
       <div className="flex items-center gap-2">
         <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
         <p className="text-2xl font-light">{t("latest")}</p>

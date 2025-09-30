@@ -32,7 +32,7 @@ export default async function HouseholdPage({
   const prices = countPricesOfTransactionsRelatedToTheirTypes(categories);
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 h-full">
       <div className="flex flex-col gap-2 2xl:flex-row">
         <BalanceTracker currency={household.currencyCode} prices={prices} />
         <Suspense>

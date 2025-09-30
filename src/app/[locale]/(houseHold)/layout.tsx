@@ -11,5 +11,5 @@ export default async function AuthLayout({
 
   if (session == null) redirect(`/sign-in`);
 
-  return <div>{children}</div>;
+  return <>{children}</>;
 }

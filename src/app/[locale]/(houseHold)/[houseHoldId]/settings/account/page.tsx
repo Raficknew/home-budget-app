@@ -73,7 +73,9 @@ export default async function HouseholdAccountSettings({
             <LanguageSelect currentLocale={locale} />
           </div>
         </div>
-        <SignOutButton />
+        <div className="sm:hidden flex">
+          <SignOutButton />
+        </div>
       </div>
     </>
   );
