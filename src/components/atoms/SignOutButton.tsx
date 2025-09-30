@@ -17,42 +17,21 @@ import { cn } from "@/lib/utils";
 import { buttonVariants } from "../ui/button";
 
 export function SignOutButton() {
+  const t = useTranslations("SignOut");
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="cursor-pointer self-center">
-        <HugeiconsIcon
-          strokeWidth={2}
-          width={20}
-          height={20}
-          icon={Logout05Icon}
-        />
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>
-            Czy na pewno chcesz się{" "}
-            <span className="text-red-400">wylogować</span>?
-          </AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel>Anuluj</AlertDialogCancel>
-          <AlertDialogAction onClick={() => signOut()}>
-            Potwierdź
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  );
-}
-
-export function SignOutButtonStretched() {
-  const t = useTranslations("Settings.account");
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger className="w-full sm:hidden">
+      <AlertDialogTrigger className="cursor-pointer self-center w-full sm:w-fit">
+        <div className="hidden sm:block self-center">
+          <HugeiconsIcon
+            strokeWidth={2}
+            width={20}
+            height={20}
+            icon={Logout05Icon}
+          />
+        </div>
         <div
           className={cn(
-            "ring w-full",
+            "ring w-full sm:hidden",
             buttonVariants({ variant: "ghostDestructive" })
           )}
         >
@@ -68,14 +47,14 @@ export function SignOutButtonStretched() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>
-            Czy na pewno chcesz się{" "}
-            <span className="text-red-400">wylogować</span>?
+            {t("titleStart")}{" "}
+            <span className="text-red-400">{t("titleHighlight")}</span>?
           </AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Anuluj</AlertDialogCancel>
+          <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
           <AlertDialogAction onClick={() => signOut()}>
-            Potwierdź
+            {t("proceed")}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

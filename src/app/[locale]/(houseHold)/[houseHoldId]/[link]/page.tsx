@@ -5,7 +5,6 @@ import { HouseholdJoinButton } from "@/features/household/components/HouseholdJo
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { validate as validateUuid } from "uuid";
 
@@ -30,9 +29,8 @@ export default async function HouseholdJoinPage({
 
   return (
     <div className="flex justify-center items-center h-screen px-2">
-      <Link href="/">
-        <HozzyLogo />
-      </Link>
+      <HozzyLogo link />
+
       <div className="flex flex-col gap-3 w-[450px] text-center">
         <span className="text-3xl text-center">
           {t("title")}

@@ -16,12 +16,9 @@ export default async function SignInPage() {
 
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center">
-      <HozzyLogo />
+      <HozzyLogo link />
       <div className="flex flex-col gap-3 w-[390px] text-center">
-        <PageTitle
-          title="Cześć!"
-          subtitle="Zaloguj się do swojego konta Hozzy"
-        />
+        <PageTitle title={t("title")} subtitle={t("subtitle")} />
         <form
           className="flex flex-col gap-3 w-[390px] text-center"
           action={async () => {

@@ -3,7 +3,16 @@
     "join": "Dołącz"
   },
   "SignInPage": {
+    "title": "Cześć!",
+    "subtitle": "Zaloguj się do swojego konta Hozzy",
     "google": "Zaloguj się z Google"
+  },
+  "SignOut": {
+    "signOut": "Wyloguj się",
+    "cancel": "Anuluj",
+    "proceed": "Potwierdź",
+    "titleStart": "Czy na pewno chcesz się",
+    "titleHighlight": "wylogować"
   },
   "HomePage": {
     "welcome": "Hej",

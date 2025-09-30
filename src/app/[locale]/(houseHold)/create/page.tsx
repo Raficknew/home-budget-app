@@ -3,7 +3,6 @@ import { PageTitle } from "@/components/atoms/PageTitle";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { getCurrencies } from "@/global/functions";
 import { getTranslations } from "next-intl/server";
-import Link from "next/link";
 
 export default async function HouseholdCreateFormPage() {
   const currencies = await getCurrencies();
@@ -11,9 +10,7 @@ export default async function HouseholdCreateFormPage() {
 
   return (
     <div className="flex justify-center h-screen items-center px-2 ">
-      <Link href="/">
-        <HozzyLogo />
-      </Link>
+      <HozzyLogo link />
       <div className="flex flex-col gap-3 w-[390px] text-center">
         <PageTitle title={t("title")} subtitle={t("subtitle")} />
         <HouseholdForm currencies={currencies} />
