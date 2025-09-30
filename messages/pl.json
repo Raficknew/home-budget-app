@@ -1,6 +1,10 @@
 {
   "HeroPage": {
-    "join": "Dołącz"
+    "firstTerm": "Mniej stresu.",
+    "secondTerm": "Więcej Oszczędności.",
+    "thirdTerm": "Kontroluj swoje finanse już dziś.",
+    "description": "Najlepsze miejsce do zarządzania i analizowania twoimi finansami.",
+    "join": "Zacznij oszczędzać"
   },
   "SignInPage": {
     "title": "Cześć!",

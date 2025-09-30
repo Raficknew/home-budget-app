@@ -1,6 +1,10 @@
 {
   "HeroPage": {
-    "join": "Join"
+    "firstTerm": "Less Stress.",
+    "secondTerm": "More Savings.",
+    "thirdTerm": "Take control of your finances today.",
+    "description": "The best place to manage and analyze your finances.",
+    "join": "Start Saving"
   },
   "SignInPage": {
     "title": "HI!",
