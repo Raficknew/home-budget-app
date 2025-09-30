@@ -6,7 +6,6 @@ import { PageTitle } from "@/components/atoms/PageTitle";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { GoogleIcon } from "@hugeicons/core-free-icons";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
-import Link from "next/link";
 
 export default async function SignInPage() {
   const session = await auth();
@@ -17,9 +16,7 @@ export default async function SignInPage() {
 
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center">
-      <Link href="/">
-        <HozzyLogo />
-      </Link>
+      <HozzyLogo />
       <div className="flex flex-col gap-3 w-[390px] text-center">
         <PageTitle
           title="Cześć!"
