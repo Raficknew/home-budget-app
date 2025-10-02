@@ -10,12 +10,11 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { categorySchema, CategorySchema } from "@/features/categories/schema/category";
 import {
-  categoriesOfExpanse,
-  CategoriesOfExpanse,
-  CategoryTable,
-} from "@/drizzle/schema";
+  categorySchema,
+  CategorySchema,
+} from "@/features/categories/schema/category";
+import { categoriesOfExpanse, CategoriesOfExpanse } from "@/drizzle/schema";
 import {
   Select,
   SelectContent,
@@ -23,11 +22,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryIcon, CategoryIconKeys, icons } from "@/features/categories/components/CategoryIcon";
-import { createCategory, updateCategory } from "@/features/categories/actions/category";
+import {
+  CategoryIcon,
+  CategoryIconKeys,
+  icons,
+} from "@/features/categories/components/CategoryIcon";
+import {
+  createCategory,
+  updateCategory,
+} from "@/features/categories/actions/category";
 import { Spacer } from "@/components/atoms/Spacer";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
+import { CategoryWithIcon } from "@/global/types";
 
 export function CategoryForm({
   categoryType,
@@ -36,7 +43,7 @@ export function CategoryForm({
   onSuccess,
 }: {
   categoryType: CategoriesOfExpanse;
-  category?: typeof CategoryTable.$inferSelect;
+  category?: CategoryWithIcon;
   householdId: string;
   onSuccess?: () => void;
 }) {

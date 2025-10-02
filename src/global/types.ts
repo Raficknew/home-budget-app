@@ -26,7 +26,6 @@ export type CategoryWithTransactions = {
 }[];
 
 export type CategoryWithIcon = {
-  householdId: string;
   icon: string;
   id: string;
   name: string;

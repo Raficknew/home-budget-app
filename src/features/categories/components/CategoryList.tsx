@@ -2,7 +2,6 @@
 import {
   CategoriesOfExpanse,
   categoriesOfExpanse,
-  CategoryTable,
 } from "@/drizzle/schema/category";
 import { Category } from "@/features/categories/components/Category";
 import { CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
@@ -21,12 +20,13 @@ import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { Spacer } from "@/components/atoms/Spacer";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
+import { CategoryWithIcon } from "@/global/types";
 
 export function CategoryList({
   categories,
   householdId,
 }: {
-  categories: (typeof CategoryTable.$inferSelect)[];
+  categories: CategoryWithIcon[];
   householdId: string;
 }) {
   const [currentCategoryType, setCurrentCategoryType] = useState("fixed");

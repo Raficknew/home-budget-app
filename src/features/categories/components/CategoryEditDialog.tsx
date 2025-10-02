@@ -7,8 +7,9 @@ import {
 } from "@/components/ui/dialog";
 import { ReactNode, useState } from "react";
 import { CategoryForm } from "@/features/categories/components/CategoryForm";
-import { CategoriesOfExpanse, CategoryTable } from "@/drizzle/schema";
+import { CategoriesOfExpanse } from "@/drizzle/schema";
 import { useTranslations } from "next-intl";
+import { CategoryWithIcon } from "@/global/types";
 
 export function CategoryEditDialog({
   children,
@@ -16,7 +17,7 @@ export function CategoryEditDialog({
   householdId,
 }: {
   children: ReactNode;
-  category: typeof CategoryTable.$inferSelect;
+  category: CategoryWithIcon;
   householdId: string;
 }) {
   const [isOpen, setIsOpen] = useState(false);
