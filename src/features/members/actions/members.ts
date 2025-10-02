@@ -11,7 +11,7 @@ import { validate as validateUuid } from "uuid";
 import { deleteMember as deleteMemberDB } from "@/features/members/db/members";
 import {
   assertMemberWriteAccess,
-  canCreateNewMember,
+  checkIfUserCanCreateNewMember,
 } from "@/features/members/permissions/members";
 
 export async function createMember(
@@ -24,7 +24,7 @@ export async function createMember(
 
   await assertMemberWriteAccess(householdId);
 
-  if (!(await canCreateNewMember(householdId)))
+  if (!(await checkIfUserCanCreateNewMember(householdId)))
     throw new Error("Limit reached");
 
   const { data, success } = membersSchema.safeParse(unsafeData);

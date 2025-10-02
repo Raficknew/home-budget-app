@@ -1,6 +1,7 @@
 import { db } from "@/drizzle";
 import { HouseholdTable } from "@/drizzle/schema";
 import { getHousehold } from "@/global/actions";
+import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
 import { count, eq } from "drizzle-orm";
 
@@ -14,7 +15,7 @@ export async function checkIfUserIsAllowedToCreateHousehold(userId: string) {
 
   const householdsCount = result[0]?.count ?? 0;
 
-  return householdsCount < 3;
+  return householdsCount < MAX_HOUSEHOLD_PER_USER;
 }
 
 export async function assertHouseholdWriteAccess(householdId: string) {

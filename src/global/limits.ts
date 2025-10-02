@@ -1,0 +1,3 @@
+export const MAX_HOUSEHOLD_PER_USER = 3;
+export const MAX_CATEGORIES_PER_HOUSEHOLD = 20;
+export const MAX_MEMBERS_PER_HOUSEHOLD = 8;

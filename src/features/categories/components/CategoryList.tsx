@@ -21,6 +21,7 @@ import { Spacer } from "@/components/atoms/Spacer";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import { useTranslations } from "next-intl";
 import { CategoryWithIcon } from "@/global/types";
+import { MAX_CATEGORIES_PER_HOUSEHOLD } from "@/global/limits";
 
 export function CategoryList({
   categories,
@@ -72,10 +73,12 @@ export function CategoryList({
         ))}
       </div>
 
-      <AddCategoryButton
-        category={currentCategoryType as CategoriesOfExpanse}
-        householdId={householdId}
-      />
+      {categories.length < MAX_CATEGORIES_PER_HOUSEHOLD && (
+        <AddCategoryButton
+          category={currentCategoryType as CategoriesOfExpanse}
+          householdId={householdId}
+        />
+      )}
     </div>
   );
 }
