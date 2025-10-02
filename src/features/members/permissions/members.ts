@@ -12,3 +12,11 @@ export async function assertMemberWriteAccess(householdId: string) {
 
   throw "NotAllowedToWriteHouseholdExeption";
 }
+
+export async function canCreateNewMember(householdId: string) {
+  const household = await getHousehold(householdId);
+
+  if (household?.members == null) return true;
+
+  return household?.members.length < 8;
+}

@@ -82,7 +82,7 @@ export default async function HouseholdEditPage({
                 ownerId={household.ownerId}
               />
             ))}
-            {members.length !== 8 && (
+            {members.length < 8 && (
               <MemberAddDialog householdId={householdId}>
                 <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
                   <HugeiconsIcon

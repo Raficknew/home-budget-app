@@ -42,6 +42,7 @@ async function UserHouseholdList({
   const t = await getTranslations("HomePage");
 
   const households = await getUserHouseholds(user.id);
+  const MAX_HOUSEHOLDS = 3;
 
   return (
     <div className="flex flex-col items-center gap-5 w-[450px]">
@@ -62,21 +63,25 @@ async function UserHouseholdList({
               </Link>
             ))}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="h-px bg-foreground/90 w-full"></div>
-            <p className="font-normal text-foreground/90">{t("or")}</p>
-            <div className="h-px bg-foreground/90 w-full"></div>
-          </div>
+          {households.length < MAX_HOUSEHOLDS && (
+            <div className="flex items-center gap-4">
+              <div className="h-px bg-foreground/90 w-full"></div>
+              <p className="font-normal text-foreground/90">{t("or")}</p>
+              <div className="h-px bg-foreground/90 w-full"></div>
+            </div>
+          )}
         </div>
       )}
-      <div className="flex flex-col items-center gap-2">
-        <p>{t("createHousehold")}</p>
-        <Link href={`/${locale}/create`}>
-          <div className="bg-accent p-2 rounded-full">
-            <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
-          </div>
-        </Link>
-      </div>
+      {households.length < MAX_HOUSEHOLDS && (
+        <div className="flex flex-col items-center gap-2">
+          <p>{t("createHousehold")}</p>
+          <Link href={`/${locale}/create`}>
+            <div className="bg-accent p-2 rounded-full">
+              <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

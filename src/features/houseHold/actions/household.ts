@@ -14,6 +14,7 @@ import {
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
 import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
+import { checkIfUserIsAllowedToCreateHousehold } from "../permissions/household";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -25,6 +26,10 @@ export async function createHousehold(
   const { success, data } = householdSchema.safeParse(unsafeData);
 
   if (!success) throw new Error("Failed to create Household");
+
+  if (!(await checkIfUserIsAllowedToCreateHousehold(session.user.id))) {
+    throw new Error("You have reached the limit of households you can create");
+  }
 
   const household = await insertHousehold(
     {

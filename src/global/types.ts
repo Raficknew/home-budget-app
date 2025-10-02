@@ -25,6 +25,14 @@ export type CategoryWithTransactions = {
   }[];
 }[];
 
+export type CategoryWithIcon = {
+  householdId: string;
+  icon: string;
+  id: string;
+  name: string;
+  categoryType: "fixed" | "fun" | "future you" | "incomes";
+};
+
 export type Category = {
   name: string;
   id: string;

@@ -1,5 +1,21 @@
+import { db } from "@/drizzle";
+import { HouseholdTable } from "@/drizzle/schema";
 import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
+import { count, eq } from "drizzle-orm";
+
+export async function checkIfUserIsAllowedToCreateHousehold(userId: string) {
+  if (!userId) return false;
+
+  const result = await db
+    .select({ count: count() })
+    .from(HouseholdTable)
+    .where(eq(HouseholdTable.ownerId, userId));
+
+  const householdsCount = result[0]?.count ?? 0;
+
+  return householdsCount < 3;
+}
 
 export async function assertHouseholdWriteAccess(householdId: string) {
   const session = await auth();
