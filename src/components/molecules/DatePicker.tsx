@@ -74,7 +74,7 @@ export function DatePicker() {
       >
         <p className="font-semibold hidden sm:block">
           {currentMonth
-            ? capitalize(format(date, "MMMM yyyy", { locale: currentLocale }))
+            ? capitalize(format(date, "LLLL yyyy", { locale: currentLocale }))
             : capitalize(format(date, "yyyy", { locale: currentLocale }))}
         </p>
         <p className="sm:hidden p-2">
@@ -117,7 +117,7 @@ export function DatePicker() {
                     month != date && handleDateChange(month.getMonth())
                   }
                 >
-                  {capitalize(format(month, "MMMM", { locale: currentLocale }))}
+                  {capitalize(format(month, "LLLL", { locale: currentLocale }))}
                 </div>
               );
             })}
