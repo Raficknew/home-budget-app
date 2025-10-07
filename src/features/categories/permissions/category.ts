@@ -4,8 +4,8 @@ import { MAX_CATEGORIES_PER_HOUSEHOLD } from "@/global/limits";
 import { count } from "drizzle-orm";
 import { eq } from "drizzle-orm";
 
-export async function checkIfUserCanCreateNewCategory(householdId: string) {
-  if (!householdId) return false;
+export async function assertCategoryCreateAbility(householdId: string) {
+  if (!householdId) throw "HouseholdNotFound";
 
   const result = await db
     .select({ count: count() })
@@ -14,5 +14,9 @@ export async function checkIfUserCanCreateNewCategory(householdId: string) {
 
   const categoriesCount = result[0]?.count ?? 0;
 
-  return categoriesCount < MAX_CATEGORIES_PER_HOUSEHOLD;
+  if (categoriesCount < MAX_CATEGORIES_PER_HOUSEHOLD) {
+    return;
+  }
+
+  throw "YouReachedALimitOfCategories";
 }

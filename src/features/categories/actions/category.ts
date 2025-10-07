@@ -10,7 +10,7 @@ import { categorySchema } from "@/features/categories/schema/category";
 import { z } from "zod";
 import { CategoriesOfExpanse } from "@/drizzle/schema";
 import { updateCategory as updateCategoryDB } from "@/features/categories/db/categories";
-import { checkIfUserCanCreateNewCategory } from "@/features/categories/permissions/category";
+import { assertCategoryCreateAbility } from "@/features/categories/permissions/category";
 
 export async function createCategory(
   unsafeData: z.infer<typeof categorySchema>,
@@ -24,8 +24,7 @@ export async function createCategory(
 
   if (session?.user.id == null) throw new Error("User not found");
 
-  if (!(await checkIfUserCanCreateNewCategory(householdId)))
-    throw new Error("Limit reached");
+  await assertCategoryCreateAbility(householdId);
 
   await insertCategory({
     ...data,

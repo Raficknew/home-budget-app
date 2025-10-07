@@ -5,8 +5,8 @@ import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
 import { count, eq } from "drizzle-orm";
 
-export async function checkIfUserIsAllowedToCreateHousehold(userId: string) {
-  if (!userId) return false;
+export async function assertHouseholdCreateAbility(userId: string) {
+  if (!userId) throw "UserNotFound";
 
   const result = await db
     .select({ count: count() })
@@ -15,7 +15,11 @@ export async function checkIfUserIsAllowedToCreateHousehold(userId: string) {
 
   const householdsCount = result[0]?.count ?? 0;
 
-  return householdsCount < MAX_HOUSEHOLD_PER_USER;
+  if (householdsCount < MAX_HOUSEHOLD_PER_USER) {
+    return;
+  }
+
+  throw "YouReachedALimitOfHouseholds";
 }
 
 export async function assertHouseholdWriteAccess(householdId: string) {

@@ -24,7 +24,7 @@ export default async function HeroPage({
         className="fixed top-18 sm:top-7.5 sm:right-8"
       />
 
-      <div className="flex flex-col items-center justify-between h-full pt-50 xl:w-[1280px] lg:w-[1024px] md:w-[768px] sm:w-[540px] w-full px-3">
+      <div className="flex flex-col items-center justify-between h-full pt-40 xl:w-[1280px] lg:w-[1024px] md:w-[768px] sm:w-[540px] w-full px-3">
         <div className="flex flex-col xl:text-6xl lg:text-5xl md:text-4xl sm:text-2xl text-xl font-semibold sm:text-start text-center">
           <h1 className="text-[#BDB6FC]">{t("firstTerm")}</h1>
           <h1 className="sm:self-start self-center sm:indent-15 bg-gradient-to-r from-[#7047EB] to-[#BDB6FC] bg-clip-text text-transparent w-fit inline-block leading-[1.4] align-text-bottom">
@@ -48,15 +48,37 @@ export default async function HeroPage({
           </div>
         </div>
 
-        <div className="hidden md:block">
+        <div className="relative hidden md:flex justify-center items-end w-full">
           <Image
-            src="/images/HozzyHeroImage.svg"
-            alt="image"
-            width={1280}
-            height={1280}
+            className="absolute left-20 bottom-0 z-0 xl:w-[800px] lg:w-[600px] md:w-[450px]"
+            src="/images/HozzyTransactionImage.svg"
+            alt="TransactionChart"
+            width={800}
+            height={800}
+          />
+          <Image
+            className="relative z-10 xl:w-[500px] lg:w-[400px] md:w-[300px]"
+            src="/images/HozzyBalanceImage.svg"
+            alt="Balance"
+            width={500}
+            height={500}
+          />
+          <Image
+            className="absolute right-15 bottom-0 z-5 xl:w-[700px] lg:w-[500px] md:w-[400px]"
+            src="/images/HozzyIncomeChart.svg"
+            alt="IncomeChart"
+            width={700}
+            height={700}
           />
         </div>
       </div>
+      <Image
+        className="hidden md:flex  fixed -z-10 bottom-0"
+        src="/images/HozzyCircle.svg"
+        alt="circle"
+        width={1500}
+        height={1500}
+      />
     </div>
   );
 }

@@ -5,7 +5,7 @@ import { HouseholdJoinButton } from "@/features/household/components/HouseholdJo
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { validate as validateUuid } from "uuid";
 
 export default async function HouseholdJoinPage({
@@ -21,10 +21,13 @@ export default async function HouseholdJoinPage({
   if (
     household == null ||
     household.invite?.link !== link ||
-    !session?.user.id ||
-    household.members.find((u) => u.userId === session.user.id)
+    !session?.user.id
   ) {
     notFound();
+  }
+
+  if (household.members.find((u) => u.userId === session.user.id)) {
+    redirect(`/${householdId}`);
   }
 
   return (
