@@ -4,7 +4,7 @@ import Link from "next/link";
 export function HozzyLogo({ link = false }: { link?: boolean }) {
   if (link) {
     return (
-      <Link className="fixed top-8 sm:left-8" href="/">
+      <Link href="/">
         <HozzyImage />
       </Link>
     );
