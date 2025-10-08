@@ -1,9 +1,22 @@
 {
   "HeroPage": {
-    "join": "Dołącz"
+    "firstTerm": "Mniej stresu.",
+    "secondTerm": "Więcej Oszczędności.",
+    "thirdTerm": "Kontroluj swoje finanse już dziś.",
+    "description": "Najlepsze miejsce do zarządzania i analizowania twoimi finansami.",
+    "join": "Zacznij oszczędzać"
   },
   "SignInPage": {
+    "title": "Cześć!",
+    "subtitle": "Zaloguj się do swojego konta Hozzy",
     "google": "Zaloguj się z Google"
+  },
+  "SignOut": {
+    "signOut": "Wyloguj się",
+    "cancel": "Anuluj",
+    "proceed": "Potwierdź",
+    "titleStart": "Czy na pewno chcesz się",
+    "titleHighlight": "wylogować"
   },
   "HomePage": {
     "welcome": "Hej",
@@ -11,6 +24,10 @@
     "createHousehold": "Utwórz nowe gospodarstwo",
     "chooseHousehold": "Wybierz swoje gospodarstwo",
     "user": "Użytkownik"
+  },
+  "JoinPage": {
+    "title": "Zaproszono Cię do gospodarstwa",
+    "join": "Dołącz"
   },
   "Sidebar": {
     "dashboard": "Dashboard",
@@ -36,6 +53,7 @@
   },
   "CreateHousehold": {
     "title": "Utwórz nowe gospodarstwo",
+    "subtitle": "Pierwszy krok do kontroli finansów: uzupełnij dane swojego gospodarstwa",
     "name": {
       "label": "Nazwa",
       "placeholder": "Dom Kowalskich"
@@ -53,9 +71,6 @@
     },
     "submit": "Utwórz",
     "save": "Zapisz"
-  },
-  "JoinPage": {
-    "title": "Dołącz"
   },
   "CreateTransaction": {
     "price": "Kwota",

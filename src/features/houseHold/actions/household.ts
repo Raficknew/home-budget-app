@@ -14,6 +14,7 @@ import {
 import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
 import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
+import { assertHouseholdCreateAbility } from "../permissions/household";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -25,6 +26,8 @@ export async function createHousehold(
   const { success, data } = householdSchema.safeParse(unsafeData);
 
   if (!success) throw new Error("Failed to create Household");
+
+  await assertHouseholdCreateAbility(session.user.id);
 
   const household = await insertHousehold(
     {

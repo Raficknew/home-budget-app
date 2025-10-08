@@ -15,6 +15,7 @@ import { notFound } from "next/navigation";
 import { deleteHousehold } from "@/features/household/actions/household";
 import { HouseholdForm } from "@/features/household/components/HouseholdGeneralForm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
+import { MAX_MEMBERS_PER_HOUSEHOLD } from "@/global/limits";
 
 export default async function HouseholdEditPage({
   params,
@@ -82,7 +83,7 @@ export default async function HouseholdEditPage({
                 ownerId={household.ownerId}
               />
             ))}
-            {members.length !== 8 && (
+            {members.length < MAX_MEMBERS_PER_HOUSEHOLD && (
               <MemberAddDialog householdId={householdId}>
                 <DialogTrigger className="md:flex flex-col items-center justify-center h-[184px] hidden rounded-lg ring ring-accent cursor-pointer">
                   <HugeiconsIcon

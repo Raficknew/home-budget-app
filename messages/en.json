@@ -1,9 +1,22 @@
 {
   "HeroPage": {
-    "join": "Join"
+    "firstTerm": "Less Stress.",
+    "secondTerm": "More Savings.",
+    "thirdTerm": "Take control of your finances today.",
+    "description": "The best place to manage and analyze your finances.",
+    "join": "Start Saving"
   },
   "SignInPage": {
+    "title": "HI!",
+    "subtitle": "Welcome back to Hozzy. Sign in to continue",
     "google": "Sign in with Google"
+  },
+  "SignOut": {
+    "signOut": "Wyloguj się",
+    "cancel": "Cancel",
+    "proceed": "Proceed",
+    "titleStart": "Are you sure you want to",
+    "titleHighlight": "sign out"
   },
   "HomePage": {
     "welcome": "Hi",
@@ -11,6 +24,10 @@
     "createHousehold": "Create new household",
     "chooseHousehold": "Choose your household",
     "user": "User"
+  },
+  "JoinPage": {
+    "title": "You have been invited to",
+    "join": "Join"
   },
   "Sidebar": {
     "dashboard": "Dashboard",
@@ -21,6 +38,7 @@
   },
   "CreateHousehold": {
     "title": "Create new Household",
+    "subtitle": "The first step to financial control: fill in your household details",
     "name": {
       "label": "Name",
       "placeholder": "Smith's House"
@@ -53,9 +71,6 @@
       "left": "Left",
       "goal": "GOAL"
     }
-  },
-  "JoinPage": {
-    "title": "Join"
   },
   "CreateTransaction": {
     "price": "Price",

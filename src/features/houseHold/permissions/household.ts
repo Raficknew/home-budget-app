@@ -1,5 +1,26 @@
+import { db } from "@/drizzle";
+import { HouseholdTable } from "@/drizzle/schema";
 import { getHousehold } from "@/global/actions";
+import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
+import { count, eq } from "drizzle-orm";
+
+export async function assertHouseholdCreateAbility(userId: string) {
+  if (!userId) throw "UserNotFound";
+
+  const result = await db
+    .select({ count: count() })
+    .from(HouseholdTable)
+    .where(eq(HouseholdTable.ownerId, userId));
+
+  const householdsCount = result[0]?.count ?? 0;
+
+  if (householdsCount < MAX_HOUSEHOLD_PER_USER) {
+    return;
+  }
+
+  throw "YouReachedALimitOfHouseholds";
+}
 
 export async function assertHouseholdWriteAccess(householdId: string) {
   const session = await auth();

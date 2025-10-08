@@ -1,4 +1,4 @@
-import { SignOutButtonStretched } from "@/components/atoms/SignOutButton";
+import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { LanguageSelect } from "@/components/atoms/LanguageSelect";
 import { LinkSheet } from "@/components/atoms/LinkSheet";
@@ -15,7 +15,6 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
-
 
 export default async function HouseholdAccountSettings({
   params,
@@ -74,7 +73,9 @@ export default async function HouseholdAccountSettings({
             <LanguageSelect currentLocale={locale} />
           </div>
         </div>
-        <SignOutButtonStretched />
+        <div className="sm:hidden flex">
+          <SignOutButton />
+        </div>
       </div>
     </>
   );

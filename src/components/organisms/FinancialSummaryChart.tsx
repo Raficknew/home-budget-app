@@ -28,7 +28,7 @@ export async function FinancialSummaryChart({
         <p className="text-2xl font-light">{title}</p>
         <Price
           className="text-3xl font-medium"
-          price={10}
+          price={maxValue}
           currency={currency}
         />
       </div>

@@ -1,3 +1,4 @@
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
 import { auth } from "@/lib/auth";
@@ -5,7 +6,6 @@ import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { eq } from "drizzle-orm";
 import { getLocale, getTranslations } from "next-intl/server";
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense } from "react";
@@ -18,13 +18,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex justify-center h-screen w-full items-center px-2">
-      <Image
-        className="fixed top-8 sm:left-8"
-        src="/images/HozzyLogo.svg"
-        alt="logo"
-        width={90}
-        height={90}
-      />
+      <HozzyLogo />
       <Suspense>
         <UserHouseholdList
           locale={locale}
@@ -48,6 +42,7 @@ async function UserHouseholdList({
   const t = await getTranslations("HomePage");
 
   const households = await getUserHouseholds(user.id);
+  const MAX_HOUSEHOLDS = 3;
 
   return (
     <div className="flex flex-col items-center gap-5 w-[450px]">
@@ -68,21 +63,25 @@ async function UserHouseholdList({
               </Link>
             ))}
           </div>
-          <div className="flex items-center gap-4">
-            <div className="h-px bg-foreground/90 w-full"></div>
-            <p className="font-normal text-foreground/90">{t("or")}</p>
-            <div className="h-px bg-foreground/90 w-full"></div>
-          </div>
+          {households.length < MAX_HOUSEHOLDS && (
+            <div className="flex items-center gap-4">
+              <div className="h-px bg-foreground/90 w-full"></div>
+              <p className="font-normal text-foreground/90">{t("or")}</p>
+              <div className="h-px bg-foreground/90 w-full"></div>
+            </div>
+          )}
         </div>
       )}
-      <div className="flex flex-col items-center gap-2">
-        <p>{t("createHousehold")}</p>
-        <Link href={`/${locale}/create`}>
-          <div className="bg-accent p-2 rounded-full">
-            <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
-          </div>
-        </Link>
-      </div>
+      {households.length < MAX_HOUSEHOLDS && (
+        <div className="flex flex-col items-center gap-2">
+          <p>{t("createHousehold")}</p>
+          <Link href={`/${locale}/create`}>
+            <div className="bg-accent p-2 rounded-full">
+              <HugeiconsIcon strokeWidth={2} icon={PlusSignIcon} />
+            </div>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

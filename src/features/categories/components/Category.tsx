@@ -2,17 +2,20 @@
 import { ActionButton } from "@/components/atoms/ActionButton";
 import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
 import { deleteCategory } from "@/features/categories/actions/category";
-import { CategoryTable } from "@/drizzle/schema";
-import { CategoryIcon, CategoryIconKeys } from "@/features/categories/components/CategoryIcon";
+import {
+  CategoryIcon,
+  CategoryIconKeys,
+} from "@/features/categories/components/CategoryIcon";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { CategoryEditDialog } from "@/features/categories/components/CategoryEditDialog";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { CategoryWithIcon } from "@/global/types";
 
 export function Category({
   category,
   householdId,
 }: {
-  category: typeof CategoryTable.$inferSelect;
+  category: CategoryWithIcon;
   householdId: string;
 }) {
   return (

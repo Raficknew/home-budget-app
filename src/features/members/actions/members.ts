@@ -9,7 +9,10 @@ import {
 } from "@/features/members/db/members";
 import { validate as validateUuid } from "uuid";
 import { deleteMember as deleteMemberDB } from "@/features/members/db/members";
-import { assertMemberWriteAccess } from "@/features/members/permissions/members";
+import {
+  assertMemberWriteAccess,
+  checkIfUserCanCreateNewMember,
+} from "@/features/members/permissions/members";
 
 export async function createMember(
   unsafeData: z.infer<typeof membersSchema>,
@@ -20,6 +23,9 @@ export async function createMember(
   if (session?.user.id == null) throw new Error("User not found");
 
   await assertMemberWriteAccess(householdId);
+
+  if (!(await checkIfUserCanCreateNewMember(householdId)))
+    throw new Error("Limit reached");
 
   const { data, success } = membersSchema.safeParse(unsafeData);
 

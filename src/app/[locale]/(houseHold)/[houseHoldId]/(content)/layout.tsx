@@ -33,7 +33,7 @@ export default async function HouseholdLayout({
     <div>
       <TopBar householdId={householdId} />
       <Sidebar />
-      <div className="sm:pl-22 px-3 h-full">{children}</div>
+      <div className="sm:pl-22 px-3 h-full pb-2 ">{children}</div>
     </div>
   );
 }
