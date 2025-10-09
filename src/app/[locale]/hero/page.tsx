@@ -34,7 +34,7 @@ export default function HeroPage() {
             {t("firstTerm")}
           </motion.h1>
           <motion.h1
-            className="sm:self-start self-center sm:indent-15 bg-gradient-to-r from-[#7047EB] to-[#BDB6FC] bg-clip-text text-transparent w-fit inline-block leading-[1.4] align-text-bottom"
+            className="sm:self-start self-center sm:indent-15 bg-linear-to-r from-[#7047EB] to-[#BDB6FC] bg-clip-text text-transparent w-fit inline-block leading-[1.4] align-text-bottom"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut", delay: 0.4 }}
