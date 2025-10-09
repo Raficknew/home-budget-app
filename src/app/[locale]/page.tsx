@@ -40,7 +40,6 @@ async function UserHouseholdList({
   user: { id: string; name: string };
 }) {
   const t = await getTranslations("HomePage");
-
   const households = await getUserHouseholds(user.id);
   const MAX_HOUSEHOLDS = 3;
 
