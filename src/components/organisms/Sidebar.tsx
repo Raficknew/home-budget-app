@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   DashboardSquare03Icon,
   ArrowDataTransferHorizontalIcon,
@@ -15,7 +15,8 @@ import { cn } from "@/lib/utils";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
 
 export function Sidebar() {
-  const { locale, householdId } = useParams();
+  const { householdId } = useParams();
+  const locale = useLocale()
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
 
