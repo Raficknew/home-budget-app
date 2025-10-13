@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/select";
 import { transactionType } from "@/drizzle/schema";
 import { useState } from "react";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -20,7 +19,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useForm } from "react-hook-form";
-import { transactionsSchema } from "@/features/transactions/schema/transactions";
+import {
+  TransactionsSchema,
+  transactionsSchema,
+} from "@/features/transactions/schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
 import { createTransaction } from "@/features/transactions/actions/transactions";
@@ -43,8 +45,6 @@ const transcationFormSchema = transactionsSchema.pick({
   price: true,
   memberId: true,
 });
-
-type TranscationFormSchema = z.infer<typeof transcationFormSchema>;
 
 export function TransactionForm({
   defaultTransaction,
@@ -76,7 +76,7 @@ export function TransactionForm({
   const currentCategories =
     transaction == "income" ? incomeCategories : expenseCategories;
 
-  const form = useForm<TranscationFormSchema>({
+  const form = useForm<TransactionsSchema>({
     resolver: zodResolver(transcationFormSchema),
     defaultValues: {
       price: 0,
@@ -87,7 +87,7 @@ export function TransactionForm({
     },
   });
 
-  function onSubmit(data: TranscationFormSchema) {
+  function onSubmit(data: TransactionsSchema) {
     createTransaction({ ...data, type: transaction }, householdId);
     form.resetField("name");
     form.resetField("price");
@@ -118,7 +118,6 @@ export function TransactionForm({
                       onBlur={(e) => {
                         const value = e.target.value.replace(",", ".");
                         e.target.value = Number(value).toFixed(2);
-                        field.onChange(Number(e.target.value));
                       }}
                     />
                   </FormControl>

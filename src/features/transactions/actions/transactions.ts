@@ -11,6 +11,7 @@ import { HouseholdTable, TransactionType } from "@/drizzle/schema";
 import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
+import { assertTransactionsRateLimit } from "@/global/ratelimit";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
@@ -19,6 +20,8 @@ export async function createTransaction(
   const session = await auth();
 
   if (session?.user.id == null) throw new Error("User not found");
+
+  await assertTransactionsRateLimit(session?.user.id);
 
   await assertHouseholdWriteAccess(householdId);
 
