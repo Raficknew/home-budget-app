@@ -16,7 +16,7 @@ import { SignOutButton } from "@/components/atoms/SignOutButton";
 
 export function Sidebar() {
   const { householdId } = useParams();
-  const locale = useLocale()
+  const locale = useLocale();
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
 
