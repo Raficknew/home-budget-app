@@ -104,7 +104,7 @@ function HozzyHeroImage() {
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
       >
         <Image
-          src="/images/HozzyTransactionImage.svg"
+          src="/images/HozzyTransactionImage.webp"
           alt="TransactionChart"
           width={800}
           height={800}
@@ -117,7 +117,7 @@ function HozzyHeroImage() {
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
       >
         <Image
-          src="/images/HozzyBalanceImage.svg"
+          src="/images/HozzyBalanceImage.webp"
           alt="Balance"
           width={500}
           height={500}
@@ -130,7 +130,7 @@ function HozzyHeroImage() {
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
       >
         <Image
-          src="/images/HozzyIncomeChart.svg"
+          src="/images/HozzyIncomeChart.webp"
           alt="IncomeChart"
           width={700}
           height={700}
@@ -157,17 +157,17 @@ function HozzyHeroImageMobile() {
   return (
     <div className="relative md:hidden flex justify-center items-end w-full">
       <motion.div
-        className="absolute left-[-12px] bottom-40"
+        className="absolute left-[-22px] bottom-55"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
       >
         <Image
           className="rounded-l-xl"
-          src="/images/HozzyExpensesImage.svg"
+          src="/images/HozzyExpensesImage.webp"
           alt="TransactionChart"
-          width={200}
-          height={200}
+          width={300}
+          height={300}
         />
       </motion.div>
       <motion.div
@@ -177,24 +177,24 @@ function HozzyHeroImageMobile() {
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
       >
         <Image
-          src="/images/HozzyBalanceSmallImage.svg"
+          src="/images/HozzyBalanceSmallImage.webp"
           alt="Balance"
           width={300}
           height={300}
         />
       </motion.div>
       <motion.div
-        className="absolute right-[-12px] bottom-35"
+        className="absolute right-[-22px] bottom-45"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
       >
         <Image
           className="rounded-r-xl"
-          src="/images/HozzyIncomeImage.svg"
+          src="/images/HozzyIncomeImage.webp"
           alt="IncomeChart"
-          width={200}
-          height={200}
+          width={300}
+          height={300}
         />
       </motion.div>
       <motion.div

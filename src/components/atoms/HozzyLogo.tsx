@@ -17,7 +17,7 @@ function HozzyImage() {
   return (
     <Image
       className="fixed top-8 sm:left-8"
-      src="/images/HozzyLogo.svg"
+      src="/images/HozzyLogo.webp"
       alt="logo"
       width={90}
       height={90}
