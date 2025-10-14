@@ -12,7 +12,7 @@ const geistSans = Geist({
 });
 
 export const metadata: Metadata = {
-  title: "Home Buget App",
+  title: "Hozzy",
   description: "App to manage your home budget",
 };
 
