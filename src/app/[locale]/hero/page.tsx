@@ -24,7 +24,7 @@ export default function HeroPage() {
       />
 
       <div className="flex flex-col items-center justify-between h-full pt-40 xl:w-[1280px] lg:w-[1024px] md:w-[768px] sm:w-[540px] w-full px-3">
-        <div className="flex flex-col xl:text-6xl lg:text-5xl md:text-4xl sm:text-2xl text-xl font-semibold sm:text-start text-center">
+        <div className="flex flex-col xl:text-6xl lg:text-5xl md:text-4xl sm:text-2xl  text-xl font-semibold sm:text-start text-center">
           <motion.h1
             className="text-[#BDB6FC]"
             initial={{ opacity: 0, y: 20 }}
@@ -63,7 +63,7 @@ export default function HeroPage() {
               </motion.h2>
 
               <motion.div
-                className="flex sm:self-end"
+                className="flex sm:self-end self-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{
                   opacity: 1,
@@ -87,61 +87,129 @@ export default function HeroPage() {
           </div>
         </div>
 
-        <div className="relative hidden md:flex justify-center items-end w-full">
-          <motion.div
-            className="absolute left-20 bottom-0 z-0 xl:w-[800px] lg:w-[600px] md:w-[450px] max-h-[60vh]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
-          >
-            <Image
-              src="/images/HozzyTransactionImage.svg"
-              alt="TransactionChart"
-              width={800}
-              height={800}
-            />
-          </motion.div>
-          <motion.div
-            className="relative z-10 xl:w-[500px] lg:w-[400px] md:w-[300px] max-h-[50vh]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
-          >
-            <Image
-              src="/images/HozzyBalanceImage.svg"
-              alt="Balance"
-              width={500}
-              height={500}
-            />
-          </motion.div>
-          <motion.div
-            className="absolute right-15 bottom-0 z-5 xl:w-[700px] lg:w-[500px] md:w-[400px] max-h-[55vh]"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
-          >
-            <Image
-              src="/images/HozzyIncomeChart.svg"
-              alt="IncomeChart"
-              width={700}
-              height={700}
-            />
-          </motion.div>
-          <motion.div
-            className="fixed bottom-0 -z-10"
-            initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
-            animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
-            transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
-          >
-            <Image
-              src="/images/HozzyCircle.svg"
-              alt="circle"
-              width={1500}
-              height={1500}
-            />
-          </motion.div>
-        </div>
+        <HozzyHeroImage />
+        <HozzyHeroImageMobile />
       </div>
+    </div>
+  );
+}
+
+function HozzyHeroImage() {
+  return (
+    <div className="relative hidden md:flex justify-center items-end w-full">
+      <motion.div
+        className="absolute left-20 bottom-0 z-0 xl:w-[800px] lg:w-[600px] md:w-[450px] max-h-[60vh]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
+      >
+        <Image
+          src="/images/HozzyTransactionImage.webp"
+          alt="TransactionChart"
+          width={800}
+          height={800}
+        />
+      </motion.div>
+      <motion.div
+        className="relative z-10 xl:w-[500px] lg:w-[400px] md:w-[300px] max-h-[50vh]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
+      >
+        <Image
+          src="/images/HozzyBalanceImage.webp"
+          alt="Balance"
+          width={500}
+          height={500}
+        />
+      </motion.div>
+      <motion.div
+        className="absolute right-15 bottom-0 z-5 xl:w-[700px] lg:w-[500px] md:w-[400px] max-h-[55vh]"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
+      >
+        <Image
+          src="/images/HozzyIncomeChart.webp"
+          alt="IncomeChart"
+          width={700}
+          height={700}
+        />
+      </motion.div>
+      <motion.div
+        className="fixed bottom-0 -z-10"
+        initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+        animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+      >
+        <Image
+          src="/images/HozzyCircle.svg"
+          alt="circle"
+          width={1500}
+          height={1500}
+        />
+      </motion.div>
+    </div>
+  );
+}
+
+function HozzyHeroImageMobile() {
+  return (
+    <div className="relative md:hidden flex justify-center items-end w-full">
+      <motion.div
+        className="absolute left-[-22px] bottom-55"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.4 }}
+      >
+        <Image
+          className="rounded-l-xl"
+          src="/images/HozzyExpensesImage.webp"
+          alt="TransactionChart"
+          width={300}
+          height={300}
+        />
+      </motion.div>
+      <motion.div
+        className="fixed z-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.6 }}
+      >
+        <Image
+          src="/images/HozzyBalanceSmallImage.webp"
+          alt="Balance"
+          width={300}
+          height={300}
+        />
+      </motion.div>
+      <motion.div
+        className="absolute right-[-22px] bottom-45"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.8 }}
+      >
+        <Image
+          className="rounded-r-xl"
+          src="/images/HozzyIncomeImage.webp"
+          alt="IncomeChart"
+          width={300}
+          height={300}
+        />
+      </motion.div>
+      <motion.div
+        className="fixed top-120 -z-10"
+        initial={{ clipPath: "inset(0 100% 0 0)", opacity: 0 }}
+        animate={{ clipPath: "inset(0 0% 0 0)", opacity: 1 }}
+        transition={{ duration: 0.4, ease: "easeOut", delay: 0.2 }}
+      >
+        <Image
+          src="/images/HozzyMobileCircle.svg"
+          alt="circle"
+          width={1200}
+          height={1200}
+        />
+      </motion.div>
     </div>
   );
 }
