@@ -38,14 +38,6 @@ import { useSession } from "next-auth/react";
 import { Member } from "@/features/members/components/Member";
 import { Category } from "@/global/types";
 
-const transcationFormSchema = transactionsSchema.pick({
-  categoryId: true,
-  date: true,
-  name: true,
-  price: true,
-  memberId: true,
-});
-
 export function TransactionForm({
   defaultTransaction,
   members,
@@ -77,7 +69,7 @@ export function TransactionForm({
     transaction == "income" ? incomeCategories : expenseCategories;
 
   const form = useForm<TransactionsSchema>({
-    resolver: zodResolver(transcationFormSchema),
+    resolver: zodResolver(transactionsSchema),
     defaultValues: {
       price: 0,
       name: "",
@@ -127,23 +119,37 @@ export function TransactionForm({
             />
           </div>
           <div className="flex flex-col gap-2">
-            <FormLabel className="opacity-0">t</FormLabel>
-            <div className="flex gap-2 justify-center">
-              {transactionType.map((t) => (
-                <Button
-                  key={t}
-                  className={cn(
-                    "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
-                    transaction == t &&
-                      "bg-accent hover:bg-accent text-foreground"
-                  )}
-                  type="button"
-                  onClick={() => setTransaction(t)}
-                >
-                  {ts(`transactionTypes.${t}`)}
-                </Button>
-              ))}
-            </div>
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="opacity-0">t</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 justify-center">
+                      {transactionType.map((t) => (
+                        <Button
+                          key={t}
+                          className={cn(
+                            "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
+                            (field.value ?? transaction) === t &&
+                              "bg-accent hover:bg-accent text-foreground"
+                          )}
+                          type="button"
+                          onClick={() => {
+                            setTransaction(t);
+                            field.onChange(t); // update form value
+                          }}
+                        >
+                          {ts(`transactionTypes.${t}`)}
+                        </Button>
+                      ))}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
 
