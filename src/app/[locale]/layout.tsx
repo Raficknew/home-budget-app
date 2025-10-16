@@ -5,6 +5,7 @@ import { SessionProvider } from "next-auth/react";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { routing } from "@/i18n/routing";
 import { notFound } from "next/navigation";
+import { Toaster } from "sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,12 @@ export default async function RootLayout({
       <html lang={locale}>
         <body className={`${geistSans.variable} antialiased bg-background`}>
           <NextIntlClientProvider>{children}</NextIntlClientProvider>
+          <Toaster
+            theme="dark"
+            richColors
+            duration={2000}
+            position="top-center"
+          />
         </body>
       </html>
     </SessionProvider>

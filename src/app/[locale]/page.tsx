@@ -1,6 +1,7 @@
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
+import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
 import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
@@ -41,7 +42,6 @@ async function UserHouseholdList({
 }) {
   const t = await getTranslations("HomePage");
   const households = await getUserHouseholds(user.id);
-  const MAX_HOUSEHOLDS = 3;
 
   return (
     <div className="flex flex-col items-center gap-5 w-[450px]">
@@ -62,7 +62,7 @@ async function UserHouseholdList({
               </Link>
             ))}
           </div>
-          {households.length < MAX_HOUSEHOLDS && (
+          {households.length < MAX_HOUSEHOLD_PER_USER && (
             <div className="flex items-center gap-4">
               <div className="h-px bg-foreground/90 w-full"></div>
               <p className="font-normal text-foreground/90">{t("or")}</p>
@@ -71,7 +71,7 @@ async function UserHouseholdList({
           )}
         </div>
       )}
-      {households.length < MAX_HOUSEHOLDS && (
+      {households.length < MAX_HOUSEHOLD_PER_USER && (
         <div className="flex flex-col items-center gap-2">
           <p>{t("createHousehold")}</p>
           <Link href={`/${locale}/create`}>

@@ -28,6 +28,7 @@ import {
   HouseholdSchema,
 } from "@/features/household/schema/household";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export function HouseholdForm({
   currencies,
@@ -59,6 +60,7 @@ export function HouseholdForm({
       updateHousehold(data, household.id);
     } else {
       createHousehold(data);
+      toast.success("Stworzono nowe gospodarstwo domowe");
     }
   }
 
