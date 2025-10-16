@@ -55,13 +55,21 @@ export function HouseholdForm({
     },
   });
 
-  function onSubmit(data: HouseholdSchema) {
+  async function onSubmit(data: HouseholdSchema) {
     if (household != null) {
-      updateHousehold(data, household.id);
-    } else {
-      createHousehold(data);
-      toast.success("Stworzono nowe gospodarstwo domowe");
+      const result = await updateHousehold(data, household.id);
+
+      if (result.error) {
+        toast.error(result.message);
+        return;
+      }
+
+      toast.success(result.message);
+      return;
     }
+
+    createHousehold(data);
+    toast.success(t("success"));
   }
 
   return (

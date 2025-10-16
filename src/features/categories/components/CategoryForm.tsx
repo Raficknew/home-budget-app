@@ -35,6 +35,7 @@ import { Spacer } from "@/components/atoms/Spacer";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { CategoryWithIcon } from "@/global/types";
+import { toast } from "sonner";
 
 export function CategoryForm({
   categoryType,
@@ -58,18 +59,22 @@ export function CategoryForm({
   });
 
   async function onSubmit(data: CategorySchema) {
-    if (category) {
-      updateCategory(
-        data,
-        category.id,
-        householdId,
-        data.categoryType as CategoriesOfExpanse
-      );
-      onSuccess?.();
-    } else {
-      createCategory(data, householdId);
-      onSuccess?.();
+    const action = category
+      ? await updateCategory(
+          data,
+          category.id,
+          householdId,
+          data.categoryType as CategoriesOfExpanse
+        )
+      : await createCategory(data, householdId);
+
+    if (action.error) {
+      toast.error(action.message);
+      return;
     }
+
+    onSuccess?.();
+    toast.success(action.message);
     form.reset();
   }
 

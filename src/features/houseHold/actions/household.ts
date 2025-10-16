@@ -15,6 +15,7 @@ import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
 import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
 import { assertHouseholdCreateAbility } from "../permissions/household";
+import { getTranslations } from "next-intl/server";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
@@ -47,16 +48,19 @@ export async function updateHousehold(
   householdId: string
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   const { success, data } = householdSchema.safeParse(unsafeData);
 
-  if (!success) throw new Error("Failed to create Household");
+  if (!success) return { error: true, message: t("Household.updateError") };
 
   await updateHouseholdDB(data, householdId);
 
   revalidatePath(`/${householdId}/settings/household`);
+  return { error: false, message: t("Household.updateSuccess") };
 }
 
 export async function deleteHousehold(householdId: string) {

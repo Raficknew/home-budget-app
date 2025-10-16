@@ -11,18 +11,21 @@ import { z } from "zod";
 import { CategoriesOfExpanse } from "@/drizzle/schema";
 import { updateCategory as updateCategoryDB } from "@/features/categories/db/categories";
 import { assertCategoryCreateAbility } from "@/features/categories/permissions/category";
+import { getTranslations } from "next-intl/server";
 
 export async function createCategory(
   unsafeData: z.infer<typeof categorySchema>,
   householdId: string
 ) {
   const { data, success } = categorySchema.safeParse(unsafeData);
+  const t = await getTranslations("ReturnMessages");
 
-  if (!success) throw new Error("Failed to create Transaction");
+  if (!success) return { error: true, message: t("Categories.createError") };
 
   const session = await auth();
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   await assertCategoryCreateAbility(householdId);
 
@@ -33,6 +36,8 @@ export async function createCategory(
   });
 
   revalidatePath(`/${householdId}/settings`);
+
+  return { error: false, message: t("Categories.createSuccess") };
 }
 
 export async function updateCategory(
@@ -42,12 +47,14 @@ export async function updateCategory(
   type: CategoriesOfExpanse
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   const { data, success } = categorySchema.safeParse(unsafeData);
 
-  if (!success) throw new Error("Failed to create Transaction");
+  if (!success) return { error: true, message: t("Categories.updateError") };
 
   await updateCategoryDB({
     ...data,
@@ -57,6 +64,8 @@ export async function updateCategory(
   });
 
   revalidateTag(`/${householdId}/settings`);
+
+  return { error: false, message: t("Categories.updateSuccess") };
 }
 
 export async function deleteCategory(categoryId: string, householdId: string) {

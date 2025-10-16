@@ -28,7 +28,7 @@ export async function insertHousehold(
     .values(data)
     .returning();
 
-  if (newHousehold == null) throw new Error("failed to create household");
+  if (newHousehold == null) throw new Error("Failed to create household");
 
   const [newMember] = await db
     .insert(MembersTable)

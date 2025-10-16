@@ -16,6 +16,7 @@ import { User } from "next-auth";
 import { updateUser } from "@/features/users/actions/users";
 import { useTranslations } from "next-intl";
 import { notFound } from "next/navigation";
+import { toast } from "sonner";
 
 export function UserForm({
   user,
@@ -38,9 +39,17 @@ export function UserForm({
     },
   });
 
-  function onSubmit(data: UsersSchema) {
+  async function onSubmit(data: UsersSchema) {
     if (!user || !user.id) return;
-    updateUser(data, user.id);
+
+    const result = await updateUser(data, user.id);
+
+    if (result.error) {
+      toast.error(result.message);
+      return;
+    }
+
+    toast.success(result.message);
   }
 
   return (

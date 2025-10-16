@@ -2,7 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { membersSchema, MembersSchema } from "@/features/members/schema/members";
+import {
+  membersSchema,
+  MembersSchema,
+} from "@/features/members/schema/members";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -16,6 +19,7 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 export function MemberForm({
   householdId,
   member,
@@ -33,14 +37,18 @@ export function MemberForm({
     },
   });
 
-  function onSubmit(data: MembersSchema) {
-    if (member) {
-      updateMember(data, member.id, householdId);
-      onSuccess?.();
-    } else {
-      createMember(data, householdId);
-      form.reset();
+  async function onSubmit(data: MembersSchema) {
+    const action = member
+      ? await updateMember(data, member.id, householdId)
+      : await createMember(data, householdId);
+
+    if (action.error) {
+      toast.error(action.message);
+      return;
     }
+
+    onSuccess?.();
+    toast.success(action.message);
   }
 
   return (

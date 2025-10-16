@@ -55,7 +55,8 @@
       "label": "Balance"
     },
     "submit": "Create",
-    "save": "Save"
+    "save": "Save",
+    "success": "Household created successfully!"
   },
   "Dashboard": {
     "charts": {
@@ -177,5 +178,32 @@
     "income": "Income",
     "expense": "Expense",
     "price": "Price"
+  },
+  "ReturnMessages": {
+    "User": {
+      "updateError": "Failed to update user name. Please try again.",
+      "updateSuccess": "User name has been updated successfully!",
+      "invalidId": "Invalid user ID"
+    },
+    "Household": {
+      "updateError": "Failed to update household. Please try again.",
+      "updateSuccess": "Household updated successfully!"
+    },
+    "Members": {
+      "createError": "Failed to add member. Please try again.",
+      "createSuccess": "Member added successfully!",
+      "deleteError": "Failed to delete member. Please try again.",
+      "deleteSuccess": "Member deleted successfully!",
+      "updateError": "Failed to update member. Please try again.",
+      "updateSuccess": "Member updated successfully!"
+    },
+    "Categories": {
+      "createError": "Failed to add category. Please try again.",
+      "createSuccess": "Category added successfully!",
+      "updateError": "Failed to update category. Please try again.",
+      "updateSuccess": "Category updated successfully!",
+      "deleteError": "Failed to delete category. Please try again.",
+      "deleteSuccess": "Category deleted successfully!"
+    }
   }
 }
