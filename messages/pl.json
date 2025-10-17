@@ -195,8 +195,10 @@
     "Members": {
       "createError": "Nie udało się dodać członka. Spróbuj ponownie.",
       "createSuccess": "Członek został pomyślnie dodany!",
-      "removeError": "Nie udało się usunąć członka. Spróbuj ponownie.",
-      "removeSuccess": "Członek został pomyślnie usunięty!"
+      "deleteError": "Nie udało się usunąć członka. Spróbuj ponownie.",
+      "deleteSuccess": "Członek został pomyślnie usunięty!",
+      "updateError": "Nie udało się zaktualizować członka. Spróbuj ponownie.",
+      "updateSuccess": "Członek został zaktualizowany pomyślnie!"
     },
     "Categories": {
       "createError": "Nie udało się dodać kategorii. Spróbuj ponownie.",
