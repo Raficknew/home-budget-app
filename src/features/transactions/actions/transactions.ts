@@ -3,7 +3,6 @@
 import { z } from "zod";
 import { transactionsSchema } from "@/features/transactions/schema/transactions";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { insertTransaction } from "@/features/transactions/db/transactions";
 import { revalidatePath } from "next/cache";
@@ -49,5 +48,4 @@ export async function createTransaction(
   const locale = await getLocale();
 
   revalidatePath(`/${locale}/${householdId}`);
-  redirect(`/${locale}/${householdId}`);
 }

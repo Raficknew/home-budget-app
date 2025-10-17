@@ -37,6 +37,7 @@ import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { Member } from "@/features/members/components/Member";
 import { Category } from "@/global/types";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 
 export function TransactionForm({
   defaultTransaction,
@@ -53,9 +54,9 @@ export function TransactionForm({
   const session = useSession();
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
 
-  const currentMemberId = members.find(
+  const currentMember = members.find(
     (member) => member.user?.id === session.data?.user.id
-  )?.id;
+  );
 
   const incomeCategories = categories.filter(
     (category) => category.categoryType == "incomes"
@@ -73,7 +74,8 @@ export function TransactionForm({
     defaultValues: {
       price: 0,
       name: "",
-      memberId: currentMemberId ?? undefined,
+      type: transaction,
+      memberId: currentMember?.id ?? undefined,
       date: new Date(),
       categoryId: undefined,
     },
@@ -103,7 +105,10 @@ export function TransactionForm({
                       step="0.01"
                       {...field}
                       onFocus={(e) => {
-                        if (e.target.value === "0") {
+                        if (
+                          e.target.value === "0.00" ||
+                          e.target.value === "0"
+                        ) {
                           e.target.value = "";
                         }
                       }}
@@ -138,7 +143,7 @@ export function TransactionForm({
                           type="button"
                           onClick={() => {
                             setTransaction(t);
-                            field.onChange(t); // update form value
+                            field.onChange(t);
                           }}
                         >
                           {ts(`transactionTypes.${t}`)}
@@ -177,7 +182,7 @@ export function TransactionForm({
                   <FormControl>
                     <Select onValueChange={field.onChange}>
                       <SelectTrigger className="w-full">
-                        <SelectValue placeholder={session.data?.user.name} />
+                        <SelectValue placeholder={currentMember?.name} />
                       </SelectTrigger>
                       <SelectContent>
                         {members.map((member) => (
@@ -213,7 +218,6 @@ export function TransactionForm({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -256,7 +260,9 @@ export function TransactionForm({
             type="submit"
             disabled={form.formState.isSubmitting}
           >
-            {ts("submit")}
+            <LoadingSwap isLoading={form.formState.isSubmitting}>
+              {ts("submit")}
+            </LoadingSwap>
           </Button>
         </div>
       </form>

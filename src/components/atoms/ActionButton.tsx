@@ -1,8 +1,6 @@
 "use client";
-import { ComponentPropsWithRef, ReactNode, useTransition } from "react";
+import { ComponentPropsWithRef, useTransition } from "react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
-import { Loader2Icon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,6 +13,8 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { useTranslations } from "next-intl";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { toast } from "sonner";
 
 export function ActionButton({
   action,
@@ -29,7 +29,14 @@ export function ActionButton({
 
   function performAction() {
     startTransition(async () => {
-      await action();
+      const performingAction = await action();
+
+      if (performingAction.error) {
+        toast.error(performingAction.message);
+        return;
+      }
+
+      toast.success(performingAction.message);
     });
   }
 
@@ -59,34 +66,5 @@ export function ActionButton({
     <Button {...props} disabled={isLoading} onClick={performAction}>
       <LoadingSwap isLoading={isLoading}>{props.children}</LoadingSwap>
     </Button>
-  );
-}
-
-function LoadingSwap({
-  isLoading,
-  children,
-}: {
-  isLoading: boolean;
-  children: ReactNode;
-}) {
-  return (
-    <div className="grid items-center justify-items-center cursor-pointer">
-      <div
-        className={cn(
-          "col-start-1 col-end-2 row-start-1 row-end-2",
-          isLoading ? "invisible" : "visible"
-        )}
-      >
-        {children}
-      </div>
-      <div
-        className={cn(
-          "col-start-1 col-end-2 row-start-1 row-end-2 text-center",
-          isLoading ? "visible" : "invisible"
-        )}
-      >
-        <Loader2Icon className="animate-spin" />
-      </div>
-    </div>
   );
 }

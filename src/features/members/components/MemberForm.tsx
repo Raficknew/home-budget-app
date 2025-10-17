@@ -20,6 +20,7 @@ import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 export function MemberForm({
   householdId,
   member,
@@ -48,6 +49,7 @@ export function MemberForm({
     }
 
     onSuccess?.();
+    form.resetField("name");
     toast.success(action.message);
   }
 
@@ -77,13 +79,15 @@ export function MemberForm({
 
           <DialogFooter>
             <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <p className="md:flex hidden">
-                {member ? t("save") : t("submit")}
-              </p>
-              <HugeiconsIcon
-                className="cursor-pointer sm:size-6 size-5 md:hidden"
-                icon={PlusSignIcon}
-              />
+              <LoadingSwap isLoading={form.formState.isSubmitting}>
+                <p className="md:flex hidden">
+                  {member ? t("save") : t("submit")}
+                </p>
+                <HugeiconsIcon
+                  className="cursor-pointer sm:size-6 size-5 md:hidden"
+                  icon={PlusSignIcon}
+                />
+              </LoadingSwap>
             </Button>
           </DialogFooter>
         </form>

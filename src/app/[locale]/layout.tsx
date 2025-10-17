@@ -34,13 +34,15 @@ export default async function RootLayout({
     <SessionProvider>
       <html lang={locale}>
         <body className={`${geistSans.variable} antialiased bg-background`}>
-          <NextIntlClientProvider>{children}</NextIntlClientProvider>
-          <Toaster
-            theme="dark"
-            richColors
-            duration={2000}
-            position="top-center"
-          />
+          <NextIntlClientProvider>
+            {children}
+            <Toaster
+              theme="dark"
+              richColors
+              duration={2000}
+              position="top-center"
+            />
+          </NextIntlClientProvider>
         </body>
       </html>
     </SessionProvider>

@@ -17,6 +17,7 @@ import { updateUser } from "@/features/users/actions/users";
 import { useTranslations } from "next-intl";
 import { notFound } from "next/navigation";
 import { toast } from "sonner";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 
 export function UserForm({
   user,
@@ -77,7 +78,9 @@ export function UserForm({
           type="submit"
           disabled={form.formState.isSubmitting}
         >
-          {t("save")}
+          <LoadingSwap isLoading={form.formState.isSubmitting}>
+            {t("save")}
+          </LoadingSwap>
         </Button>
       </form>
     </Form>

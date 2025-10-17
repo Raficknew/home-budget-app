@@ -70,6 +70,7 @@
       "label": "Saldo"
     },
     "submit": "Utwórz",
+    "save": "Zapisz",
     "success": "Gospodarstwo zostało pomyślnie utworzone!"
   },
   "CreateTransaction": {

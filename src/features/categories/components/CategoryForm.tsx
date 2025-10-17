@@ -36,6 +36,7 @@ import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { CategoryWithIcon } from "@/global/types";
 import { toast } from "sonner";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 
 export function CategoryForm({
   categoryType,
@@ -49,6 +50,7 @@ export function CategoryForm({
   onSuccess?: () => void;
 }) {
   const t = useTranslations("Settings.categories");
+
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
     defaultValues: category ?? {
@@ -161,8 +163,14 @@ export function CategoryForm({
             )}
           />
 
-          <Button className="w-fit self-end" variant="submit">
-            {category ? t("save") : t("submit")}
+          <Button
+            className="w-fit self-end"
+            variant="submit"
+            disabled={form.formState.isSubmitting}
+          >
+            <LoadingSwap isLoading={form.formState.isSubmitting}>
+              {category ? t("save") : t("add")}
+            </LoadingSwap>
           </Button>
         </form>
       </Form>
