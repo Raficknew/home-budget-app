@@ -38,6 +38,7 @@ import { useSession } from "next-auth/react";
 import { Member } from "@/features/members/components/Member";
 import { Category } from "@/global/types";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { toast } from "sonner";
 
 export function TransactionForm({
   defaultTransaction,
@@ -81,8 +82,18 @@ export function TransactionForm({
     },
   });
 
-  function onSubmit(data: TransactionsSchema) {
-    createTransaction({ ...data, type: transaction }, householdId);
+  async function onSubmit(data: TransactionsSchema) {
+    const action = await createTransaction(
+      { ...data, type: transaction },
+      householdId
+    );
+
+    if (action.error) {
+      toast.error(action.message);
+      return;
+    }
+
+    toast.success(action.message);
     form.resetField("name");
     form.resetField("price");
   }

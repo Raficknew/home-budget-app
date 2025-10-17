@@ -180,6 +180,9 @@
     "price": "Price"
   },
   "ReturnMessages": {
+    "Limits": {
+      "memberLimitReached": "Member limit reached."
+    },
     "User": {
       "updateError": "Failed to update user name. Please try again.",
       "updateSuccess": "User name has been updated successfully!",
@@ -204,6 +207,10 @@
       "updateSuccess": "Category updated successfully!",
       "deleteError": "Failed to delete category. Please try again.",
       "deleteSuccess": "Category deleted successfully!"
+    },
+    "Transactions": {
+      "createError": "Failed to create transaction. Please try again.",
+      "createSuccess": "Transaction created successfully!"
     }
   }
 }

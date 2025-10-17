@@ -180,6 +180,9 @@
     "price": "Kwota"
   },
   "ReturnMessages": {
+    "Limits": {
+      "memberLimitReached": "Osiągnięto limit członków."
+    },
     "User": {
       "invalidId": "Nieprawidłowe ID użytkownika",
       "updateError": "Nie udało się zaktualizować nazwy użytkownika. Spróbuj ponownie.",
@@ -202,6 +205,10 @@
       "updateSuccess": "Kategoria została zaktualizowana pomyślnie!",
       "deleteError": "Nie udało się usunąć kategorii. Spróbuj ponownie.",
       "deleteSuccess": "Kategoria została pomyślnie usunięta!"
+    },
+    "Transactions": {
+      "createError": "Nie udało się utworzyć transakcji. Spróbuj ponownie.",
+      "createSuccess": "Transakcja została pomyślnie utworzona!"
     }
   }
 }

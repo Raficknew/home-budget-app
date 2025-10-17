@@ -28,7 +28,7 @@ export async function createMember(
   await assertMemberWriteAccess(householdId);
 
   if (!(await checkIfUserCanCreateNewMember(householdId)))
-    return { error: true, message: "Limit Reached" };
+    return { error: true, message: t("Limits.memberLimitReached") };
 
   const { data, success } = membersSchema.safeParse(unsafeData);
 
@@ -42,22 +42,24 @@ export async function createMember(
 
 export async function deleteMember(memberId: string, householdId: string) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   if (
     !validateUuid(householdId) ||
     !validateUuid(memberId) ||
     (await assertMemberWriteAccess(householdId))
   ) {
-    return { error: true, message: "Failed to delete member" };
+    return { error: true, message: t("Members.deleteError") };
   }
 
   await deleteMemberDB(memberId, householdId);
 
   revalidatePath(`/${householdId}/settings`);
 
-  return { error: false, message: "Success" };
+  return { error: false, message: t("Members.deleteSuccess") };
 }
 
 export async function updateMember(

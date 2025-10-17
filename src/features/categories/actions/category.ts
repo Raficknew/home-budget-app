@@ -70,16 +70,18 @@ export async function updateCategory(
 
 export async function deleteCategory(categoryId: string, householdId: string) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   if (!validateUuid(householdId) || !validateUuid(categoryId)) {
-    return { error: true, message: "Failed to delete member" };
+    return { error: true, message: t("Categories.deleteError") };
   }
 
   await deleteCategoryDB(categoryId, householdId);
 
   revalidateTag(`/${householdId}/settings`);
 
-  return { error: false, message: "Success" };
+  return { error: false, message: t("Categories.deleteSuccess") };
 }

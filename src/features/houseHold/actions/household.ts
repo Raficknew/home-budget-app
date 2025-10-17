@@ -65,9 +65,10 @@ export async function updateHousehold(
 
 export async function deleteHousehold(householdId: string) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
-    return { error: true, message: "Failed to delete Household" };
+    return { error: true, message: t("User.invalidId") };
 
   await deleteHouseholdDB(householdId);
 
