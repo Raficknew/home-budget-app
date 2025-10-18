@@ -50,7 +50,7 @@ async function TopBar({ householdId }: { householdId: string }) {
       <div>
         <Link href={`/${householdId}/settings/account`} className="relative">
           <div className="absolute right-0 bottom-0 z-10 bg-green-400 w-2.5 h-2.5 rounded-full p-1"></div>
-          <UserAvatar image={session.user.image ?? ""} className="size-10" />
+          <UserAvatar image={session.user.image} className="size-10" />
         </Link>
       </div>
     </div>

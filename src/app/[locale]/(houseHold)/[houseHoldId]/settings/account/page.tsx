@@ -48,10 +48,7 @@ export default async function HouseholdAccountSettings({
           </div>
           <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
             <div>
-              <UserAvatar
-                className="size-20"
-                image={session?.user.image ?? ""}
-              />
+              <UserAvatar className="size-20" image={session?.user.image} />
             </div>
           </Suspense>
         </div>

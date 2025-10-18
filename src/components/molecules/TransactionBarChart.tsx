@@ -67,7 +67,7 @@ export function TransactionBarChart({
       {
         label: title,
         data: dataForChart,
-        backgroundColor: ["#7047EBBF", "#7047EBBF", "#7047EBBF"],
+        backgroundColor: "#7047EBBF",
         borderWidth: 1,
       },
     ],
@@ -84,6 +84,13 @@ export function TransactionBarChart({
       x: {
         ticks: {
           autoSkip: false,
+          callback: function (index: number) {
+            const person = labels[index];
+            if (person?.length > 25) {
+              return person.substring(0, 10) + "...";
+            }
+            return person;
+          },
         },
       },
       y: {

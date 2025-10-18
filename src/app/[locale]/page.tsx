@@ -3,6 +3,7 @@ import { db } from "@/drizzle";
 import { MembersTable } from "@/drizzle/schema";
 import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
+import { cn } from "@/lib/utils";
 import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { eq } from "drizzle-orm";
@@ -45,9 +46,14 @@ async function UserHouseholdList({
 
   return (
     <div className="flex flex-col items-center gap-5 w-[450px]">
-      <div className="flex gap-1 *:text-3xl">
+      <div
+        className={cn(
+          "flex flex-col sm:flex-row text-center *:text-3xl",
+          user.name.length > 26 && "*:text-2xl"
+        )}
+      >
         <p className="font-semibold">{t("welcome")},</p>
-        <p className="font-normal">{user.name ?? t("user")}!</p>
+        <p className="font-normal break-all">{user.name ?? t("user")}!</p>
       </div>
       {households.length > 0 && (
         <div className="w-full flex flex-col gap-5">

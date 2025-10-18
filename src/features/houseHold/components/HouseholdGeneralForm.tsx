@@ -59,26 +59,18 @@ export function HouseholdForm({
   });
 
   async function onSubmit(data: HouseholdSchema) {
-    if (household != null) {
-      startTransition(async () => {
-        const result = await updateHousehold(data, household.id);
-
-        if (result.error) {
-          toast.error(result.message);
-          return;
-        }
-
-        toast.success(result.message);
-      });
-
-      return;
-    }
-
     startTransition(async () => {
-      await createHousehold(data);
-    });
+      const action = household
+        ? await updateHousehold(data, household.id)
+        : await createHousehold(data);
 
-    toast.success(t("success"));
+      if (action.error) {
+        toast.error(action.message);
+        return;
+      }
+
+      toast.success(action.message);
+    });
   }
 
   return (

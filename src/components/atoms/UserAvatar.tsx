@@ -7,13 +7,13 @@ export function UserAvatar({
   image,
   className,
 }: {
-  image: string | null;
+  image: string | null | undefined;
   className?: string;
 }) {
   return (
     <div className="cursor-pointer flex justify-center">
       <Avatar className={cn("size-8", className)}>
-        <AvatarImage src={image ?? ""} />
+        <AvatarImage src={image ?? undefined} />
         <AvatarFallback className="bg-accent">
           <HugeiconsIcon icon={User02FreeIcons} />
         </AvatarFallback>
