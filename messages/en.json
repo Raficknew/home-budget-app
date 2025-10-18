@@ -190,7 +190,8 @@
     },
     "Household": {
       "updateError": "Failed to update household. Please try again.",
-      "updateSuccess": "Household updated successfully!"
+      "updateSuccess": "Household updated successfully!",
+      "linkUpdated": "Household link has been updated successfully!"
     },
     "Members": {
       "createError": "Failed to add member. Please try again.",

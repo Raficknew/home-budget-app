@@ -77,9 +77,10 @@ export async function deleteHousehold(householdId: string) {
 
 export async function joinHousehold(householdId: string, userId: string) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null || session.user.name == null) {
-    throw new Error("User not found");
+    return { error: true, message: t("User.invalidId") };
   }
 
   await insertMember({ userId, name: session.user.name }, householdId);
@@ -92,13 +93,15 @@ export async function generateLinkForHousehold(
   link: string
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null) {
-    return { error: true, message: "User not found" };
+    return { error: true, message: t("User.invalidId") };
   }
 
   await updateLink(householdId, link);
 
   revalidatePath(`/${householdId}/settings/household`);
-  return { error: false, message: "Success" };
+
+  return { error: false, message: t("Household.linkUpdated") };
 }

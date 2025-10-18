@@ -190,7 +190,8 @@
     },
     "Household": {
       "updateError": "Nie udało się zaktualizować gospodarstwa. Spróbuj ponownie.",
-      "updateSuccess": "Gospodarstwo zostało zaktualizowane pomyślnie!"
+      "updateSuccess": "Gospodarstwo zostało zaktualizowane pomyślnie!",
+      "linkUpdated": "Link zaproszeniowy do gospodarstwa został pomyślnie zaktualizowany!"
     },
     "Members": {
       "createError": "Nie udało się dodać członka. Spróbuj ponownie.",

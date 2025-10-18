@@ -69,7 +69,7 @@ export function RecentTransactionTable({
                   const member = members.find((m) => m.id === memberId);
                   return member ? (
                     <div className="flex items-center gap-2">
-                      <UserAvatar image={member.user?.image ?? ""} size={30} />
+                      <UserAvatar image={member.user?.image ?? ""} />
                       {member.name}
                     </div>
                   ) : (

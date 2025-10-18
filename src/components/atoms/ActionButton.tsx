@@ -36,7 +36,7 @@ export function ActionButton({
         return;
       }
 
-      toast.success(performingAction.message);
+      toast.success(performingAction.message ?? "Success");
     });
   }
 
