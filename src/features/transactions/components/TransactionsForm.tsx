@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { transactionType } from "@/drizzle/schema";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -38,7 +38,7 @@ import { useSession } from "next-auth/react";
 import { Member } from "@/features/members/components/Member";
 import { Category } from "@/global/types";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
-import { toast } from "sonner";
+import { performFormSubmitAction } from "@/global/functions";
 
 export function TransactionForm({
   defaultTransaction,
@@ -54,6 +54,7 @@ export function TransactionForm({
   const ts = useTranslations("CreateTransaction");
   const session = useSession();
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
+  const [isPending, startTransition] = useTransition();
 
   const currentMember = members.find(
     (member) => member.user?.id === session.data?.user.id
@@ -83,17 +84,12 @@ export function TransactionForm({
   });
 
   async function onSubmit(data: TransactionsSchema) {
-    const action = await createTransaction(
-      { ...data, type: transaction },
-      householdId
-    );
+    startTransition(async () => {
+      await performFormSubmitAction(() =>
+        createTransaction({ ...data, type: transaction }, householdId)
+      );
+    });
 
-    if (action.error) {
-      toast.error(action.message);
-      return;
-    }
-
-    toast.success(action.message);
     form.resetField("name");
     form.resetField("price");
   }
@@ -269,9 +265,9 @@ export function TransactionForm({
           <Button
             variant="submit"
             type="submit"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isPending}
           >
-            <LoadingSwap isLoading={form.formState.isSubmitting}>
+            <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
               {ts("submit")}
             </LoadingSwap>
           </Button>

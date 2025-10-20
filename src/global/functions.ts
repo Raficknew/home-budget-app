@@ -1,5 +1,6 @@
 import { v4 as uuidGenerate } from "uuid";
 import { CategoryWithTransactions } from "@/global/types";
+import { toast } from "sonner";
 
 export const createUuid = (): string => {
   return uuidGenerate();
@@ -40,4 +41,17 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
   };
 };
 
-export const performFormSubmit = () => {};
+export const performFormSubmitAction = async (
+  action: () => Promise<{ error: boolean; message: string }>,
+  onSuccess?: () => void
+) => {
+  const result = await action();
+
+  if (result.error) {
+    toast.error(result.message);
+    return;
+  }
+
+  onSuccess?.();
+  toast.success(result.message);
+};

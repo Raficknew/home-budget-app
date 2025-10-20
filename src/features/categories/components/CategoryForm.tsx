@@ -35,9 +35,9 @@ import { Spacer } from "@/components/atoms/Spacer";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 import { CategoryWithIcon } from "@/global/types";
-import { toast } from "sonner";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { useTransition } from "react";
+import { performFormSubmitAction } from "@/global/functions";
 
 export function CategoryForm({
   categoryType,
@@ -64,22 +64,18 @@ export function CategoryForm({
 
   function onSubmit(data: CategorySchema) {
     startTransition(async () => {
-      const action = category
-        ? await updateCategory(
-            data,
-            category.id,
-            householdId,
-            data.categoryType as CategoriesOfExpanse
-          )
-        : await createCategory(data, householdId);
-
-      if (action.error) {
-        toast.error(action.message);
-        return;
-      }
-
-      onSuccess?.();
-      toast.success(action.message);
+      performFormSubmitAction(
+        category
+          ? () =>
+              updateCategory(
+                data,
+                category.id,
+                householdId,
+                data.categoryType as CategoriesOfExpanse
+              )
+          : () => createCategory(data, householdId),
+        onSuccess
+      );
     });
 
     form.reset();

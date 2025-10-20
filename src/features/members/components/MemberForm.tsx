@@ -19,9 +19,9 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { useTransition } from "react";
+import { performFormSubmitAction } from "@/global/functions";
 export function MemberForm({
   householdId,
   member,
@@ -42,17 +42,12 @@ export function MemberForm({
 
   function onSubmit(data: MembersSchema) {
     startTransition(async () => {
-      const action = member
-        ? await updateMember(data, member.id, householdId)
-        : await createMember(data, householdId);
-
-      if (action.error) {
-        toast.error(action.message);
-        return;
-      }
-
-      onSuccess?.();
-      toast.success(action.message);
+      performFormSubmitAction(
+        member
+          ? () => updateMember(data, member.id, householdId)
+          : () => createMember(data, householdId),
+        onSuccess
+      );
     });
 
     form.resetField("name");

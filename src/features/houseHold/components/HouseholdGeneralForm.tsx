@@ -28,9 +28,9 @@ import {
   HouseholdSchema,
 } from "@/features/household/schema/household";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner";
 import { useTransition } from "react";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { performFormSubmitAction } from "@/global/functions";
 
 export function HouseholdForm({
   currencies,
@@ -60,16 +60,11 @@ export function HouseholdForm({
 
   function onSubmit(data: HouseholdSchema) {
     startTransition(async () => {
-      const action = household
-        ? await updateHousehold(data, household.id)
-        : await createHousehold(data);
-
-      if (action.error) {
-        toast.error(action.message);
-        return;
-      }
-
-      toast.success(action.message);
+      performFormSubmitAction(
+        household
+          ? () => updateHousehold(data, household.id)
+          : () => createHousehold(data)
+      );
     });
   }
 
