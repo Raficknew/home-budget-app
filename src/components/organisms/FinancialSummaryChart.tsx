@@ -1,8 +1,8 @@
 import { CategoryWithTransactions } from "@/global/types";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
-import { getMembers } from "@/global/functions";
 import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
 import { Price } from "@/components/atoms/Price";
+import { getMembers } from "@/global/actions";
 
 export async function FinancialSummaryChart({
   maxValue,

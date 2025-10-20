@@ -84,8 +84,9 @@ export function TransactionBarChart({
       x: {
         ticks: {
           autoSkip: false,
-          callback: function (index: number) {
+          callback: function (tickValue: string | number, index: number) {
             const person = labels[index];
+            if (!person) return `Member ${index}`;
             if (person?.length > 25) {
               return person.substring(0, 10) + "...";
             }

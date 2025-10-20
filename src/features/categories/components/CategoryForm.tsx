@@ -37,6 +37,7 @@ import { useTranslations } from "next-intl";
 import { CategoryWithIcon } from "@/global/types";
 import { toast } from "sonner";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { useTransition } from "react";
 
 export function CategoryForm({
   categoryType,
@@ -50,6 +51,7 @@ export function CategoryForm({
   onSuccess?: () => void;
 }) {
   const t = useTranslations("Settings.categories");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<CategorySchema>({
     resolver: zodResolver(categorySchema),
@@ -60,23 +62,26 @@ export function CategoryForm({
     },
   });
 
-  async function onSubmit(data: CategorySchema) {
-    const action = category
-      ? await updateCategory(
-          data,
-          category.id,
-          householdId,
-          data.categoryType as CategoriesOfExpanse
-        )
-      : await createCategory(data, householdId);
+  function onSubmit(data: CategorySchema) {
+    startTransition(async () => {
+      const action = category
+        ? await updateCategory(
+            data,
+            category.id,
+            householdId,
+            data.categoryType as CategoriesOfExpanse
+          )
+        : await createCategory(data, householdId);
 
-    if (action.error) {
-      toast.error(action.message);
-      return;
-    }
+      if (action.error) {
+        toast.error(action.message);
+        return;
+      }
 
-    onSuccess?.();
-    toast.success(action.message);
+      onSuccess?.();
+      toast.success(action.message);
+    });
+
     form.reset();
   }
 
@@ -166,9 +171,9 @@ export function CategoryForm({
           <Button
             className="w-fit self-end"
             variant="submit"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isPending}
           >
-            <LoadingSwap isLoading={form.formState.isSubmitting}>
+            <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
               {category ? t("save") : t("add")}
             </LoadingSwap>
           </Button>

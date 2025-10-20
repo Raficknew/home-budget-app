@@ -192,7 +192,7 @@ export function TransactionForm({
                   <FormLabel>{ts("member")}</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full truncate">
                         <SelectValue placeholder={currentMember?.name} />
                       </SelectTrigger>
                       <SelectContent>

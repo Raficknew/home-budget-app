@@ -21,6 +21,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { useTransition } from "react";
 export function MemberForm({
   householdId,
   member,
@@ -31,6 +32,7 @@ export function MemberForm({
   onSuccess?: () => void;
 }) {
   const t = useTranslations("Settings.household.members");
+  const [isPending, startTransition] = useTransition();
   const form = useForm<MembersSchema>({
     resolver: zodResolver(membersSchema),
     defaultValues: member ?? {
@@ -38,19 +40,22 @@ export function MemberForm({
     },
   });
 
-  async function onSubmit(data: MembersSchema) {
-    const action = member
-      ? await updateMember(data, member.id, householdId)
-      : await createMember(data, householdId);
+  function onSubmit(data: MembersSchema) {
+    startTransition(async () => {
+      const action = member
+        ? await updateMember(data, member.id, householdId)
+        : await createMember(data, householdId);
 
-    if (action.error) {
-      toast.error(action.message);
-      return;
-    }
+      if (action.error) {
+        toast.error(action.message);
+        return;
+      }
 
-    onSuccess?.();
+      onSuccess?.();
+      toast.success(action.message);
+    });
+
     form.resetField("name");
-    toast.success(action.message);
   }
 
   return (
@@ -78,8 +83,11 @@ export function MemberForm({
           />
 
           <DialogFooter>
-            <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <LoadingSwap isLoading={form.formState.isSubmitting}>
+            <Button
+              variant="submit"
+              disabled={form.formState.isSubmitting || isPending}
+            >
+              <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
                 <p className="md:flex hidden">
                   {member ? t("save") : t("submit")}
                 </p>

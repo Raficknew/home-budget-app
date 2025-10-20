@@ -5,7 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { DatePicker } from "@/components/molecules/DatePicker";
-import { getHousehold } from "@/global/functions";
+import { getHousehold } from "@/global/actions";
 
 export default async function HouseholdLayout({
   children,

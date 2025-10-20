@@ -1,12 +1,9 @@
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
-import { db } from "@/drizzle";
-import { HouseholdTable } from "@/drizzle/schema";
 import { HouseholdJoinButton } from "@/features/household/components/HouseholdJoinButton";
+import { getHousehold } from "@/global/actions";
 import { auth } from "@/lib/auth";
-import { eq } from "drizzle-orm";
 import { getTranslations } from "next-intl/server";
 import { notFound, redirect } from "next/navigation";
-import { validate as validateUuid } from "uuid";
 
 export default async function HouseholdJoinPage({
   params,
@@ -14,7 +11,7 @@ export default async function HouseholdJoinPage({
   params: Promise<{ householdId: string; link: string }>;
 }) {
   const { householdId, link } = await params;
-  const household = await getHouseholdInviteLink(householdId);
+  const household = await getHousehold(householdId);
   const session = await auth();
   const t = await getTranslations("JoinPage");
 
@@ -48,16 +45,3 @@ export default async function HouseholdJoinPage({
     </div>
   );
 }
-
-const getHouseholdInviteLink = (id: string) => {
-  if (!validateUuid(id)) {
-    return null;
-  }
-  return db.query.HouseholdTable.findFirst({
-    where: eq(HouseholdTable.id, id),
-    with: {
-      invite: { columns: { link: true } },
-      members: { columns: { userId: true } },
-    },
-  });
-};

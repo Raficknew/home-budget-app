@@ -58,7 +58,7 @@ export function HouseholdForm({
     },
   });
 
-  async function onSubmit(data: HouseholdSchema) {
+  function onSubmit(data: HouseholdSchema) {
     startTransition(async () => {
       const action = household
         ? await updateHousehold(data, household.id)

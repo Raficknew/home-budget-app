@@ -32,6 +32,7 @@ export function UserForm({
     | undefined;
 }) {
   if (!user?.name || !user.id || !user) notFound();
+
   const t = useTranslations("Settings.account");
   const form = useForm<UsersSchema>({
     resolver: zodResolver(usersSchema),
