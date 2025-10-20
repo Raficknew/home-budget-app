@@ -16,31 +16,29 @@ import { User } from "next-auth";
 import { updateUser } from "@/features/users/actions/users";
 import { useTranslations } from "next-intl";
 import { notFound } from "next/navigation";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { useTransition } from "react";
+import { performFormSubmitAction } from "@/global/functions";
 
-export function UserForm({
-  user,
-}: {
-  user:
-    | ({
-        google_mail: string;
-        _permissions: {
-          isAuthorized: boolean;
-        };
-      } & User)
-    | undefined;
-}) {
-  if (!user?.name || !user.id || !user) notFound();
+export function UserForm({ user }: { user: User }) {
+  if (!user) notFound();
+
   const t = useTranslations("Settings.account");
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<UsersSchema>({
     resolver: zodResolver(usersSchema),
     defaultValues: {
-      name: user.name,
+      name: user.name ?? "",
     },
   });
 
-  function onSubmit(data: UsersSchema) {
-    if (!user || !user.id) return;
-    updateUser(data, user.id);
+  async function onSubmit(data: UsersSchema) {
+    if (!user) return;
+
+    startTransition(async () => {
+      await performFormSubmitAction(() => updateUser(data, user.id!));
+    });
   }
 
   return (
@@ -66,9 +64,11 @@ export function UserForm({
           className="self-end w-full sm:w-fit"
           variant="submit"
           type="submit"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || isPending}
         >
-          {t("save")}
+          <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
+            {t("save")}
+          </LoadingSwap>
         </Button>
       </form>
     </Form>

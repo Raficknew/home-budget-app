@@ -2,11 +2,8 @@ import { BalanceTracker } from "@/components/molecules/BalanceTracker";
 import { RecentTransactionTable } from "@/components/molecules/RecentTransactionTable";
 import { ExpensesLineChart } from "@/components/organisms/ExpensesLineChart";
 import { FinancialSummaryChart } from "@/components/organisms/FinancialSummaryChart";
-import {
-  countPricesOfTransactionsRelatedToTheirTypes,
-  getCategoriesWithTransactions,
-  getHousehold,
-} from "@/global/functions";
+import { getCategoriesWithTransactions, getHousehold } from "@/global/actions";
+import { countPricesOfTransactionsRelatedToTheirTypes } from "@/global/functions";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";

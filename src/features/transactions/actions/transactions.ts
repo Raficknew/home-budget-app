@@ -3,8 +3,7 @@
 import { z } from "zod";
 import { transactionsSchema } from "@/features/transactions/schema/transactions";
 import { auth } from "@/lib/auth";
-import { redirect } from "next/navigation";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { insertTransaction } from "@/features/transactions/db/transactions";
 import { revalidatePath } from "next/cache";
 import { HouseholdTable, TransactionType } from "@/drizzle/schema";
@@ -18,8 +17,10 @@ export async function createTransaction(
   householdId: string
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   await assertTransactionsRateLimit(session?.user.id);
 
@@ -27,14 +28,14 @@ export async function createTransaction(
 
   const { success, data } = transactionsSchema.safeParse(unsafeData);
 
-  if (!success) throw new Error("Failed to create Transaction");
+  if (!success) return { error: true, message: t("Transactions.createError") };
 
   const household = await db.query.HouseholdTable.findFirst({
     where: eq(HouseholdTable.id, householdId),
   });
 
   if (!household) {
-    throw new Error("Household not found");
+    return { error: true, message: t("Household.notFound") };
   }
 
   await insertTransaction({
@@ -49,5 +50,5 @@ export async function createTransaction(
   const locale = await getLocale();
 
   revalidatePath(`/${locale}/${householdId}`);
-  redirect(`/${locale}/${householdId}`);
+  return { error: false, message: t("Transactions.createSuccess") };
 }

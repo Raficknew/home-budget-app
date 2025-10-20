@@ -28,6 +28,9 @@ import {
   HouseholdSchema,
 } from "@/features/household/schema/household";
 import { cn } from "@/lib/utils";
+import { useTransition } from "react";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { performFormSubmitAction } from "@/global/functions";
 
 export function HouseholdForm({
   currencies,
@@ -43,6 +46,7 @@ export function HouseholdForm({
   };
 }) {
   const t = useTranslations("CreateHousehold");
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm<HouseholdSchema>({
     resolver: zodResolver(householdSchema),
@@ -55,11 +59,13 @@ export function HouseholdForm({
   });
 
   function onSubmit(data: HouseholdSchema) {
-    if (household != null) {
-      updateHousehold(data, household.id);
-    } else {
-      createHousehold(data);
-    }
+    startTransition(async () => {
+      performFormSubmitAction(
+        household
+          ? () => updateHousehold(data, household.id)
+          : () => createHousehold(data)
+      );
+    });
   }
 
   return (
@@ -166,9 +172,11 @@ export function HouseholdForm({
           variant="submit"
           className={cn("mt-2", household ? "" : "w-full")}
           type="submit"
-          disabled={form.formState.isSubmitting}
+          disabled={form.formState.isSubmitting || isPending}
         >
-          {household ? t("save") : t("submit")}
+          <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
+            {household ? t("save") : t("submit")}
+          </LoadingSwap>
         </Button>
       </form>
     </Form>

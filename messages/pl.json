@@ -70,7 +70,8 @@
       "label": "Saldo"
     },
     "submit": "Utwórz",
-    "save": "Zapisz"
+    "save": "Zapisz",
+    "success": "Gospodarstwo zostało pomyślnie utworzone!"
   },
   "CreateTransaction": {
     "price": "Kwota",
@@ -177,5 +178,40 @@
     "income": "Przychód",
     "expense": "Wydatek",
     "price": "Kwota"
+  },
+  "ReturnMessages": {
+    "Limits": {
+      "memberLimitReached": "Osiągnięto limit członków."
+    },
+    "User": {
+      "invalidId": "Nieprawidłowe ID użytkownika",
+      "updateError": "Nie udało się zaktualizować nazwy użytkownika. Spróbuj ponownie.",
+      "updateSuccess": "Nazwa użytkownika została zaktualizowana pomyślnie"
+    },
+    "Household": {
+      "updateError": "Nie udało się zaktualizować gospodarstwa. Spróbuj ponownie.",
+      "updateSuccess": "Gospodarstwo zostało zaktualizowane pomyślnie!",
+      "linkUpdated": "Link zaproszeniowy do gospodarstwa został pomyślnie zaktualizowany!"
+    },
+    "Members": {
+      "createError": "Nie udało się dodać członka. Spróbuj ponownie.",
+      "createSuccess": "Członek został pomyślnie dodany!",
+      "deleteError": "Nie udało się usunąć członka. Spróbuj ponownie.",
+      "deleteSuccess": "Członek został pomyślnie usunięty!",
+      "updateError": "Nie udało się zaktualizować członka. Spróbuj ponownie.",
+      "updateSuccess": "Członek został zaktualizowany pomyślnie!"
+    },
+    "Categories": {
+      "createError": "Nie udało się dodać kategorii. Spróbuj ponownie.",
+      "createSuccess": "Kategoria została pomyślnie dodana!",
+      "updateError": "Nie udało się zaktualizować kategorii. Spróbuj ponownie.",
+      "updateSuccess": "Kategoria została zaktualizowana pomyślnie!",
+      "deleteError": "Nie udało się usunąć kategorii. Spróbuj ponownie.",
+      "deleteSuccess": "Kategoria została pomyślnie usunięta!"
+    },
+    "Transactions": {
+      "createError": "Nie udało się utworzyć transakcji. Spróbuj ponownie.",
+      "createSuccess": "Transakcja została pomyślnie utworzona!"
+    }
   }
 }

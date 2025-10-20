@@ -5,7 +5,7 @@ import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { DatePicker } from "@/components/molecules/DatePicker";
-import { getHousehold } from "@/global/functions";
+import { getHousehold } from "@/global/actions";
 
 export default async function HouseholdLayout({
   children,
@@ -50,7 +50,7 @@ async function TopBar({ householdId }: { householdId: string }) {
       <div>
         <Link href={`/${householdId}/settings/account`} className="relative">
           <div className="absolute right-0 bottom-0 z-10 bg-green-400 w-2.5 h-2.5 rounded-full p-1"></div>
-          <UserAvatar image={session.user.image ?? ""} />
+          <UserAvatar image={session.user.image} className="size-10" />
         </Link>
       </div>
     </div>

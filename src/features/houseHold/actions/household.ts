@@ -15,17 +15,20 @@ import { insertMember } from "@/features/members/db/members";
 import { revalidatePath } from "next/cache";
 import { updateHousehold as updateHouseholdDB } from "@/features/household/db/household";
 import { assertHouseholdCreateAbility } from "../permissions/household";
+import { getTranslations } from "next-intl/server";
 
 export async function createHousehold(
   unsafeData: z.infer<typeof householdSchema>
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   const { success, data } = householdSchema.safeParse(unsafeData);
 
-  if (!success) throw new Error("Failed to create Household");
+  if (!success) return { error: true, message: t("Household.createError") };
 
   await assertHouseholdCreateAbility(session.user.id);
 
@@ -47,23 +50,27 @@ export async function updateHousehold(
   householdId: string
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
-  if (session?.user.id == null) throw new Error("User not found");
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
 
   const { success, data } = householdSchema.safeParse(unsafeData);
 
-  if (!success) throw new Error("Failed to create Household");
+  if (!success) return { error: true, message: t("Household.updateError") };
 
   await updateHouseholdDB(data, householdId);
 
   revalidatePath(`/${householdId}/settings/household`);
+  return { error: false, message: t("Household.updateSuccess") };
 }
 
 export async function deleteHousehold(householdId: string) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null)
-    return { error: true, message: "Failed to delete Household" };
+    return { error: true, message: t("User.invalidId") };
 
   await deleteHouseholdDB(householdId);
 
@@ -72,9 +79,10 @@ export async function deleteHousehold(householdId: string) {
 
 export async function joinHousehold(householdId: string, userId: string) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null || session.user.name == null) {
-    throw new Error("User not found");
+    return { error: true, message: t("User.invalidId") };
   }
 
   await insertMember({ userId, name: session.user.name }, householdId);
@@ -87,13 +95,15 @@ export async function generateLinkForHousehold(
   link: string
 ) {
   const session = await auth();
+  const t = await getTranslations("ReturnMessages");
 
   if (session?.user.id == null) {
-    return { error: true, message: "User not found" };
+    return { error: true, message: t("User.invalidId") };
   }
 
   await updateLink(householdId, link);
 
   revalidatePath(`/${householdId}/settings/household`);
-  return { error: false, message: "Success" };
+
+  return { error: false, message: t("Household.linkUpdated") };
 }

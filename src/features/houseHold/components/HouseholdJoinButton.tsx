@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { ActionButton } from "@/components/atoms/ActionButton";
 import { joinHousehold } from "@/features/household/actions/household";
 
 export function HouseholdJoinButton({
@@ -11,12 +11,12 @@ export function HouseholdJoinButton({
   userId: string;
   title: string;
 }) {
-  function handleJoin(householdId: string, userId: string) {
-    joinHousehold(householdId, userId);
-  }
   return (
-    <Button variant="submit" onClick={() => handleJoin(householdId, userId)}>
+    <ActionButton
+      variant="submit"
+      action={() => joinHousehold(householdId, userId)}
+    >
       {title}
-    </Button>
+    </ActionButton>
   );
 }

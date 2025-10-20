@@ -1,18 +1,19 @@
 import { User02FreeIcons } from "@hugeicons/core-free-icons";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { cn } from "@/lib/utils";
 
-export async function UserAvatar({
+export function UserAvatar({
   image,
-  size = 40,
+  className,
 }: {
-  image: string | null;
-  size?: number;
+  image: string | null | undefined;
+  className?: string;
 }) {
   return (
     <div className="cursor-pointer flex justify-center">
-      <Avatar style={{width: `${size}px`, height: `${size}px`}}>
-        <AvatarImage src={image ?? ""} />
+      <Avatar className={cn("size-8", className)}>
+        <AvatarImage src={image ?? undefined} />
         <AvatarFallback className="bg-accent">
           <HugeiconsIcon icon={User02FreeIcons} />
         </AvatarFallback>

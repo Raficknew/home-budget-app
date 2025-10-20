@@ -1,7 +1,7 @@
 import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { CategoryList } from "@/features/categories/components/CategoryList";
-import { getCategories } from "@/global/functions";
+import { getCategories } from "@/global/actions";
 import { getTranslations } from "next-intl/server";
 
 export default async function HouseholdCategorySettingsPage({

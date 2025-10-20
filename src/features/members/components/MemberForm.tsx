@@ -2,7 +2,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
-import { membersSchema, MembersSchema } from "@/features/members/schema/members";
+import {
+  membersSchema,
+  MembersSchema,
+} from "@/features/members/schema/members";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -16,6 +19,9 @@ import { DialogFooter } from "@/components/ui/dialog";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useTranslations } from "next-intl";
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { useTransition } from "react";
+import { performFormSubmitAction } from "@/global/functions";
 export function MemberForm({
   householdId,
   member,
@@ -26,6 +32,7 @@ export function MemberForm({
   onSuccess?: () => void;
 }) {
   const t = useTranslations("Settings.household.members");
+  const [isPending, startTransition] = useTransition();
   const form = useForm<MembersSchema>({
     resolver: zodResolver(membersSchema),
     defaultValues: member ?? {
@@ -34,13 +41,16 @@ export function MemberForm({
   });
 
   function onSubmit(data: MembersSchema) {
-    if (member) {
-      updateMember(data, member.id, householdId);
-      onSuccess?.();
-    } else {
-      createMember(data, householdId);
-      form.reset();
-    }
+    startTransition(async () => {
+      performFormSubmitAction(
+        member
+          ? () => updateMember(data, member.id, householdId)
+          : () => createMember(data, householdId),
+        onSuccess
+      );
+    });
+
+    form.resetField("name");
   }
 
   return (
@@ -68,14 +78,19 @@ export function MemberForm({
           />
 
           <DialogFooter>
-            <Button variant="submit" disabled={form.formState.isSubmitting}>
-              <p className="md:flex hidden">
-                {member ? t("save") : t("submit")}
-              </p>
-              <HugeiconsIcon
-                className="cursor-pointer sm:size-6 size-5 md:hidden"
-                icon={PlusSignIcon}
-              />
+            <Button
+              variant="submit"
+              disabled={form.formState.isSubmitting || isPending}
+            >
+              <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
+                <p className="md:flex hidden">
+                  {member ? t("save") : t("submit")}
+                </p>
+                <HugeiconsIcon
+                  className="cursor-pointer sm:size-6 size-5 md:hidden"
+                  icon={PlusSignIcon}
+                />
+              </LoadingSwap>
             </Button>
           </DialogFooter>
         </form>

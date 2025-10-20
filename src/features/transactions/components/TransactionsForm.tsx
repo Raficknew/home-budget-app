@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { transactionType } from "@/drizzle/schema";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import {
   Form,
   FormControl,
@@ -37,14 +37,8 @@ import { format } from "date-fns";
 import { useSession } from "next-auth/react";
 import { Member } from "@/features/members/components/Member";
 import { Category } from "@/global/types";
-
-const transcationFormSchema = transactionsSchema.pick({
-  categoryId: true,
-  date: true,
-  name: true,
-  price: true,
-  memberId: true,
-});
+import { LoadingSwap } from "@/components/atoms/LoadingSwap";
+import { performFormSubmitAction } from "@/global/functions";
 
 export function TransactionForm({
   defaultTransaction,
@@ -60,10 +54,11 @@ export function TransactionForm({
   const ts = useTranslations("CreateTransaction");
   const session = useSession();
   const [transaction, setTransaction] = useState(defaultTransaction ?? "");
+  const [isPending, startTransition] = useTransition();
 
-  const currentMemberId = members.find(
+  const currentMember = members.find(
     (member) => member.user?.id === session.data?.user.id
-  )?.id;
+  );
 
   const incomeCategories = categories.filter(
     (category) => category.categoryType == "incomes"
@@ -77,18 +72,24 @@ export function TransactionForm({
     transaction == "income" ? incomeCategories : expenseCategories;
 
   const form = useForm<TransactionsSchema>({
-    resolver: zodResolver(transcationFormSchema),
+    resolver: zodResolver(transactionsSchema),
     defaultValues: {
       price: 0,
       name: "",
-      memberId: currentMemberId ?? undefined,
+      type: transaction,
+      memberId: currentMember?.id ?? undefined,
       date: new Date(),
       categoryId: undefined,
     },
   });
 
-  function onSubmit(data: TransactionsSchema) {
-    createTransaction({ ...data, type: transaction }, householdId);
+  async function onSubmit(data: TransactionsSchema) {
+    startTransition(async () => {
+      await performFormSubmitAction(() =>
+        createTransaction({ ...data, type: transaction }, householdId)
+      );
+    });
+
     form.resetField("name");
     form.resetField("price");
   }
@@ -111,7 +112,10 @@ export function TransactionForm({
                       step="0.01"
                       {...field}
                       onFocus={(e) => {
-                        if (e.target.value === "0") {
+                        if (
+                          e.target.value === "0.00" ||
+                          e.target.value === "0"
+                        ) {
                           e.target.value = "";
                         }
                       }}
@@ -127,23 +131,37 @@ export function TransactionForm({
             />
           </div>
           <div className="flex flex-col gap-2">
-            <FormLabel className="opacity-0">t</FormLabel>
-            <div className="flex gap-2 justify-center">
-              {transactionType.map((t) => (
-                <Button
-                  key={t}
-                  className={cn(
-                    "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
-                    transaction == t &&
-                      "bg-accent hover:bg-accent text-foreground"
-                  )}
-                  type="button"
-                  onClick={() => setTransaction(t)}
-                >
-                  {ts(`transactionTypes.${t}`)}
-                </Button>
-              ))}
-            </div>
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="opacity-0">t</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-2 justify-center">
+                      {transactionType.map((t) => (
+                        <Button
+                          key={t}
+                          className={cn(
+                            "bg-card hover:bg-[#747474] text-white/20 hover:text-foreground px-3",
+                            (field.value ?? transaction) === t &&
+                              "bg-accent hover:bg-accent text-foreground"
+                          )}
+                          type="button"
+                          onClick={() => {
+                            setTransaction(t);
+                            field.onChange(t);
+                          }}
+                        >
+                          {ts(`transactionTypes.${t}`)}
+                        </Button>
+                      ))}
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
         </div>
 
@@ -170,8 +188,8 @@ export function TransactionForm({
                   <FormLabel>{ts("member")}</FormLabel>
                   <FormControl>
                     <Select onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder={session.data?.user.name} />
+                      <SelectTrigger className="w-full truncate">
+                        <SelectValue placeholder={currentMember?.name} />
                       </SelectTrigger>
                       <SelectContent>
                         {members.map((member) => (
@@ -207,7 +225,6 @@ export function TransactionForm({
                         mode="single"
                         selected={field.value}
                         onSelect={field.onChange}
-                        initialFocus
                       />
                     </PopoverContent>
                   </Popover>
@@ -248,9 +265,11 @@ export function TransactionForm({
           <Button
             variant="submit"
             type="submit"
-            disabled={form.formState.isSubmitting}
+            disabled={form.formState.isSubmitting || isPending}
           >
-            {ts("submit")}
+            <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
+              {ts("submit")}
+            </LoadingSwap>
           </Button>
         </div>
       </form>
