@@ -157,9 +157,9 @@
       "submit": "Dodaj",
       "save": "Zapisz"
     },
-    "linkSheet": {
-      "title": "Zaproś do gospodarstwa",
-      "copy": "Skopiuj link"
+    "linkPopover": {
+      "copy": "Kliknij aby skopiować",
+      "copied": "Link skopiowany!"
     }
   },
   "AreYouSureDialog": {
