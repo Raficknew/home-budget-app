@@ -39,7 +39,7 @@ export function HouseholdLinkGenerate({
       <PopoverContent>
         <div
           onClick={handleCopyToClipboard}
-          className="cursor-pointer text-xs hover:underline  h-full flex flex-col w-full p-2 rounded-lg max-w-[250px] overflow-hidden "
+          className="cursor-pointer text-xs h-full flex flex-col w-full p-2 rounded-lg max-w-[250px] overflow-hidden "
         >
           <span className="text-[10px] font-semibold text-[#828183]">
             {t("copy")}
