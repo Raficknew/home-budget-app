@@ -6,6 +6,7 @@ import Link from "next/link";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { DatePicker } from "@/components/molecules/DatePicker";
 import { getHousehold } from "@/global/actions";
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 
 export default async function HouseholdLayout({
   children,
@@ -44,8 +45,12 @@ async function TopBar({ householdId }: { householdId: string }) {
   if (session == null) redirect("/sign-in");
 
   return (
-    <div className="flex w-full sm:justify-between justify-end gap-2 sm:gap-0 px-5 py-3">
-      <div className="h-px w-px"></div>
+    <div className="flex w-full sm:justify-between gap-2 sm:gap-0 px-5 py-3">
+      <div className="sm:hidden mr-auto">
+        <HozzyLogo size={44} />
+      </div>
+      <div className="h-px w-px sm:block hidden"></div>
+
       <DatePicker />
       <div>
         <Link href={`/${householdId}/settings/account`} className="relative">

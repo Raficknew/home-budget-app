@@ -16,11 +16,11 @@ export default async function SignInPage() {
 
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center">
-      <HozzyLogo link />
-      <div className="flex flex-col gap-3 w-[390px] text-center">
+      <HozzyLogo link variant="withText" size={90} />
+      <div className="flex flex-col gap-3 w-full p-5 max-w-[450px] text-center">
         <PageTitle title={t("title")} subtitle={t("subtitle")} />
         <form
-          className="flex flex-col gap-3 w-[390px] text-center"
+          className="flex flex-col gap-3 w-full text-center"
           action={async () => {
             "use server";
             await signIn("google", { redirectTo: "/" });

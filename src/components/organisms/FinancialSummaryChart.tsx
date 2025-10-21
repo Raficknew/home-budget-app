@@ -3,6 +3,7 @@ import { TransactionDialog } from "@/features/transactions/components/Transactio
 import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
 import { Price } from "@/components/atoms/Price";
 import { getMembers } from "@/global/actions";
+import { cn } from "@/lib/utils";
 
 export async function FinancialSummaryChart({
   maxValue,
@@ -27,7 +28,11 @@ export async function FinancialSummaryChart({
       <div className="w-full z-10 ml-4 mt-4 md:m-0">
         <p className="text-2xl font-light">{title}</p>
         <Price
-          className="text-3xl font-medium"
+          className={cn(
+            "text-3xl  *:font-medium",
+            maxValue >= 100000 && "sm:text-3xl text-xl",
+            maxValue > 1000000 && "sm:text-3xl text-lg"
+          )}
           price={maxValue}
           currency={currency}
         />

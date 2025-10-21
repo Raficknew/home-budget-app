@@ -1,24 +1,23 @@
 "use client";
-import Image from "next/image";
 import { useParams, usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
   DashboardSquare03Icon,
   ArrowDataTransferHorizontalIcon,
-  Target01Icon,
-  Activity01Icon,
   Settings01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
+import { HozzyLogo } from "../atoms/HozzyLogo";
 
 export function Sidebar() {
   const { householdId } = useParams();
   const locale = useLocale();
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
+  console.log(currentRoute);
 
   const routes = [
     {
@@ -27,33 +26,16 @@ export function Sidebar() {
       icon: DashboardSquare03Icon,
     },
     {
-      title: t("categories"),
-      url: `/${locale}/${householdId}/categories`,
+      title: t("transactions"),
+      url: `/${locale}/${householdId}/transactions`,
       icon: ArrowDataTransferHorizontalIcon,
-    },
-    {
-      title: t("goals"),
-      url: `/${locale}/${householdId}/goals`,
-      icon: Target01Icon,
-    },
-    {
-      title: t("charts"),
-      url: `/${locale}/${householdId}/charts`,
-      icon: Activity01Icon,
     },
   ];
   return (
     <div className="fixed z-10 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 bg-sidebar w-full sm:w-auto h-fit p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between">
       <div className="flex flex-col gap-10 items-center">
         <div className="hidden sm:block">
-          <Link href="/">
-            <Image
-              src="/images/HozzyAvatar.svg"
-              alt="logo"
-              width={30}
-              height={30}
-            />
-          </Link>
+          <HozzyLogo variant="white" />
         </div>
         <div className="flex sm:flex-col gap-5">
           {routes.map((route) => (

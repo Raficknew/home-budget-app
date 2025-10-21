@@ -65,6 +65,7 @@ export default async function HouseholdPage({
         categories={categories}
         members={household.members}
         currency={household.currencyCode}
+        link={`/${householdId}/transactions`}
       />
     </div>
   );

@@ -29,7 +29,7 @@ export default async function HouseholdJoinPage({
 
   return (
     <div className="flex justify-center items-center h-screen px-2">
-      <HozzyLogo link />
+      <HozzyLogo link variant="withText" size={90} />
 
       <div className="flex flex-col gap-3 w-[450px] text-center">
         <span className="text-3xl text-center">

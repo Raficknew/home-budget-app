@@ -31,9 +31,7 @@
   },
   "Sidebar": {
     "dashboard": "Dashboard",
-    "categories": "Kategorie",
-    "goals": "Cele",
-    "charts": "Wykresy",
+    "transactions": "Transakcje",
     "settings": "Ustawienia"
   },
   "Dashboard": {

@@ -1,4 +1,4 @@
-import { ScratchCardIcon } from "@hugeicons/core-free-icons";
+import { LinkSquare01Icon, ScratchCardIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
   Table,
@@ -14,15 +14,18 @@ import { Member } from "@/features/members/components/Member";
 import { UserAvatar } from "../atoms/UserAvatar";
 import { useTranslations } from "next-intl";
 import { Price } from "../atoms/Price";
+import Link from "next/link";
 
 export function RecentTransactionTable({
   categories,
   members,
   currency,
+  link,
 }: {
   categories: CategoryWithTransactions;
   members: Member[];
   currency: string;
+  link: string;
 }) {
   const allTransactions = categories.flatMap((cat) =>
     cat.transactions.map((transaction) => ({
@@ -43,9 +46,20 @@ export function RecentTransactionTable({
 
   return (
     <div className="flex flex-col p-4 bg-sidebar rounded-lg h-full">
-      <div className="flex items-center gap-2">
-        <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
-        <p className="text-2xl font-light">{t("latest")}</p>
+      <div className="flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
+          <p className="sm:text-2xl text-xl font-light">{t("latest")}</p>
+        </div>
+        <Link
+          href={link}
+          className="flex items-center justify-center gap-2 hover:underline cursor-pointer"
+        >
+          <span className="text-sm sm:block hidden font-extralight ">
+            Zobacz więcej
+          </span>
+          <HugeiconsIcon strokeWidth={2} size={16} icon={LinkSquare01Icon} />
+        </Link>
       </div>
       <Table>
         <TableHeader>

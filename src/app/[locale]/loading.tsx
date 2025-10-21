@@ -1,6 +1,6 @@
 "use client";
-import Image from "next/image";
 import { motion } from "framer-motion";
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 
 export default function Loading() {
   return (
@@ -9,12 +9,7 @@ export default function Loading() {
         animate={{ rotate: 360 }}
         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
       >
-        <Image
-          src="/images/HozzyPurpleAvatar.svg"
-          alt="HozzyAvatar"
-          height={100}
-          width={100}
-        />
+        <HozzyLogo size={100} variant="default" />
       </motion.div>
     </div>
   );
