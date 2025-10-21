@@ -17,7 +17,7 @@ export default function HeroPage() {
 
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-      <HozzyLogo />
+      <HozzyLogo link variant="withText" size={90} />
       <LanguageSelect
         currentLocale={locale}
         className="fixed top-18 sm:top-7.5 sm:right-8"

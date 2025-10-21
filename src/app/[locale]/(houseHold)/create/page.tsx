@@ -10,7 +10,7 @@ export default async function HouseholdCreateFormPage() {
 
   return (
     <div className="flex justify-center h-screen items-center px-2 ">
-      <HozzyLogo link />
+      <HozzyLogo link variant="withText" size={90} />
       <div className="flex flex-col gap-3 w-[390px] text-center">
         <PageTitle title={t("title")} subtitle={t("subtitle")} />
         <HouseholdForm currencies={currencies} />

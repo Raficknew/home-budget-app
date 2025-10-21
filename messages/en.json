@@ -31,9 +31,7 @@
   },
   "Sidebar": {
     "dashboard": "Dashboard",
-    "categories": "Categories",
-    "goals": "Goals",
-    "charts": "Charts",
+    "transactions": "Transaction",
     "settings": "Settings"
   },
   "CreateHousehold": {
@@ -157,9 +155,9 @@
       "submit": "Add",
       "save": "Save"
     },
-    "linkSheet": {
-      "title": "Invite to household",
-      "copy": "Copy link"
+    "linkPopover": {
+      "copy": "Click to copy",
+      "copied": "Link copied!"
     }
   },
   "AreYouSureDialog": {

@@ -1,7 +1,6 @@
 import { SignOutButton } from "@/components/atoms/SignOutButton";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
 import { LanguageSelect } from "@/components/atoms/LanguageSelect";
-import { LinkSheet } from "@/components/atoms/LinkSheet";
 import { MobileTopHeader } from "@/components/atoms/MobileTopHeader";
 import { SectionHeader } from "@/components/molecules/SectionHeader";
 import { SettingsNavigationBar } from "@/components/organisms/SettingsNavigationBar";
@@ -15,6 +14,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { canAccessHouseholdSettings } from "@/features/household/permissions/household";
+import { HouseholdLinkGenerate } from "@/features/household/components/HouseholdLinkGenerate";
 
 export default async function HouseholdAccountSettings({
   params,
@@ -27,12 +27,12 @@ export default async function HouseholdAccountSettings({
   const household = await getHousehold(householdId);
   const t = await getTranslations("Settings.account");
 
-  if (!household) notFound();
+  if (!household || !session) notFound();
 
   return (
     <>
       <MobileTopHeader title={t("title")}>
-        <LinkSheet
+        <HouseholdLinkGenerate
           url={env.FRONTEND_URL}
           householdId={householdId}
           link={household.invite?.link ?? ""}
@@ -44,11 +44,11 @@ export default async function HouseholdAccountSettings({
         </div>
         <div className="flex flex-col-reverse sm:flex-row justify-between gap-5">
           <div className="md:bg-transparent bg-[#212122] p-2.5 rounded-lg w-full">
-            <UserForm user={session?.user} />
+            <UserForm user={session.user} />
           </div>
           <Suspense fallback={<div className="bg-gray-600 size-20"></div>}>
             <div>
-              <UserAvatar className="size-20" image={session?.user.image} />
+              <UserAvatar className="size-20" image={session.user.image} />
             </div>
           </Suspense>
         </div>

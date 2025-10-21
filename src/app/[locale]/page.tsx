@@ -20,7 +20,7 @@ export default async function HomePage() {
 
   return (
     <div className="flex justify-center h-screen w-full items-center px-2">
-      <HozzyLogo />
+      <HozzyLogo variant="withText" size={90} />
       <Suspense>
         <UserHouseholdList
           locale={locale}

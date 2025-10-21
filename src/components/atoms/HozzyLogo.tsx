@@ -1,26 +1,55 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function HozzyLogo({ link = false }: { link?: boolean }) {
+const HozzyLogoVariants = {
+  default: "/images/HozzyPurpleAvatar.svg",
+  white: "/images/HozzyAvatar.svg",
+  withText: "/images/HozzyLogo.webp",
+} as const;
+
+export function HozzyLogo({
+  size = 30,
+  variant = "default",
+  link = false,
+}: {
+  size?: number;
+  variant?: keyof typeof HozzyLogoVariants;
+  link?: boolean;
+}) {
   if (link) {
     return (
-      <Link href="/">
-        <HozzyImage />
+      <Link
+        className={
+          variant === "withText" ? "fixed sm:top-0 top-8 sm:left-8" : ""
+        }
+        style={{
+          width: size,
+          height: size,
+        }}
+        href="/"
+      >
+        <HozzyImage variant={variant} size={size} />
       </Link>
     );
   }
 
-  return <HozzyImage />;
+  return <HozzyImage variant={variant} size={size} />;
 }
 
-function HozzyImage() {
+function HozzyImage({
+  variant,
+  size,
+}: {
+  variant: keyof typeof HozzyLogoVariants;
+  size: number;
+}) {
   return (
     <Image
-      className="fixed top-8 sm:left-8"
-      src="/images/HozzyLogo.webp"
+      className={variant === "withText" ? "fixed top-8 sm:left-8" : ""}
+      src={HozzyLogoVariants[variant]}
       alt="logo"
-      width={90}
-      height={90}
+      width={size}
+      height={size}
     />
   );
 }

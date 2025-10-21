@@ -31,9 +31,7 @@
   },
   "Sidebar": {
     "dashboard": "Dashboard",
-    "categories": "Kategorie",
-    "goals": "Cele",
-    "charts": "Wykresy",
+    "transactions": "Transakcje",
     "settings": "Ustawienia"
   },
   "Dashboard": {
@@ -157,9 +155,9 @@
       "submit": "Dodaj",
       "save": "Zapisz"
     },
-    "linkSheet": {
-      "title": "Zaproś do gospodarstwa",
-      "copy": "Skopiuj link"
+    "linkPopover": {
+      "copy": "Kliknij aby skopiować",
+      "copied": "Link skopiowany!"
     }
   },
   "AreYouSureDialog": {
