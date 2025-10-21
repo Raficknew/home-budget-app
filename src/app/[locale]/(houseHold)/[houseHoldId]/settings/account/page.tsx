@@ -35,7 +35,7 @@ export default async function HouseholdAccountSettings({
         <HouseholdLinkGenerate
           url={env.FRONTEND_URL}
           householdId={householdId}
-          inviteId={household.invite?.link ?? ""}
+          link={household.invite?.link ?? ""}
         />
       </MobileTopHeader>
       <div className="flex flex-col gap-10 sm:gap-5">

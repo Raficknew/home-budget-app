@@ -17,7 +17,6 @@ export function Sidebar() {
   const locale = useLocale();
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
-  console.log(currentRoute);
 
   const routes = [
     {

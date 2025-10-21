@@ -63,7 +63,7 @@ async function TopBar({
         <HouseholdLinkGenerate
           url={env.FRONTEND_URL}
           householdId={householdId}
-          inviteId={link}
+          link={link}
         />
       </div>
       <div className="flex justify-between">

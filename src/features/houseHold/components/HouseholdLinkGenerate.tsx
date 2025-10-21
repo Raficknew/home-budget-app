@@ -17,13 +17,13 @@ import { useTranslations } from "next-intl";
 export function HouseholdLinkGenerate({
   householdId,
   url,
-  inviteId,
+  link,
 }: {
   householdId: string;
   url: string;
-  inviteId: string;
+  link: string;
 }) {
-  const link = `${url}/${householdId}/${inviteId}`;
+  const inviteLink = `${url}/${householdId}/${link}`;
   const t = useTranslations("Settings.linkPopover");
 
   const handleCopyToClipboard = () => {
@@ -44,12 +44,12 @@ export function HouseholdLinkGenerate({
           <span className="text-[10px] font-semibold text-[#828183]">
             {t("copy")}
           </span>
-          <p className="font-medium truncate">{link}</p>
+          <p className="font-medium truncate">{inviteLink}</p>
         </div>
         <ActionButton
           variant="submit"
           className="size-9"
-          action={() => generateLinkForHousehold(householdId, inviteId)}
+          action={() => generateLinkForHousehold(householdId, link)}
         >
           <HugeiconsIcon
             strokeWidth={3}
