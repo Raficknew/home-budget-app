@@ -47,3 +47,13 @@ export type Member = {
     image: string | null;
   } | null;
 };
+
+export type Transaction = {
+  categoryName: string;
+  name: string;
+  date: Date;
+  type: "income" | "expense";
+  price: number;
+  id: string;
+  memberId: string;
+};

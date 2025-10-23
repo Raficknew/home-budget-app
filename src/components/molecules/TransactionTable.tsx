@@ -36,7 +36,8 @@ export function TransactionTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px]">{t("name")}</TableHead>
+          <TableHead>Akcje</TableHead>
+          <TableHead>{t("name")}</TableHead>
           <TableHead>{t("date")}</TableHead>
           <TableHead>{t("member")}</TableHead>
           <TableHead>{t("category")}</TableHead>
@@ -47,6 +48,7 @@ export function TransactionTable({
       <TableBody>
         {transactions.map((transaction) => (
           <TableRow key={transaction.id}>
+            <TableCell className="font-medium">Edytuj, Usuń </TableCell>
             <TableCell className="font-medium">{transaction.name}</TableCell>
             <TableCell>{formatDate(transaction.date)}</TableCell>
             <TableCell>

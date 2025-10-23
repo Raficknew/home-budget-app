@@ -1,20 +1,17 @@
-import { LinkSquare01Icon, ScratchCardIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CategoryWithTransactions, Member } from "@/global/types";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { TransactionTable } from "./TransactionTable";
+import { ScratchCardIcon } from "@hugeicons/core-free-icons";
 
 export function RecentTransactionTable({
   categories,
   members,
   currency,
-  link,
 }: {
   categories: CategoryWithTransactions;
   members: Member[];
   currency: string;
-  link: string;
 }) {
   const allTransactions = categories.flatMap((cat) =>
     cat.transactions.map((transaction) => ({
@@ -38,15 +35,6 @@ export function RecentTransactionTable({
           <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
           <h1 className="sm:text-2xl text-xl font-light">{t("latest")}</h1>
         </div>
-        <Link
-          href={link}
-          className="flex items-center justify-center gap-2 hover:underline cursor-pointer"
-        >
-          <span className="text-sm sm:block hidden font-extralight ">
-            Zobacz więcej
-          </span>
-          <HugeiconsIcon strokeWidth={2} size={16} icon={LinkSquare01Icon} />
-        </Link>
       </div>
       <TransactionTable
         transactions={recentTransactions}

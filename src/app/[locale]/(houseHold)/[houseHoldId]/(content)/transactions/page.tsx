@@ -1,15 +1,13 @@
 import { getCategoriesWithTransactions, getHousehold } from "@/global/actions";
 import { notFound } from "next/navigation";
-import { TransactionTable } from "@/components/molecules/TransactionTable";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ScratchCardIcon } from "@hugeicons/core-free-icons";
+import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
 
 export default async function HouseholdTransactionsPage({
   params,
   searchParams,
 }: {
-  params: Promise<{ householdId: string }>;
-  searchParams: Promise<{ date?: Date }>;
+  params: { householdId: string };
+  searchParams: { date?: string };
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
@@ -17,7 +15,7 @@ export default async function HouseholdTransactionsPage({
   if (household == null) notFound();
 
   const { date } = await searchParams;
-  const currentDate = date ? date : new Date();
+  const currentDate = date ? new Date(date) : new Date();
 
   const categories =
     (await getCategoriesWithTransactions(householdId, currentDate)) || [];
@@ -29,17 +27,21 @@ export default async function HouseholdTransactionsPage({
     }))
   );
 
+  const sortedTransactions = allTransactions.sort(
+    (a, b) => b.date.getTime() - a.date.getTime()
+  );
+
   return (
-    <div className="w-full bg-sidebar rounded-sm p-10">
-      <div className="flex items-center gap-2">
-        <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
-        <h1 className="sm:text-2xl text-xl font-light">Wszystkie Transakcje</h1>
-      </div>
-      <TransactionTable
-        transactions={allTransactions}
-        members={household.members}
-        currency={household.currencyCode}
-      />
+    <div className="w-full bg-sidebar rounded-sm p-4">
+      {sortedTransactions.length > 0 ? (
+        <PaginationTransactionTable
+          transactions={sortedTransactions}
+          members={household.members}
+          currencyCode={household.currencyCode}
+        />
+      ) : (
+        <p>Nie masz jeszcze żadnych transakcji w tym miesiącu.</p>
+      )}
     </div>
   );
 }
