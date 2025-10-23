@@ -38,3 +38,12 @@ export type Category = {
   icon: string;
   categoryType: "fixed" | "fun" | "future you" | "incomes";
 };
+
+export type Member = {
+  name: string;
+  id: string;
+  user: {
+    id: string;
+    image: string | null;
+  } | null;
+};

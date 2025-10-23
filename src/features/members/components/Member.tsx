@@ -6,22 +6,14 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
-
-export type Member = {
-  name: string;
-  id: string;
-  user: {
-    id: string;
-    image: string | null;
-  } | null;
-};
+import { Member as MemberType } from "@/global/types";
 
 export function Member({
   member,
   householdId,
   ownerId,
 }: {
-  member: Member;
+  member: MemberType;
   householdId: string;
   ownerId: string;
 }) {

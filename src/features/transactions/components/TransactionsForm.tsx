@@ -35,8 +35,7 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
-import { Member } from "@/features/members/components/Member";
-import { Category } from "@/global/types";
+import { Category, Member } from "@/global/types";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { performFormSubmitAction } from "@/global/functions";
 
