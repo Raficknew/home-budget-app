@@ -16,10 +16,12 @@ export function PaginationTransactionTable({
   transactions,
   members,
   currencyCode,
+  householdId,
 }: {
   transactions: Transaction[];
   members: Member[];
   currencyCode: string;
+  householdId: string;
 }) {
   const [currentShowingTransactions, setCurrentShowingTransactions] = useState<
     Transaction[]
@@ -43,7 +45,7 @@ export function PaginationTransactionTable({
             Wszystkie Transakcje
           </h1>
         </div>
-        <div className="flex gap-2">
+        <div>
           {pages > 1 && (
             <Select
               value={String(currentPage)}
@@ -64,6 +66,7 @@ export function PaginationTransactionTable({
         </div>
       </div>
       <TransactionTable
+        householdId={householdId}
         transactions={currentShowingTransactions}
         members={members}
         currency={currencyCode}

@@ -87,7 +87,8 @@
       "label": "Category",
       "placeholder": "Choose"
     },
-    "submit": "Add"
+    "submit": "Add",
+    "save": "Save"
   },
   "DefaultCategories": {
     "rent": "Rent",
@@ -168,6 +169,7 @@
   },
   "TransactionTable": {
     "latest": "Latest Transactions",
+    "actions": "Actions",
     "name": "Name",
     "date": "Date",
     "member": "Member",
@@ -209,7 +211,9 @@
     },
     "Transactions": {
       "createError": "Failed to create transaction. Please try again.",
-      "createSuccess": "Transaction created successfully!"
+      "createSuccess": "Transaction created successfully!",
+      "updateError": "Failed to update transaction. Please try again.",
+      "updateSucccess": "Transaction updated successfully!"
     }
   }
 }

@@ -87,7 +87,8 @@
       "label": "Kategoria",
       "placeholder": "Wybierz"
     },
-    "submit": "Dodaj"
+    "submit": "Dodaj",
+    "save": "Zapisz"
   },
   "DefaultCategories": {
     "rent": "Czynsz",
@@ -168,6 +169,7 @@
   },
   "TransactionTable": {
     "latest": "Najnowsze transakcje",
+    "actions": "Akcje",
     "name": "Nazwa",
     "date": "Data",
     "member": "Użytkownik",
@@ -209,7 +211,9 @@
     },
     "Transactions": {
       "createError": "Nie udało się utworzyć transakcji. Spróbuj ponownie.",
-      "createSuccess": "Transakcja została pomyślnie utworzona!"
+      "createSuccess": "Transakcja została pomyślnie utworzona!",
+      "updateError": "Nie udało się zaktualizować transakcji. Spróbuj ponownie.",
+      "updateSucccess": "Transakcja została pomyślnie zaktualizowana!"
     }
   }
 }

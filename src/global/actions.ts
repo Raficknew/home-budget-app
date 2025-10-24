@@ -48,14 +48,6 @@ export const getCategoriesWithTransactions = async (
           gte(TransactionTable.date, firstDayOfMonth),
           lte(TransactionTable.date, lastDayOfMonth)
         ),
-        columns: {
-          id: true,
-          name: true,
-          price: true,
-          type: true,
-          date: true,
-          memberId: true,
-        },
       },
     },
   });

@@ -4,7 +4,10 @@ import { z } from "zod";
 import { transactionsSchema } from "@/features/transactions/schema/transactions";
 import { auth } from "@/lib/auth";
 import { getLocale, getTranslations } from "next-intl/server";
-import { insertTransaction } from "@/features/transactions/db/transactions";
+import {
+  insertTransaction,
+  updateTransaction as updateTransactionDB,
+} from "@/features/transactions/db/transactions";
 import { revalidatePath } from "next/cache";
 import { HouseholdTable, TransactionType } from "@/drizzle/schema";
 import { db } from "@/drizzle";
@@ -51,4 +54,45 @@ export async function createTransaction(
 
   revalidatePath(`/${locale}/${householdId}`);
   return { error: false, message: t("Transactions.createSuccess") };
+}
+
+export async function updateTransaction(
+  transactionId: string,
+  unsafeData: z.infer<typeof transactionsSchema>,
+  householdId: string
+) {
+  const session = await auth();
+  const t = await getTranslations("ReturnMessages");
+
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
+
+  await assertHouseholdWriteAccess(householdId);
+
+  const { success, data } = transactionsSchema.safeParse(unsafeData);
+
+  if (!success) return { error: true, message: t("Transactions.updateError") };
+
+  const household = await db.query.HouseholdTable.findFirst({
+    where: eq(HouseholdTable.id, householdId),
+  });
+
+  if (!household) {
+    return { error: true, message: t("Household.notFound") };
+  }
+
+  await updateTransactionDB({
+    id: transactionId,
+    name: data.name,
+    categoryId: data.categoryId,
+    date: data.date,
+    price: data.price,
+    type: data.type as TransactionType,
+    memberId: data.memberId,
+  });
+
+  const locale = await getLocale();
+
+  revalidatePath(`/${locale}/${householdId}`);
+  return { error: false, message: t("Transactions.updateSucccess") };
 }

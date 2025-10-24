@@ -1,18 +1,22 @@
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CategoryWithTransactions, Member } from "@/global/types";
-import { useTranslations } from "next-intl";
 import { TransactionTable } from "./TransactionTable";
 import { ScratchCardIcon } from "@hugeicons/core-free-icons";
+import { getCategories } from "@/global/actions";
+import { getTranslations } from "next-intl/server";
 
-export function RecentTransactionTable({
+export async function RecentTransactionTable({
   categories,
   members,
   currency,
+  householdId,
 }: {
   categories: CategoryWithTransactions;
   members: Member[];
   currency: string;
+  householdId: string;
 }) {
+  const categoriesForTransactions = await getCategories(householdId);
   const allTransactions = categories.flatMap((cat) =>
     cat.transactions.map((transaction) => ({
       ...transaction,
@@ -26,7 +30,7 @@ export function RecentTransactionTable({
 
   const recentTransactions = sortedTransactions.slice(0, 10);
 
-  const t = useTranslations("TransactionTable");
+  const t = await getTranslations("TransactionTable");
 
   return (
     <div className="flex flex-col p-4 bg-sidebar rounded-lg h-full">
@@ -37,9 +41,11 @@ export function RecentTransactionTable({
         </div>
       </div>
       <TransactionTable
+        categories={categoriesForTransactions}
         transactions={recentTransactions}
         members={members}
         currency={currency}
+        householdId={householdId}
       />
     </div>
   );

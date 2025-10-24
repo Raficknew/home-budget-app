@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -10,24 +11,24 @@ import { useFormattedDate } from "@/lib/formatters";
 import { useTranslations } from "next-intl";
 import { Price } from "@/components/atoms/Price";
 import { UserAvatar } from "@/components/atoms/UserAvatar";
-import { Member } from "@/global/types";
+import { Category, Member, Transaction } from "@/global/types";
+import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
+import { DialogTrigger } from "../ui/dialog";
 
 export function TransactionTable({
   transactions,
   members,
   currency,
+  householdId,
+  categories,
 }: {
-  transactions: {
-    categoryName: string;
-    name: string;
-    date: Date;
-    type: "income" | "expense";
-    price: number;
-    id: string;
-    memberId: string;
-  }[];
+  transactions: Transaction[];
   members: Member[];
   currency: string;
+  householdId: string;
+  categories: Category[];
 }) {
   const t = useTranslations("TransactionTable");
   const { formatDate } = useFormattedDate();
@@ -36,7 +37,7 @@ export function TransactionTable({
     <Table>
       <TableHeader>
         <TableRow>
-          <TableHead>Akcje</TableHead>
+          <TableHead>{t("actions")}</TableHead>
           <TableHead>{t("name")}</TableHead>
           <TableHead>{t("date")}</TableHead>
           <TableHead>{t("member")}</TableHead>
@@ -48,7 +49,26 @@ export function TransactionTable({
       <TableBody>
         {transactions.map((transaction) => (
           <TableRow key={transaction.id}>
-            <TableCell className="font-medium">Edytuj, Usuń </TableCell>
+            <TableCell className="flex gap-1 justify-center items-center h-full">
+              <TransactionDialog
+                householdId={householdId}
+                transaction={transaction}
+                defaultTransactionType={transaction.type}
+                members={members}
+                categories={categories}
+              >
+                <DialogTrigger>
+                  <HugeiconsIcon
+                    className="cursor-pointer"
+                    icon={PencilEdit02Icon}
+                  />
+                </DialogTrigger>
+              </TransactionDialog>
+              <HugeiconsIcon
+                className="cursor-pointer text-red-400"
+                icon={Cancel01Icon}
+              />
+            </TableCell>
             <TableCell className="font-medium">{transaction.name}</TableCell>
             <TableCell>{formatDate(transaction.date)}</TableCell>
             <TableCell>

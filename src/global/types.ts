@@ -18,6 +18,7 @@ export type CategoryWithTransactions = {
   transactions: {
     date: Date;
     name: string;
+    categoryId: string;
     id: string;
     type: "income" | "expense";
     price: number;
@@ -50,6 +51,7 @@ export type Member = {
 
 export type Transaction = {
   categoryName: string;
+  categoryId: string;
   name: string;
   date: Date;
   type: "income" | "expense";

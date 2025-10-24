@@ -35,6 +35,7 @@ export default async function HouseholdTransactionsPage({
     <div className="w-full bg-sidebar rounded-sm p-4">
       {sortedTransactions.length > 0 ? (
         <PaginationTransactionTable
+          householdId={householdId}
           transactions={sortedTransactions}
           members={household.members}
           currencyCode={household.currencyCode}
