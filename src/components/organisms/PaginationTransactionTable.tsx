@@ -25,27 +25,34 @@ export function PaginationTransactionTable({
   householdId: string;
   categories: Category[];
 }) {
+  const TRANSACTIONS_PER_PAGE = 20;
   const [currentShowingTransactions, setCurrentShowingTransactions] = useState<
     Transaction[]
-  >(transactions.slice(0, 15));
-  const pages = Math.ceil(transactions.length / 15);
+  >(transactions.slice(0, TRANSACTIONS_PER_PAGE));
+  const pages = Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
   useEffect(() => {
     setCurrentPage(1);
-    setCurrentShowingTransactions(transactions.slice(0, 15));
+    setCurrentShowingTransactions(transactions.slice(0, TRANSACTIONS_PER_PAGE));
   }, [transactions]);
 
   useEffect(() => {
     setCurrentShowingTransactions(
-      transactions.slice((currentPage - 1) * 15, currentPage * 15)
+      transactions.slice(
+        (currentPage - 1) * TRANSACTIONS_PER_PAGE,
+        currentPage * TRANSACTIONS_PER_PAGE
+      )
     );
   }, [currentPage, transactions]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
     setCurrentShowingTransactions(
-      transactions.slice((pageNumber - 1) * 15, pageNumber * 15)
+      transactions.slice(
+        (pageNumber - 1) * TRANSACTIONS_PER_PAGE,
+        pageNumber * TRANSACTIONS_PER_PAGE
+      )
     );
   };
 

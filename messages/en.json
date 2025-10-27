@@ -213,7 +213,9 @@
       "createError": "Failed to create transaction. Please try again.",
       "createSuccess": "Transaction created successfully!",
       "updateError": "Failed to update transaction. Please try again.",
-      "updateSucccess": "Transaction updated successfully!"
+      "updateSucccess": "Transaction updated successfully!",
+      "deleteError": "Failed to delete transaction. Please try again.",
+      "deleteSuccess": "Transaction deleted successfully!"
     }
   }
 }

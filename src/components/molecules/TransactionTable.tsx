@@ -15,7 +15,9 @@ import { Category, Member, Transaction } from "@/global/types";
 import { Cancel01Icon, PencilEdit02Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
-import { DialogTrigger } from "../ui/dialog";
+import { DialogTrigger } from "@/components/ui/dialog";
+import { ActionButton } from "@/components/atoms/ActionButton";
+import { deleteTransaction } from "@/features/transactions/actions/transactions";
 
 export function TransactionTable({
   transactions,
@@ -49,7 +51,7 @@ export function TransactionTable({
       <TableBody>
         {transactions.map((transaction) => (
           <TableRow key={transaction.id}>
-            <TableCell className="flex gap-1 justify-center items-center h-full">
+            <TableCell className="flex gap-2">
               <TransactionDialog
                 householdId={householdId}
                 transaction={transaction}
@@ -64,10 +66,13 @@ export function TransactionTable({
                   />
                 </DialogTrigger>
               </TransactionDialog>
-              <HugeiconsIcon
-                className="cursor-pointer text-red-400"
-                icon={Cancel01Icon}
-              />
+              <ActionButton
+                action={() => deleteTransaction(transaction.id, householdId)}
+                requireAreYouSure
+                variant="destructive"
+              >
+                <HugeiconsIcon icon={Cancel01Icon} />
+              </ActionButton>
             </TableCell>
             <TableCell className="font-medium">{transaction.name}</TableCell>
             <TableCell>{formatDate(transaction.date)}</TableCell>

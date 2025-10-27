@@ -32,3 +32,15 @@ export async function updateTransaction(
 
   return updatedTransaciton;
 }
+
+export async function deleteTransaction(transactionId: string) {
+  const [deletedTransaction] = await db
+    .delete(TransactionTable)
+    .where(eq(TransactionTable.id, transactionId))
+    .returning();
+
+  if (deletedTransaction == null)
+    throw new Error("Failed to delete Transaction");
+
+  return deletedTransaction;
+}

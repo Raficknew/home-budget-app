@@ -7,6 +7,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import {
   insertTransaction,
   updateTransaction as updateTransactionDB,
+  deleteTransaction as deleteTransactionDB,
 } from "@/features/transactions/db/transactions";
 import { revalidatePath } from "next/cache";
 import { HouseholdTable, TransactionType } from "@/drizzle/schema";
@@ -14,6 +15,7 @@ import { db } from "@/drizzle";
 import { eq } from "drizzle-orm";
 import { assertHouseholdWriteAccess } from "@/features/household/permissions/household";
 import { assertTransactionsRateLimit } from "@/global/ratelimit";
+import { validate as validateUuid } from "uuid";
 
 export async function createTransaction(
   unsafeData: z.infer<typeof transactionsSchema>,
@@ -99,4 +101,26 @@ export async function updateTransaction(
   revalidatePath(`/${locale}/${householdId}/transactions`);
 
   return { error: false, message: t("Transactions.updateSucccess") };
+}
+
+export async function deleteTransaction(
+  transactionId: string,
+  householdId: string
+) {
+  const session = await auth();
+  const t = await getTranslations("ReturnMessages");
+
+  if (session?.user.id == null)
+    return { error: true, message: t("User.invalidId") };
+
+  if (!validateUuid(transactionId)) {
+    return { error: true, message: t("Transactions.deleteError") };
+  }
+
+  await deleteTransactionDB(transactionId);
+
+  revalidatePath(`/${householdId}`);
+  revalidatePath(`/${householdId}/transactions`);
+
+  return { error: false, message: t("Transactions.deleteSuccess") };
 }

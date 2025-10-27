@@ -213,7 +213,9 @@
       "createError": "Nie udało się utworzyć transakcji. Spróbuj ponownie.",
       "createSuccess": "Transakcja została pomyślnie utworzona!",
       "updateError": "Nie udało się zaktualizować transakcji. Spróbuj ponownie.",
-      "updateSucccess": "Transakcja została pomyślnie zaktualizowana!"
+      "updateSucccess": "Transakcja została pomyślnie zaktualizowana!",
+      "deleteError": "Nie udało się usunąć transakcji. Spróbuj ponownie.",
+      "deleteSuccess": "Transakcja została pomyślnie usunięta!"
     }
   }
 }

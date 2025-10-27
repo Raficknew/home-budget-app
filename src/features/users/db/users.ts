@@ -8,7 +8,7 @@ export async function updateUser(data: { name: string }, userId: string) {
     .set(data)
     .where(eq(users.id, userId))
     .returning();
-  if (updatedUser == null) throw new Error("Failed to create Member");
+  if (updatedUser == null) throw new Error("Failed to update User");
 
   return updatedUser;
 }
