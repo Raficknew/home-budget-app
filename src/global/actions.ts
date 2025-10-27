@@ -7,9 +7,20 @@ import {
   MembersTable,
   HouseholdTable,
 } from "@/drizzle/schema";
-import { and, eq, gte, lte } from "drizzle-orm";
+import { and, asc, eq, gte, lte } from "drizzle-orm";
 import { validate as validateUuid } from "uuid";
 import { endOfMonth, startOfMonth } from "date-fns";
+
+export const getUserHouseholds = async (userId: string) => {
+  return db.query.MembersTable.findMany({
+    where: eq(MembersTable.userId, userId),
+    with: {
+      household: {
+        columns: { id: true, name: true },
+      },
+    },
+  });
+};
 
 export const getHousehold = async (id: string) => {
   if (!(await validateUuid(id))) {
@@ -62,6 +73,7 @@ export const getMembers = async (id: string) => {
     where: eq(MembersTable.householdId, id),
     columns: { id: true, name: true },
     with: { user: { columns: { id: true, image: true } } },
+    orderBy: [asc(MembersTable.createdAt)],
   });
 };
 
@@ -69,5 +81,6 @@ export const getCategories = async (id: string) => {
   return db.query.CategoryTable.findMany({
     where: eq(CategoryTable.householdId, id),
     columns: { id: true, name: true, categoryType: true, icon: true },
+    orderBy: [asc(CategoryTable.name)],
   });
 };

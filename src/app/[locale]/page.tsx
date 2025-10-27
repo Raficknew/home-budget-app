@@ -1,12 +1,10 @@
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
-import { db } from "@/drizzle";
-import { MembersTable } from "@/drizzle/schema";
+import { getUserHouseholds } from "@/global/actions";
 import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Home12Icon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { eq } from "drizzle-orm";
 import { getLocale, getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -90,14 +88,3 @@ async function UserHouseholdList({
     </div>
   );
 }
-
-const getUserHouseholds = (userId: string) => {
-  return db.query.MembersTable.findMany({
-    where: eq(MembersTable.userId, userId),
-    with: {
-      household: {
-        columns: { id: true, name: true },
-      },
-    },
-  });
-};
