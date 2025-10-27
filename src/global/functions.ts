@@ -1,5 +1,5 @@
 import { v4 as uuidGenerate } from "uuid";
-import { CategoryWithTransactions } from "@/global/types";
+import { CategoryWithTransactions, Transaction } from "@/global/types";
 import { toast } from "sonner";
 
 export const createUuid = (): string => {
@@ -54,4 +54,18 @@ export const performFormSubmitAction = async (
 
   onSuccess?.();
   toast.success(result.message);
+};
+
+export const sortTransactionsByDateAndCreation = (
+  transactions: Transaction[]
+) => {
+  return transactions.sort((a, b) => {
+    const dateA = new Date(a.date).getTime();
+    const dateB = new Date(b.date).getTime();
+    if (dateB !== dateA) return dateB - dateA;
+
+    const createA = new Date(a.createdAt ?? a.createdAt ?? 0).getTime();
+    const createB = new Date(b.createdAt ?? b.createdAt ?? 0).getTime();
+    return createB - createA;
+  });
 };

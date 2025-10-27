@@ -5,6 +5,7 @@ import {
 } from "@/global/actions";
 import { notFound } from "next/navigation";
 import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
+import { sortTransactionsByDateAndCreation } from "@/global/functions";
 
 export default async function HouseholdTransactionsPage({
   params,
@@ -32,9 +33,7 @@ export default async function HouseholdTransactionsPage({
     }))
   );
 
-  const sortedTransactions = allTransactions.sort(
-    (a, b) => b.date.getTime() - a.date.getTime()
-  );
+  const sortedTransactions = sortTransactionsByDateAndCreation(allTransactions);
 
   return (
     <div className="w-full bg-sidebar rounded-sm p-4">

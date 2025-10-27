@@ -4,6 +4,7 @@ import { TransactionTable } from "./TransactionTable";
 import { ScratchCardIcon } from "@hugeicons/core-free-icons";
 import { getCategories } from "@/global/actions";
 import { getTranslations } from "next-intl/server";
+import { sortTransactionsByDateAndCreation } from "@/global/functions";
 
 export async function RecentTransactionTable({
   categories,
@@ -17,6 +18,7 @@ export async function RecentTransactionTable({
   householdId: string;
 }) {
   const categoriesForTransactions = await getCategories(householdId);
+
   const allTransactions = categories.flatMap((cat) =>
     cat.transactions.map((transaction) => ({
       ...transaction,
@@ -24,9 +26,7 @@ export async function RecentTransactionTable({
     }))
   );
 
-  const sortedTransactions = allTransactions.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-  );
+  const sortedTransactions = sortTransactionsByDateAndCreation(allTransactions);
 
   const recentTransactions = sortedTransactions.slice(0, 10);
 
