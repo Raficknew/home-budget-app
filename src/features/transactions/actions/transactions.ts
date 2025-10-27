@@ -53,6 +53,8 @@ export async function createTransaction(
   const locale = await getLocale();
 
   revalidatePath(`/${locale}/${householdId}`);
+  revalidatePath(`/${locale}/${householdId}/transactions`);
+
   return { error: false, message: t("Transactions.createSuccess") };
 }
 
@@ -94,5 +96,7 @@ export async function updateTransaction(
   const locale = await getLocale();
 
   revalidatePath(`/${locale}/${householdId}`);
+  revalidatePath(`/${locale}/${householdId}/transactions`);
+
   return { error: false, message: t("Transactions.updateSucccess") };
 }

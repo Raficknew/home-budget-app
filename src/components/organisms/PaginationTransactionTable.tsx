@@ -1,9 +1,9 @@
 "use client";
-import { Member, Transaction } from "@/global/types";
+import { Category, Member, Transaction } from "@/global/types";
 import { TransactionTable } from "@/components/molecules/TransactionTable";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { ScratchCardIcon } from "@hugeicons/core-free-icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -17,17 +17,30 @@ export function PaginationTransactionTable({
   members,
   currencyCode,
   householdId,
+  categories,
 }: {
   transactions: Transaction[];
   members: Member[];
   currencyCode: string;
   householdId: string;
+  categories: Category[];
 }) {
   const [currentShowingTransactions, setCurrentShowingTransactions] = useState<
     Transaction[]
   >(transactions.slice(0, 15));
   const pages = Math.ceil(transactions.length / 15);
   const [currentPage, setCurrentPage] = useState<number>(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+    setCurrentShowingTransactions(transactions.slice(0, 15));
+  }, [transactions]);
+
+  useEffect(() => {
+    setCurrentShowingTransactions(
+      transactions.slice((currentPage - 1) * 15, currentPage * 15)
+    );
+  }, [currentPage, transactions]);
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
@@ -70,6 +83,7 @@ export function PaginationTransactionTable({
         transactions={currentShowingTransactions}
         members={members}
         currency={currencyCode}
+        categories={categories}
       />
     </div>
   );

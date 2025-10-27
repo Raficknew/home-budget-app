@@ -48,12 +48,14 @@ export function TransactionForm({
   categories,
   householdId,
   transaction,
+  onUpdateSuccess,
 }: {
   defaultTransactionType: string;
   members: Member[];
   categories: Category[];
   householdId: string;
   transaction?: Transaction;
+  onUpdateSuccess?: () => void;
 }) {
   const ts = useTranslations("CreateTransaction");
   const session = useSession();
@@ -103,6 +105,7 @@ export function TransactionForm({
             )
           : createTransaction({ ...data, type: transactionType }, householdId)
       );
+      onUpdateSuccess?.();
     });
 
     form.resetField("name");
@@ -166,6 +169,7 @@ export function TransactionForm({
                           onClick={() => {
                             setTransactionType(t);
                             field.onChange(t);
+                            form.setValue("categoryId", "");
                           }}
                         >
                           {ts(`transactionTypes.${t}`)}

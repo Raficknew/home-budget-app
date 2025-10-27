@@ -1,4 +1,8 @@
-import { getCategoriesWithTransactions, getHousehold } from "@/global/actions";
+import {
+  getCategories,
+  getCategoriesWithTransactions,
+  getHousehold,
+} from "@/global/actions";
 import { notFound } from "next/navigation";
 import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
 
@@ -11,6 +15,7 @@ export default async function HouseholdTransactionsPage({
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
+  const categoriesForTransactions = await getCategories(householdId);
 
   if (household == null) notFound();
 
@@ -39,6 +44,7 @@ export default async function HouseholdTransactionsPage({
           transactions={sortedTransactions}
           members={household.members}
           currencyCode={household.currencyCode}
+          categories={categoriesForTransactions}
         />
       ) : (
         <p>Nie masz jeszcze żadnych transakcji w tym miesiącu.</p>
