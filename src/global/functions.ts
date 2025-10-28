@@ -64,8 +64,8 @@ export const sortTransactionsByDateAndCreation = (
     const dateB = new Date(b.date).getTime();
     if (dateB !== dateA) return dateB - dateA;
 
-    const createA = new Date(a.createdAt ?? a.createdAt ?? 0).getTime();
-    const createB = new Date(b.createdAt ?? b.createdAt ?? 0).getTime();
+    const createA = new Date(a.createdAt).getTime();
+    const createB = new Date(b.createdAt).getTime();
     return createB - createA;
   });
 };
