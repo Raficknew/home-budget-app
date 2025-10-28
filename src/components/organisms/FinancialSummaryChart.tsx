@@ -2,13 +2,17 @@ import { CategoryWithTransactions } from "@/global/types";
 import { TransactionDialog } from "@/features/transactions/components/TransactionDialog";
 import { TransactionBarChart } from "@/components/molecules/TransactionBarChart";
 import { Price } from "@/components/atoms/Price";
-import { getMembers } from "@/global/actions";
+import { getCategories, getMembers } from "@/global/actions";
 import { cn } from "@/lib/utils";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { PlusSignIcon } from "@hugeicons/core-free-icons";
+import { DialogTrigger } from "@/components/ui/dialog";
+import { getTranslations } from "next-intl/server";
 
 export async function FinancialSummaryChart({
   maxValue,
   categories,
-  defaultTransaction,
+  defaultTransactionType,
   title,
   householdId,
   gradient,
@@ -16,13 +20,15 @@ export async function FinancialSummaryChart({
 }: {
   maxValue: number;
   categories: CategoryWithTransactions;
-  defaultTransaction: string;
+  defaultTransactionType: string;
   title: string;
   householdId: string;
   gradient: string;
   currency: string;
 }) {
   const members = await getMembers(householdId);
+  const t = await getTranslations("Dashboard.charts");
+  const categoriesForTransactions = await getCategories(householdId);
   return (
     <div className="flex relative bg-card rounded-lg md:p-4 gap-10 justify-between 2xl:w-1/2 w-full md:h-[300px] h-[150px]">
       <div className="w-full z-10 ml-4 mt-4 md:m-0">
@@ -48,8 +54,19 @@ export async function FinancialSummaryChart({
       <div className="flex items-start w-full justify-end z-10">
         <TransactionDialog
           householdId={householdId}
-          defaultTransaction={defaultTransaction}
-        />
+          defaultTransactionType={defaultTransactionType}
+          members={members}
+          categories={categoriesForTransactions}
+        >
+          <DialogTrigger className="md:bg-[#7047EB] bg-[#0F0F0F] md:rounded-full rounded-r-xs px-5 py-2 text-xs flex items-center gap-1 cursor-pointer md:h-max h-full">
+            <HugeiconsIcon
+              className="md:size-5 size-10"
+              icon={PlusSignIcon}
+              strokeWidth={2}
+            />
+            <p className="md:block hidden">{t("add")}</p>
+          </DialogTrigger>
+        </TransactionDialog>
       </div>
       <div
         className="absolute inset-0 z-1 w-full h-full"

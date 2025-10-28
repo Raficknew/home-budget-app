@@ -17,7 +17,7 @@ export async function updateCategory(data: typeof CategoryTable.$inferInsert) {
     .where(eq(CategoryTable.id, data.id!))
     .returning();
 
-  if (newCategory == null) throw new Error("Failed to create Category");
+  if (newCategory == null) throw new Error("Failed to update Category");
 
   return newCategory;
 }
@@ -33,7 +33,7 @@ export async function deleteCategory(categoryId: string, householdId: string) {
     )
     .returning();
 
-  if (deletedCategory == null) throw new Error("Failed to create Member");
+  if (deletedCategory == null) throw new Error("Failed to delete Category");
 
   return deletedCategory;
 }

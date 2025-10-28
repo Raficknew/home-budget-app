@@ -31,7 +31,7 @@ export async function deleteMember(memberId: string, householdId: string) {
     )
     .returning();
 
-  if (deletedMember == null) throw new Error("Failed to create Member");
+  if (deletedMember == null) throw new Error("Failed to delete Member");
 
   return deletedMember;
 }
@@ -51,7 +51,7 @@ export async function updateMember(
     )
     .returning();
 
-  if (updatedMember == null) throw new Error("Failed to create Member");
+  if (updatedMember == null) throw new Error("Failed to update Member");
 
   return updatedMember;
 }

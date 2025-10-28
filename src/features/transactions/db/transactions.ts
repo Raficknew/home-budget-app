@@ -1,5 +1,6 @@
 import { db } from "@/drizzle";
 import { TransactionTable } from "@/drizzle/schema";
+import { eq } from "drizzle-orm";
 
 export async function insertTransaction(
   data: typeof TransactionTable.$inferInsert
@@ -14,4 +15,32 @@ export async function insertTransaction(
   }
 
   return newTransaction;
+}
+
+export async function updateTransaction(
+  data: typeof TransactionTable.$inferInsert
+) {
+  const [updatedTransaciton] = await db
+    .update(TransactionTable)
+    .set(data)
+    .where(eq(TransactionTable.id, data.id!))
+    .returning();
+
+  if (updatedTransaciton == null) {
+    throw new Error("Failed to update Transaction");
+  }
+
+  return updatedTransaciton;
+}
+
+export async function deleteTransaction(transactionId: string) {
+  const [deletedTransaction] = await db
+    .delete(TransactionTable)
+    .where(eq(TransactionTable.id, transactionId))
+    .returning();
+
+  if (deletedTransaction == null)
+    throw new Error("Failed to delete Transaction");
+
+  return deletedTransaction;
 }

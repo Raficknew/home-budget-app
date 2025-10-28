@@ -45,7 +45,7 @@ export default async function HouseholdPage({
         <FinancialSummaryChart
           title={t("incomes")}
           householdId={household.id}
-          defaultTransaction="income"
+          defaultTransactionType="income"
           maxValue={prices.incomes}
           categories={categories.filter((c) => c.categoryType == "incomes")}
           gradient="radial-gradient(ellipse at bottom, #00C48C30 0%, #21212266 100%)"
@@ -54,7 +54,7 @@ export default async function HouseholdPage({
         <FinancialSummaryChart
           title={t("expenses")}
           householdId={household.id}
-          defaultTransaction="expense"
+          defaultTransactionType="expense"
           maxValue={prices.totalInExpenses}
           categories={categories.filter((c) => c.categoryType != "incomes")}
           gradient="radial-gradient(ellipse at bottom, #F83B3B4D 0%, #21212266 100%)"
@@ -65,7 +65,7 @@ export default async function HouseholdPage({
         categories={categories}
         members={household.members}
         currency={household.currencyCode}
-        link={`/${householdId}/transactions`}
+        householdId={household.id}
       />
     </div>
   );

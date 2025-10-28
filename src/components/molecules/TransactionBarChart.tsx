@@ -1,6 +1,5 @@
 "use client";
-import { Member } from "@/features/members/components/Member";
-import { CategoryWithTransactions } from "@/global/types";
+import { CategoryWithTransactions, Member } from "@/global/types";
 import {
   Chart as ChartJS,
   CategoryScale,

@@ -18,10 +18,13 @@ export type CategoryWithTransactions = {
   transactions: {
     date: Date;
     name: string;
+    categoryId: string;
     id: string;
     type: "income" | "expense";
     price: number;
     memberId: string;
+    createdAt: Date;
+    updatedAt: Date;
   }[];
 }[];
 
@@ -37,4 +40,26 @@ export type Category = {
   id: string;
   icon: string;
   categoryType: "fixed" | "fun" | "future you" | "incomes";
+};
+
+export type Member = {
+  name: string;
+  id: string;
+  user: {
+    id: string;
+    image: string | null;
+  } | null;
+};
+
+export type Transaction = {
+  categoryName: string;
+  categoryId: string;
+  name: string;
+  date: Date;
+  type: "income" | "expense";
+  price: number;
+  id: string;
+  memberId: string;
+  createdAt: Date;
+  updatedAt: Date;
 };

@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { transactionType } from "@/drizzle/schema";
+import { transactionType as transactionTypes } from "@/drizzle/schema";
 import { useState, useTransition } from "react";
 import {
   Form,
@@ -25,7 +25,10 @@ import {
 } from "@/features/transactions/schema/transactions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@/lib/utils";
-import { createTransaction } from "@/features/transactions/actions/transactions";
+import {
+  createTransaction,
+  updateTransaction,
+} from "@/features/transactions/actions/transactions";
 import { useTranslations } from "next-intl";
 import {
   Popover,
@@ -35,30 +38,35 @@ import {
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { useSession } from "next-auth/react";
-import { Member } from "@/features/members/components/Member";
-import { Category } from "@/global/types";
+import { Category, Member, Transaction } from "@/global/types";
 import { LoadingSwap } from "@/components/atoms/LoadingSwap";
 import { performFormSubmitAction } from "@/global/functions";
 
 export function TransactionForm({
-  defaultTransaction,
+  defaultTransactionType,
   members,
   categories,
   householdId,
+  transaction,
+  onUpdateSuccess,
 }: {
-  defaultTransaction: string;
+  defaultTransactionType: string;
   members: Member[];
   categories: Category[];
   householdId: string;
+  transaction?: Transaction;
+  onUpdateSuccess?: () => void;
 }) {
   const ts = useTranslations("CreateTransaction");
   const session = useSession();
-  const [transaction, setTransaction] = useState(defaultTransaction ?? "");
+  const [transactionType, setTransactionType] = useState(
+    defaultTransactionType ?? ""
+  );
   const [isPending, startTransition] = useTransition();
 
-  const currentMember = members.find(
-    (member) => member.user?.id === session.data?.user.id
-  );
+  const currentMember = transaction
+    ? members.find((m) => m.id === transaction.memberId)
+    : members.find((m) => m.user?.id === session.data?.user?.id);
 
   const incomeCategories = categories.filter(
     (category) => category.categoryType == "incomes"
@@ -69,14 +77,14 @@ export function TransactionForm({
   );
 
   const currentCategories =
-    transaction == "income" ? incomeCategories : expenseCategories;
+    transactionType == "income" ? incomeCategories : expenseCategories;
 
   const form = useForm<TransactionsSchema>({
     resolver: zodResolver(transactionsSchema),
-    defaultValues: {
+    defaultValues: transaction ?? {
       price: 0,
       name: "",
-      type: transaction,
+      type: transactionType,
       memberId: currentMember?.id ?? undefined,
       date: new Date(),
       categoryId: undefined,
@@ -86,8 +94,18 @@ export function TransactionForm({
   async function onSubmit(data: TransactionsSchema) {
     startTransition(async () => {
       await performFormSubmitAction(() =>
-        createTransaction({ ...data, type: transaction }, householdId)
+        transaction
+          ? updateTransaction(
+              transaction.id,
+              {
+                ...data,
+                type: transactionType,
+              },
+              householdId
+            )
+          : createTransaction({ ...data, type: transactionType }, householdId)
       );
+      onUpdateSuccess?.();
     });
 
     form.resetField("name");
@@ -139,7 +157,7 @@ export function TransactionForm({
                   <FormLabel className="opacity-0">t</FormLabel>
                   <FormControl>
                     <div className="flex gap-2 justify-center">
-                      {transactionType.map((t) => (
+                      {transactionTypes.map((t) => (
                         <Button
                           key={t}
                           className={cn(
@@ -149,8 +167,9 @@ export function TransactionForm({
                           )}
                           type="button"
                           onClick={() => {
-                            setTransaction(t);
+                            setTransactionType(t);
                             field.onChange(t);
+                            form.setValue("categoryId", "");
                           }}
                         >
                           {ts(`transactionTypes.${t}`)}
@@ -268,7 +287,7 @@ export function TransactionForm({
             disabled={form.formState.isSubmitting || isPending}
           >
             <LoadingSwap isLoading={form.formState.isSubmitting || isPending}>
-              {ts("submit")}
+              {transaction ? ts("save") : ts("submit")}
             </LoadingSwap>
           </Button>
         </div>

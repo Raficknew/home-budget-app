@@ -1,5 +1,5 @@
 "use client";
-import { useParams, usePathname } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import {
   DashboardSquare03Icon,
@@ -18,15 +18,19 @@ export function Sidebar() {
   const t = useTranslations("Sidebar");
   const currentRoute = usePathname().split("/")[3];
 
+  const searchParams = useSearchParams();
+  const qs = searchParams?.toString();
+  const withParams = (path: string) => (qs ? `${path}?${qs}` : path);
+
   const routes = [
     {
       title: t("dashboard"),
-      url: `/${locale}/${householdId}`,
+      url: withParams(`/${locale}/${householdId}`),
       icon: DashboardSquare03Icon,
     },
     {
       title: t("transactions"),
-      url: `/${locale}/${householdId}/transactions`,
+      url: withParams(`/${locale}/${householdId}/transactions`),
       icon: ArrowDataTransferHorizontalIcon,
     },
   ];
@@ -34,7 +38,7 @@ export function Sidebar() {
     <div className="fixed z-10 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 bg-sidebar w-full sm:w-auto h-fit p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between">
       <div className="flex flex-col gap-10 items-center">
         <div className="hidden sm:block">
-          <HozzyLogo variant="white" />
+          <HozzyLogo variant="white" link />
         </div>
         <div className="flex sm:flex-col gap-5">
           {routes.map((route) => (
@@ -80,7 +84,9 @@ function Route({
 }) {
   const isHovered =
     currentRoute == url.split("/")[3] ||
+    currentRoute == url.split("/")[3]?.split("?")[0] ||
     (currentRoute == "" && title == "Dashboard");
+
   return (
     <Link
       href={url}
