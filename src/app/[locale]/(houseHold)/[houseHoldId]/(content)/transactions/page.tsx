@@ -6,6 +6,7 @@ import {
 import { notFound } from "next/navigation";
 import { PaginationTransactionTable } from "@/components/organisms/PaginationTransactionTable";
 import { sortTransactionsByDateAndCreation } from "@/global/functions";
+import { getTranslations } from "next-intl/server";
 
 export default async function HouseholdTransactionsPage({
   params,
@@ -17,6 +18,7 @@ export default async function HouseholdTransactionsPage({
   const { householdId } = await params;
   const household = await getHousehold(householdId);
   const categoriesForTransactions = await getCategories(householdId);
+  const t = await getTranslations("TransactionsPage");
 
   if (household == null) notFound();
 
@@ -46,7 +48,7 @@ export default async function HouseholdTransactionsPage({
           categories={categoriesForTransactions}
         />
       ) : (
-        <p>Nie masz jeszcze żadnych transakcji w tym miesiącu.</p>
+        <p>{t("zeroTransactions")}</p>
       )}
     </div>
   );

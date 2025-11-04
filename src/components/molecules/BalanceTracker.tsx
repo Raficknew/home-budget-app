@@ -25,7 +25,7 @@ export async function BalanceTracker({
         price={prices.balance}
       />
       <ExpenseProgressBar
-        totalInTransactions={prices.totalInTransactions}
+        totalInTransactions={prices.totalInExpenses}
         categoriesCounted={prices}
         currency={currency}
       />

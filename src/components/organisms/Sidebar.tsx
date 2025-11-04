@@ -10,7 +10,7 @@ import { HugeiconsIcon } from "@hugeicons/react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { SignOutButton } from "@/components/atoms/SignOutButton";
-import { HozzyLogo } from "../atoms/HozzyLogo";
+import { HozzyLogo } from "@/components/atoms/HozzyLogo";
 
 export function Sidebar() {
   const { householdId } = useParams();
@@ -52,7 +52,7 @@ export function Sidebar() {
                 url={route.url}
                 icon={route.icon}
               />
-              {routes.indexOf(route) != 3 && (
+              {routes.indexOf(route) < 1 && (
                 <div className="w-px sm:w-0 bg-[#616062]"></div>
               )}
             </div>

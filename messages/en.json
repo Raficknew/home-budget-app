@@ -217,5 +217,9 @@
       "deleteError": "Failed to delete transaction. Please try again.",
       "deleteSuccess": "Transaction deleted successfully!"
     }
+  },
+  "TransactionsPage": {
+    "allTransactions": "All Transactions",
+    "zeroTransactions": "You don't have any transactions this month yet."
   }
 }

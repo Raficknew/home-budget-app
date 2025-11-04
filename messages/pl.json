@@ -217,5 +217,9 @@
       "deleteError": "Nie udało się usunąć transakcji. Spróbuj ponownie.",
       "deleteSuccess": "Transakcja została pomyślnie usunięta!"
     }
+  },
+  "TransactionsPage": {
+    "allTransactions": "Wszystkie transakcje",
+    "zeroTransactions": "Nie masz jeszcze żadnych transakcji w tym miesiącu."
   }
 }

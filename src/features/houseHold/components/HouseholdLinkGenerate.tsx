@@ -27,7 +27,7 @@ export function HouseholdLinkGenerate({
   const t = useTranslations("Settings.linkPopover");
 
   const handleCopyToClipboard = () => {
-    navigator.clipboard.writeText(link);
+    navigator.clipboard.writeText(inviteLink);
     toast.success(t("copied"));
   };
 

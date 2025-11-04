@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useTranslations } from "next-intl";
 
 export function PaginationTransactionTable({
   transactions,
@@ -31,6 +32,7 @@ export function PaginationTransactionTable({
   >(transactions.slice(0, TRANSACTIONS_PER_PAGE));
   const pages = Math.ceil(transactions.length / TRANSACTIONS_PER_PAGE);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const t = useTranslations("TransactionsPage");
 
   useEffect(() => {
     setCurrentPage(1);
@@ -62,7 +64,7 @@ export function PaginationTransactionTable({
         <div className="flex items-center gap-2">
           <HugeiconsIcon strokeWidth={2} icon={ScratchCardIcon} />
           <h1 className="sm:text-2xl text-xl font-light">
-            Wszystkie Transakcje
+            {t("allTransactions")}
           </h1>
         </div>
         <div>

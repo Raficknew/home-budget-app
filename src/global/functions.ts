@@ -29,14 +29,11 @@ export const countPricesOfTransactionsRelatedToTheirTypes = (
   });
 
   const balance = sums.incomes - (sums.fixed + sums.fun + sums.future_you);
-  const totalInTransactions =
-    sums.fixed + sums.fun + sums.future_you + sums.incomes;
   const totalInExpenses = sums.fixed + sums.fun + sums.future_you;
 
   return {
     ...sums,
     balance,
-    totalInTransactions,
     totalInExpenses,
   };
 };

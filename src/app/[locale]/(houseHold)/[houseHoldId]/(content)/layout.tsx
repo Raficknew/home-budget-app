@@ -47,7 +47,7 @@ async function TopBar({ householdId }: { householdId: string }) {
   return (
     <div className="flex w-full sm:justify-between gap-2 sm:gap-0 px-5 py-3">
       <div className="sm:hidden mr-auto">
-        <HozzyLogo size={44} />
+        <HozzyLogo size={44} link />
       </div>
       <div className="h-px w-px sm:block hidden"></div>
 

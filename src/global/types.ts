@@ -4,7 +4,7 @@ export type Prices = {
   future_you: number;
   incomes: number;
   balance: number;
-  totalInTransactions: number;
+  totalInExpenses: number;
 };
 
 export type CategoryWithTransactions = {
