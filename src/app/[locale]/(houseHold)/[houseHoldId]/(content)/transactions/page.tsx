@@ -12,8 +12,8 @@ export default async function HouseholdTransactionsPage({
   params,
   searchParams,
 }: {
-  params: { householdId: string };
-  searchParams: { date?: string };
+  params: Promise<{ householdId: string }>;
+  searchParams: Promise<{ date: string }>;
 }) {
   const { householdId } = await params;
   const household = await getHousehold(householdId);
