@@ -1,7 +1,10 @@
 import { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 
-const nextConfig: NextConfig = { reactStrictMode: false };
+const nextConfig: NextConfig = {
+  reactStrictMode: false,
+  typescript: { tsconfigPath: "./tsconfig.json" },
+};
 
 const withNextIntl = createNextIntlPlugin();
 export default withNextIntl(nextConfig);
