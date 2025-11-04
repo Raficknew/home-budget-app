@@ -17,11 +17,24 @@ export default function HeroPage() {
 
   return (
     <div className="h-screen w-full flex flex-col items-center justify-center overflow-hidden">
-      <HozzyLogo link variant="withText" size={90} />
-      <LanguageSelect
-        currentLocale={locale}
-        className="fixed top-18 sm:top-7.5 sm:right-8"
-      />
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.01, ease: "easeInOut" }}
+      >
+        <HozzyLogo link variant="withText" size={90} />
+      </motion.h1>
+
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.01, ease: "easeInOut" }}
+      >
+        <LanguageSelect
+          currentLocale={locale}
+          className="fixed top-18 sm:top-7.5 sm:right-8"
+        />
+      </motion.h1>
 
       <div className="flex flex-col items-center justify-between h-full pt-40 xl:w-[1280px] lg:w-[1024px] md:w-[768px] sm:w-[540px] w-full px-3">
         <div className="flex flex-col xl:text-6xl lg:text-5xl md:text-4xl sm:text-2xl  text-xl font-semibold sm:text-start text-center">
