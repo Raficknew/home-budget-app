@@ -8,7 +8,7 @@ const main = async () => {
     .from(CurrencyTable);
 
   if ((rows[0]?.count ?? 0) > 0) {
-    throw new Error("Currencies already seeded");
+    return;
   }
 
   const data: (typeof CurrencyTable.$inferInsert)[] = [
