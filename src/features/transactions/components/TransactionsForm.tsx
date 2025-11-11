@@ -243,7 +243,19 @@ export function TransactionForm({
                       <Calendar
                         mode="single"
                         selected={field.value}
-                        onSelect={field.onChange}
+                        onSelect={(date) => {
+                          if (!date) {
+                            return;
+                          }
+                          const utcDate = new Date(
+                            Date.UTC(
+                              date.getFullYear(),
+                              date.getMonth(),
+                              date.getDate()
+                            )
+                          );
+                          field.onChange(utcDate);
+                        }}
                       />
                     </PopoverContent>
                   </Popover>

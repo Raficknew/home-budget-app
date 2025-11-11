@@ -49,8 +49,6 @@ export function DatePicker() {
     (_, i) => new Date(date.getFullYear(), i, 1)
   );
 
-  console.log(months);
-
   const handleYearChange = (newYear: number) => {
     setYear(newYear);
     setDate(new Date(newYear, currentMonth ?? 0, 1));
