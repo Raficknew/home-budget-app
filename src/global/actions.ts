@@ -48,6 +48,8 @@ export const getCategoriesWithTransactions = async (
     return null;
   }
 
+  console.log(date);
+
   const firstDayOfMonth = startOfMonth(date);
   const lastDayOfMonth = endOfMonth(date);
 

@@ -18,6 +18,7 @@ export function DatePicker() {
   }
 
   const [isOpened, setIsOpened] = useState(false);
+
   const [date, setDate] = useState(defaultDate);
   const [currentMonth, setCurrentMonth] = useState<number | null>(
     defaultDate.getMonth()
@@ -48,6 +49,8 @@ export function DatePicker() {
     (_, i) => new Date(date.getFullYear(), i, 1)
   );
 
+  console.log(months);
+
   const handleYearChange = (newYear: number) => {
     setYear(newYear);
     setDate(new Date(newYear, currentMonth ?? 0, 1));
@@ -58,7 +61,8 @@ export function DatePicker() {
     if (currentMonth === month) return;
 
     setCurrentMonth(month);
-    const newDate = new Date(year ?? date.getFullYear(), month, 1);
+
+    const newDate = new Date(Date.UTC(year ?? date.getFullYear(), month, 1));
     setDate(newDate);
 
     const searchParams = new URLSearchParams();
@@ -73,7 +77,7 @@ export function DatePicker() {
         onClick={() => setIsOpened(!isOpened)}
       >
         <p className="font-semibold hidden sm:block">
-          {currentMonth
+          {date
             ? capitalize(format(date, "LLLL yyyy", { locale: currentLocale }))
             : capitalize(format(date, "yyyy", { locale: currentLocale }))}
         </p>

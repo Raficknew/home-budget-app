@@ -35,7 +35,7 @@ export function Sidebar() {
     },
   ];
   return (
-    <div className="fixed z-10 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 bg-sidebar w-full sm:w-auto h-fit p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between">
+    <div className="fixed z-50 sm:h-auto sm:left-2 sm:rounded-xl rounded-t-2xl sm:bottom-2 bottom-0 sm:top-2 bg-sidebar w-full sm:w-auto h-fit p-4 flex flex-row sm:flex-col justify-evenly sm:justify-between">
       <div className="flex flex-col gap-10 items-center">
         <div className="hidden sm:block">
           <HozzyLogo variant="white" link />
