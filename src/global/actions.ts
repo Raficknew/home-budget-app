@@ -136,14 +136,6 @@ export const getCategories = async (id: string) => {
 };
 
 export const switchLanguage = async (language: string) => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
-
-  if (session?.user.id == null) {
-    throw new Error("UnauthorizedException");
-  }
-
   const store = await cookies();
   store.set("locale", language);
 };
