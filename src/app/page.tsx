@@ -5,8 +5,9 @@ import { headers } from "next/headers";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import { HozzyLogo } from "@/components/atoms/HozzyLogo";
+import { Skeleton } from "@/components/ui/skeleton";
 import { getUserHouseholds } from "@/global/actions";
 import { MAX_HOUSEHOLD_PER_USER } from "@/global/limits";
 import { auth } from "@/lib/auth";
@@ -24,17 +25,34 @@ export default async function HomePage() {
 
   if (session?.user.id == null) redirect(`/hero`);
 
+  const t = await getTranslations("HomePage");
+
   return (
     <div className="flex justify-center h-screen w-full items-center px-2">
       <HozzyLogo variant="withText" size={90} />
-      <Suspense>
-        <UserHouseholdList
-          user={{
-            id: session.user.id,
-            name: session.user.name ?? session.user.email,
-          }}
-        />
-      </Suspense>
+      <div className="flex flex-col items-center gap-5 w-112.5">
+        <div
+          className={cn(
+            "flex flex-col sm:flex-row text-center *:text-3xl",
+            session.user.name.length > 26 && "*:text-2xl",
+          )}
+        >
+          <p className="font-semibold">{t("welcome")},</p>
+          <p className="font-normal break-all">
+            {session.user.name ?? t("user")}!
+          </p>
+        </div>
+        <Suspense fallback={<Skeleton className="w-full h-[250px]" />}>
+          <ViewTransition>
+            <UserHouseholdList
+              user={{
+                id: session.user.id,
+                name: session.user.name ?? session.user.email,
+              }}
+            />
+          </ViewTransition>
+        </Suspense>
+      </div>
     </div>
   );
 }
@@ -48,16 +66,7 @@ async function UserHouseholdList({
   const households = await getUserHouseholds(user.id);
 
   return (
-    <div className="flex flex-col items-center gap-5 w-112.5">
-      <div
-        className={cn(
-          "flex flex-col sm:flex-row text-center *:text-3xl",
-          user.name.length > 26 && "*:text-2xl",
-        )}
-      >
-        <p className="font-semibold">{t("welcome")},</p>
-        <p className="font-normal break-all">{user.name ?? t("user")}!</p>
-      </div>
+    <div className="w-full">
       {households.length > 0 && (
         <div className="w-full flex flex-col gap-5">
           <p className="font-normal self-center">{t("chooseHousehold")}</p>
