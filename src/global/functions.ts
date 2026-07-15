@@ -65,3 +65,17 @@ export const sortTransactionsByDateAndCreation = (
     return createB - createA;
   });
 };
+
+export const getTransactionSummaryTransactionsData = (
+  transactions: Transaction[],
+) => {
+  const sumOfTransactions = transactions.reduce((sum, transaction) => {
+    return sum + transaction.price;
+  }, 0);
+  return {
+    numberOfTransactions: transactions.length,
+    sumOfTransactions,
+    averageTransactionValue:
+      transactions.length > 0 ? sumOfTransactions / transactions.length : 0,
+  };
+};

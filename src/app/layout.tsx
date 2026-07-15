@@ -1,9 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale } from "next-intl/server";
+import { getLocale, getMessages } from "next-intl/server";
+import { Suspense } from "react";
 import { ThemeProvider } from "@/components/atoms/ThemeProvider";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { cn } from "@/lib/utils";
 
@@ -32,26 +34,37 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getLocale();
   return (
-    <NextIntlClientProvider>
-      <html
-        lang={locale}
-        className={cn(
-          "h-full",
-          figtree.variable,
-          geistSans.variable,
-          geistMono.variable,
-        )}
-        suppressHydrationWarning
-      >
-        <body className="antialiased bg-background text-foreground font-sans">
-          <ThemeProvider>
-            {children}
-            <Toaster richColors duration={2000} position="top-center" />
-          </ThemeProvider>
-        </body>
-      </html>
+    // biome-ignore lint/a11y/useHtmlLang: <cache components issues>
+    <html
+      className={cn(
+        "h-full",
+        figtree.variable,
+        geistSans.variable,
+        geistMono.variable,
+      )}
+      suppressHydrationWarning
+    >
+      <body className="antialiased bg-background text-foreground font-sans">
+        <Suspense
+          fallback={<Skeleton className="h-dvh w-full bg-background" />}
+        >
+          <Providers>{children}</Providers>
+        </Suspense>
+      </body>
+    </html>
+  );
+}
+
+async function Providers({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+  return (
+    <NextIntlClientProvider locale={locale} messages={messages}>
+      <ThemeProvider>
+        {children}
+        <Toaster richColors duration={2000} position="top-center" />
+      </ThemeProvider>
     </NextIntlClientProvider>
   );
 }
