@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { validate as validateUuid } from "uuid";
 import { db } from "@/drizzle";
 import {
@@ -19,6 +19,7 @@ import { auth } from "@/lib/auth";
 export async function insertHousehold(
   data: typeof HouseholdTable.$inferInsert,
   balance: number,
+  locale: string,
 ) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -189,8 +190,6 @@ export async function insertHousehold(
 
     if (!incomeCategory)
       throw new Error("No income category found for initial transaction");
-
-    const locale = await getLocale();
 
     const initialTransaction = await db.insert(TransactionTable).values({
       categoryId: incomeCategory.id,

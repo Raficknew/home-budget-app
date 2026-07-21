@@ -1,12 +1,11 @@
-import type { Metadata, Viewport } from "next";
+import type { Metadata } from "next";
 import { Figtree, Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale, getMessages } from "next-intl/server";
-import { Suspense } from "react";
+import { getLocale } from "next-intl/server";
 import { ThemeProvider } from "@/components/atoms/ThemeProvider";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
+import { routing } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
 
 const figtree = Figtree({
@@ -29,14 +28,21 @@ export const metadata: Metadata = {
   description: "App to manage your home budget",
 };
 
+export function generateStaticParams() {
+  return routing.locales.map((locale) => ({ locale }));
+}
+
 export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
-    // biome-ignore lint/a11y/useHtmlLang: <cache components issues>
     <html
+      lang={locale}
+      dir="ltr"
       className={cn(
         "h-full",
         figtree.variable,
@@ -46,25 +52,13 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased bg-background text-foreground font-sans">
-        <Suspense
-          fallback={<Skeleton className="h-dvh w-full bg-background" />}
-        >
-          <Providers>{children}</Providers>
-        </Suspense>
+        <NextIntlClientProvider locale={locale}>
+          <ThemeProvider>
+            {children}
+            <Toaster richColors duration={2000} position="top-center" />
+          </ThemeProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
-  );
-}
-
-async function Providers({ children }: { children: React.ReactNode }) {
-  const locale = await getLocale();
-  const messages = await getMessages();
-  return (
-    <NextIntlClientProvider locale={locale} messages={messages}>
-      <ThemeProvider>
-        {children}
-        <Toaster richColors duration={2000} position="top-center" />
-      </ThemeProvider>
-    </NextIntlClientProvider>
   );
 }

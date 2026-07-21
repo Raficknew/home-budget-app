@@ -1,16 +1,20 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
+import createMiddleware from "next-intl/middleware";
+import { routing } from "./i18n/routing";
 
-export async function proxy(request: NextRequest) {
-  const sessionCookie = getSessionCookie(request);
+const handleI18nRouting = createMiddleware(routing);
 
-  if (!sessionCookie) {
+export default async function proxy(request: NextRequest) {
+  const response = handleI18nRouting(request);
+
+  if (request.nextUrl.pathname !== "/sign-in" && !getSessionCookie(request)) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
   }
 
-  return NextResponse.next();
+  return response;
 }
 
 export const config = {
-  matcher: ["/", "/create", "/:householdId([0-9a-fA-F-]{36})/:path*"],
+  matcher: "/((?!api|trpc|_next|_vercel|.*\\..*).*)",
 };

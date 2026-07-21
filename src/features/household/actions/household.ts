@@ -2,7 +2,7 @@
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { z } from "zod";
 import {
   deleteHousehold as deleteHouseholdDB,
@@ -25,6 +25,7 @@ export async function createHousehold(
     headers: await headers(),
   });
   const t = await getTranslations("ReturnMessages");
+  const locale = await getLocale();
 
   if (session?.user.id == null)
     return { error: true, message: t("User.invalidId") };
@@ -43,6 +44,7 @@ export async function createHousehold(
       ownerId: session?.user.id,
     },
     data.balance,
+    locale,
   );
 
   redirect(`/${household.id}/settings/household`);

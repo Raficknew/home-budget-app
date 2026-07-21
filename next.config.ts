@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
   env: {
     BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   },
+  experimental: {
+    rootParams: true,
+  },
 };
 
 const withNextIntl = createNextIntlPlugin();
